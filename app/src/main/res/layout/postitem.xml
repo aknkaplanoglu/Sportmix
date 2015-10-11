@@ -1,0 +1,44 @@
+<!-- postitem.xml -->
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:paddingLeft="16dp"
+    android:paddingRight="16dp"
+    android:paddingTop="5dp"
+    android:paddingBottom="5dp"
+    >
+
+    <ImageView
+        android:id="@+id/postThumb"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:src="@drawable/imglogo"
+        android:scaleType="centerCrop"
+        android:layout_marginRight="5dp"/>
+
+    <TextView
+        android:id="@+id/postTitleLabel"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_alignTop="@id/postThumb"
+        android:layout_toRightOf="@id/postThumb"
+        android:maxLines="2"
+        android:text="This is a good Post, I hope it will have 2 lines. Please give me 2 lines"
+        android:textIsSelectable="false"
+        android:textSize="16sp"
+        android:ellipsize="end"/>
+
+    <TextView
+        android:id="@+id/postDateLabel"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_alignBottom="@id/postThumb"
+        android:layout_toRightOf="@id/postThumb"
+        android:maxLines="1"
+        android:text="April 12, 2013"
+        android:textSize="12sp"
+        />
+</RelativeLayout>
