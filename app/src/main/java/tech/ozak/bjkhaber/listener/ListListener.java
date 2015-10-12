@@ -35,7 +35,7 @@ public class ListListener implements OnItemClickListener {
 	 */
 	public void onItemClick(AdapterView<?> parent, View view, int pos, long id) {
 		Intent i = new Intent(Intent.ACTION_VIEW);
-		i.setData(Uri.parse(listItems.get(pos).getLink()));
+		//i.setData(listItems.get(pos).getUrl());
 	
 		activity.startActivity(i);
 		

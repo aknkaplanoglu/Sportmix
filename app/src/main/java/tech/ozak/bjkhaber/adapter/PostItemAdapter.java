@@ -2,12 +2,21 @@ package tech.ozak.bjkhaber.adapter;
 
 import android.app.Activity;
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.os.AsyncTask;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
 
 import tech.ozak.bjkhaber.R;
 import tech.ozak.bjkhaber.dto.RssItem;
@@ -19,6 +28,7 @@ public class PostItemAdapter extends ArrayAdapter<RssItem> {
 
     private Activity myContext;
     private RssItem[] datas;
+    Bitmap img = null;
 
     public PostItemAdapter(Context context, int textViewResourceId,
                            RssItem[] objects) {
@@ -33,6 +43,7 @@ public class PostItemAdapter extends ArrayAdapter<RssItem> {
         TextView postDateView;
         ImageView postThumbView;
         String postThumbViewURL;
+        Bitmap bmap;
     }
 
     public View getView(int position, View convertView, ViewGroup parent) {
@@ -51,19 +62,42 @@ public class PostItemAdapter extends ArrayAdapter<RssItem> {
         }
 
         RssItem post = datas[position];
-        if (post.getPostThumbUrl() != null) {
-            viewHolder.postThumbViewURL = post.getPostThumbUrl();
-         //   new DownloadImageTask().execute(viewHolder);
-            viewHolder.postThumbView.setImageResource(R.drawable.imglogo);
-        } else {
-            viewHolder.postThumbView.setImageResource(R.drawable.imglogo);
-        }
-
+        viewHolder.postThumbViewURL = post.getImgLink();
+        new DownloadAsyncTask().execute(viewHolder);
         viewHolder.postTitleView.setText(post.getTitle());
-        viewHolder.postDateView.setText(post.getPostDate());
+        viewHolder.postDateView.setText(post.getPubDate());
         return convertView;
 
     }
 
 
+    private class DownloadAsyncTask extends AsyncTask<ViewHolder, Void, ViewHolder> {
+
+        @Override
+        protected ViewHolder doInBackground(ViewHolder... params) {
+            // TODO Auto-generated method stub
+            //load image directly
+            ViewHolder viewHolder = params[0];
+            try {
+                URL imageURL = new URL(viewHolder.postThumbViewURL);
+                viewHolder.bmap = BitmapFactory.decodeStream(imageURL.openStream());
+            } catch (IOException e) {
+                // TODO: handle exception
+                Log.e("error", "Downloading Image Failed");
+                viewHolder.bmap = null;
+            }
+
+            return viewHolder;
+        }
+
+        @Override
+        protected void onPostExecute(ViewHolder result) {
+            // TODO Auto-generated method stub
+            if (result.bmap == null) {
+                result.postThumbView.setImageResource(R.drawable.imglogo);
+            } else {
+                result.postThumbView.setImageBitmap(result.bmap);
+            }
+        }
+    }
 }

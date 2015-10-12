@@ -1,5 +1,7 @@
 package tech.ozak.bjkhaber.dto;
 
+import java.net.URL;
+
 /**
  * This code encapsulates RSS item data.
  * Our application needs title and link data.
@@ -8,51 +10,93 @@ package tech.ozak.bjkhaber.dto;
  *
  */
 public class RssItem {
-	
-	// item title
-	private String title;
-	// item link
-	private String link;
-    // item's post date
-    private String postDate;
-    //
-    private String postThumbUrl;
 
-    public String getPostThumbUrl() {
-        return postThumbUrl;
+    private long articleId;
+    private long feedId;
+    private String title;
+    private String description;
+    private String imgLink;
+    private String pubDate;
+    private URL url;
+    private String encodedContent;
+
+    public long getArticleId() {
+        return articleId;
     }
 
-    public void setPostThumbUrl(String postThumbUrl) {
-        this.postThumbUrl = postThumbUrl;
+    public void setArticleId(long articleId) {
+        this.articleId = articleId;
     }
 
-    public String getPostDate() {
-        return postDate;
+    public long getFeedId() {
+        return feedId;
     }
 
-    public void setPostDate(String postDate) {
-        this.postDate = postDate;
+    public void setFeedId(long feedId) {
+        this.feedId = feedId;
     }
 
     public String getTitle() {
-		return title;
-	}
+        return title;
+    }
 
-	public void setTitle(String title) {
-		this.title = title;
-	}
+    public void setTitle(String title) {
+        this.title = title;
+    }
 
-	public String getLink() {
-		return link;
-	}
+    public String getDescription() {
+        return description;
+    }
 
-	public void setLink(String link) {
-		this.link = link;
-	}
-	
-	@Override
-	public String toString() {
-		return title;
-	}
-	
+    public void setDescription(String description) {
+        this.description = description;
+
+        //parse description for any image or video links
+        if (description.contains("<img ")){
+            String img  = description.substring(description.indexOf("<img "));
+            String cleanUp = img.substring(0, img.indexOf(">")+1);
+            img = img.substring(img.indexOf("src=") + 5);
+            int indexOf = img.indexOf("'");
+            if (indexOf==-1){
+                indexOf = img.indexOf("\"");
+            }
+            img = img.substring(0, indexOf);
+
+            setImgLink(img);
+
+            this.description = this.description.replace(cleanUp, "");
+        }
+    }
+
+    public String getImgLink() {
+        return imgLink;
+    }
+
+    public void setImgLink(String imgLink) {
+        this.imgLink = imgLink;
+    }
+
+    public String getPubDate() {
+        return pubDate;
+    }
+
+    public void setPubDate(String pubDate) {
+        this.pubDate = pubDate;
+    }
+
+    public URL getUrl() {
+        return url;
+    }
+
+    public void setUrl(URL url) {
+        this.url = url;
+    }
+
+    public String getEncodedContent() {
+        return encodedContent;
+    }
+
+    public void setEncodedContent(String encodedContent) {
+        this.encodedContent = encodedContent;
+    }
 }
