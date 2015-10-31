@@ -6,7 +6,7 @@
 
     <ImageView
         android:id="@+id/icon"
-        android:layout_width="25dp"
+        android:layout_width="30dp"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_marginLeft="12dp"

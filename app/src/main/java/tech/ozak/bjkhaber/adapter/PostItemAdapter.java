@@ -80,7 +80,8 @@ public class PostItemAdapter extends ArrayAdapter<RssItem> {
             ViewHolder viewHolder = params[0];
             try {
                 URL imageURL = new URL(viewHolder.postThumbViewURL);
-                viewHolder.bmap = BitmapFactory.decodeStream(imageURL.openStream());
+                InputStream is = imageURL.openStream();
+                viewHolder.bmap = BitmapFactory.decodeStream(is);
             } catch (IOException e) {
                 // TODO: handle exception
                 Log.e("error", "Downloading Image Failed");

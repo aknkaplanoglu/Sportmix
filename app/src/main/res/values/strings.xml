@@ -20,12 +20,12 @@
     <!-- Nav Drawer List Item Icons -->
     <!-- Keep them in order as the titles are in -->
     <array name="nav_drawer_icons">
-        <item>@drawable/ntvspor</item>
-        <item>@drawable/sporx</item>
-        <item>@drawable/ligtv</item>
-        <item>@drawable/ligtv</item>
-        <item>@drawable/ligtv</item>
-        <item>@drawable/ligtv</item>
+        <item>@mipmap/ntvspor</item>
+        <item>@mipmap/sporx</item>
+        <item>@mipmap/ligtv</item>
+        <item>@mipmap/ligtv</item>
+        <item>@mipmap/ligtv</item>
+        <item>@mipmap/ligtv</item>
     </array>
 
     <!-- Content Description -->
