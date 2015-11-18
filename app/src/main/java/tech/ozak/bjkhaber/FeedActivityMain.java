@@ -127,7 +127,7 @@ public class FeedActivityMain extends ActionBarActivity {
 
 
         mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout,
-                R.drawable.imglogo, //nav menu toggle icon
+                R.mipmap.ic_launcher_bjkappicon, //nav menu toggle icon
                 R.string.app_name, // nav drawer open - description for accessibility
                 R.string.app_name // nav drawer close - description for accessibility
         ) {
@@ -143,6 +143,7 @@ public class FeedActivityMain extends ActionBarActivity {
                 invalidateOptionsMenu();
             }
         };
+        mDrawerToggle.setHomeAsUpIndicator(R.mipmap.ic_launcher_bjkappicon);
         mDrawerLayout.setDrawerListener(mDrawerToggle);
 
         if (savedInstanceState == null) {
@@ -240,6 +241,7 @@ public class FeedActivityMain extends ActionBarActivity {
         getSupportActionBar().setBackgroundDrawable(drawable);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
+        getSupportActionBar().setHomeAsUpIndicator(R.mipmap.ic_launcher_bjkappicon);
     }
 
 
