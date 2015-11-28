@@ -11,8 +11,12 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.Gravity;
+import android.view.Menu;
+import android.view.Window;
+import android.widget.ImageView;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -20,6 +24,7 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
+import dmax.dialog.SpotsDialog;
 import tech.ozak.bjkhaber.dto.RssItem;
 import tech.ozak.bjkhaber.handler.RssReader;
 
@@ -31,6 +36,7 @@ public class NewsFeed extends Activity {
     List<String> headlines;
     List<String> links;
     List<RssItem> rssItems;
+    private final int SPLASH_DISPLAY_LENGTH = 5000;
 
     public List<RssItem> getRssItems() {
         return rssItems;
@@ -118,27 +124,30 @@ public class NewsFeed extends Activity {
 
 
     private class ProgressTask extends AsyncTask<String, Void, Boolean> {
-        private ProgressDialog dialog;
+
         private Activity activity;
+        AlertDialog alertDialog;
+        private Thread thread;
+        /** progress dialog to show user that the backup is processing. */
 
         public ProgressTask(Activity activity) {
             this.activity = activity;
             context = activity;
-            dialog = new ProgressDialog(context);
+            alertDialog=new SpotsDialog(context,R.style.Custom_Progress_Dialog);
         }
-
-
-
-        /** progress dialog to show user that the backup is processing. */
 
         /** application context. */
         private Context context;
 
         protected void onPreExecute() {
-            this.dialog.setMessage("Progress start");
-            this.dialog.show();
-            this.dialog.setCanceledOnTouchOutside(false);
-            this.dialog.getWindow().setGravity(Gravity.BOTTOM);
+            this.alertDialog.show();
+            setCustomAlertDialog();
+        }
+
+        private void setCustomAlertDialog() {
+            Window window = this.alertDialog.getWindow();
+            window.setGravity(Gravity.BOTTOM);
+            this.alertDialog.setCancelable(false);
         }
 
         @Override
@@ -147,22 +156,25 @@ public class NewsFeed extends Activity {
 
             // After completing http call
             // will close this activity and lauch main activity
-            Intent i = new Intent(NewsFeed.this, FeedActivityMain.class);
         //    i.putStringArrayListExtra("headlines", (ArrayList<String>)headlines);
-         //   i.putStringArrayListExtra("links",(ArrayList<String>)links);
+            //   i.putStringArrayListExtra("links",(ArrayList<String>)links);
+           /* New Handler to start the Menu-Activity
+         * and close this Splash-Screen after some seconds.*/
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+
+                }
+            }, SPLASH_DISPLAY_LENGTH);
+
+             /* Create an Intent that will start the Menu-Activity. */
+            Intent i = new Intent(NewsFeed.this, FeedActivityMain.class);
             startActivity(i);
-
-            // close this activity
-
-          /*  ArrayAdapter adapter = new ArrayAdapter(activity,
-                    android.R.layout.simple_list_item_1, headlines);
-            activity.setListAdapter(adapter);*/
+            // Dont return back to the splash screen
+            finish();
+            this.alertDialog.dismiss();
 
 
-            if (dialog.isShowing()) {
-                dialog.dismiss();
-                finish();
-            }
 
         }
 
