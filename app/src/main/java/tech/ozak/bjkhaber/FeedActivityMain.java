@@ -138,7 +138,7 @@ public class FeedActivityMain extends ActionBarActivity {
             }
 
             public void onDrawerOpened(View drawerView) {
-                getSupportActionBar().setTitle(mDrawerTitle);
+                getSupportActionBar().setTitle(mTitle);
                 // calling onPrepareOptionsMenu() to hide action bar icons
                 invalidateOptionsMenu();
             }
@@ -241,6 +241,7 @@ public class FeedActivityMain extends ActionBarActivity {
         getSupportActionBar().setBackgroundDrawable(drawable);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
+        getSupportActionBar().setTitle(mTitle);
         getSupportActionBar().setHomeAsUpIndicator(R.mipmap.ic_launcher);
     }
 

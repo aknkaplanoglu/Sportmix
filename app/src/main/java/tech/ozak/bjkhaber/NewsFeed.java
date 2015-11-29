@@ -16,6 +16,7 @@ import android.util.Log;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.Window;
+import android.view.WindowManager;
 import android.widget.ImageView;
 
 import java.io.IOException;
@@ -27,6 +28,7 @@ import java.util.List;
 import dmax.dialog.SpotsDialog;
 import tech.ozak.bjkhaber.dto.RssItem;
 import tech.ozak.bjkhaber.handler.RssReader;
+import tech.ozak.bjkhaber.progressBar.CircleProgress;
 
 
 public class NewsFeed extends Activity {
@@ -37,6 +39,9 @@ public class NewsFeed extends Activity {
     List<String> links;
     List<RssItem> rssItems;
     private final int SPLASH_DISPLAY_LENGTH = 5000;
+    AlertDialog alertDialog;
+    private CircleProgress mProgressView;
+
 
     public List<RssItem> getRssItems() {
         return rssItems;
@@ -58,9 +63,34 @@ public class NewsFeed extends Activity {
             headlines=new ArrayList<String>();
             links=new ArrayList<String>();
             // Initializing instance variables
-            new ProgressTask(NewsFeed.this).execute();
+            mProgressView = (CircleProgress) findViewById(R.id.progress);
+           /* alertDialog=new SpotsDialog(NewsFeed.this,R.style.Custom_Progress_Dialog);
+            alertDialog.show();
+            setCustomAlertDialog();*/
+            mProgressView.startAnim();
+            //mProgressView.setRadius();
+
+             /* New Handler to start the Menu-Activity
+         * and close this Splash-Screen after some seconds.*/
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                /* Create an Intent that will start the Menu-Activity. */
+                    new ProgressTask(NewsFeed.this).execute();
+                }
+            }, SPLASH_DISPLAY_LENGTH);
+
 
         }
+
+    }
+
+    private void setCustomAlertDialog() {
+        Window window = this.alertDialog.getWindow();
+        window.setGravity(Gravity.BOTTOM);
+        this.alertDialog.setCancelable(true);
+        alertDialog.setInverseBackgroundForced(true);
+        alertDialog.getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 
     }
 
@@ -126,60 +156,44 @@ public class NewsFeed extends Activity {
     private class ProgressTask extends AsyncTask<String, Void, Boolean> {
 
         private Activity activity;
-        AlertDialog alertDialog;
+
         private Thread thread;
         /** progress dialog to show user that the backup is processing. */
 
         public ProgressTask(Activity activity) {
             this.activity = activity;
             context = activity;
-            alertDialog=new SpotsDialog(context,R.style.Custom_Progress_Dialog);
         }
 
         /** application context. */
         private Context context;
 
         protected void onPreExecute() {
-            this.alertDialog.show();
-            setCustomAlertDialog();
+
+
         }
 
-        private void setCustomAlertDialog() {
-            Window window = this.alertDialog.getWindow();
-            window.setGravity(Gravity.BOTTOM);
-            this.alertDialog.setCancelable(false);
-        }
 
         @Override
         protected void onPostExecute(final Boolean success) {
-            // Binding data
 
-            // After completing http call
-            // will close this activity and lauch main activity
-        //    i.putStringArrayListExtra("headlines", (ArrayList<String>)headlines);
-            //   i.putStringArrayListExtra("links",(ArrayList<String>)links);
-           /* New Handler to start the Menu-Activity
-         * and close this Splash-Screen after some seconds.*/
-            new Handler().postDelayed(new Runnable() {
-                @Override
-                public void run() {
 
-                }
-            }, SPLASH_DISPLAY_LENGTH);
 
              /* Create an Intent that will start the Menu-Activity. */
             Intent i = new Intent(NewsFeed.this, FeedActivityMain.class);
             startActivity(i);
             // Dont return back to the splash screen
             finish();
-            this.alertDialog.dismiss();
-
+            mProgressView.stopAnim();
+           // alertDialog.dismiss();
 
 
         }
 
         @Override
         protected Boolean doInBackground(String... params) {
+
+
 
             try {
                 // Create RSS reader

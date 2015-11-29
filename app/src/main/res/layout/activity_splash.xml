@@ -2,15 +2,38 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:background="@drawable/gradient_background" >
+    xmlns:circleprogress="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:background="#de08a0ff">
 
-    <ImageView
+  <!--  <ImageView
         android:id="@+id/imgLogo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
-        android:src="@drawable/sportmix_logo"/>
+        android:src="@drawable/sportmix_logo"/>-->
 
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Sportmix"
+        android:id="@+id/textView"
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true"
+        android:layout_above="@+id/progress"
+        android:textColor="@android:color/white"
+        android:textStyle="bold|italic"
+        android:textSize="30dp" />s
 
+
+    <tech.ozak.bjkhaber.progressBar.CircleProgress
+        android:id="@+id/progress"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        circleprogress:color1="@android:color/holo_red_light"
+        circleprogress:color2="@android:color/holo_green_light"
+        circleprogress:color3="@android:color/holo_blue_light"
+        android:layout_centerInParent="true"
+         />
 </RelativeLayout>
