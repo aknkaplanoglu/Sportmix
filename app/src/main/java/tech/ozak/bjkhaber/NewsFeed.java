@@ -38,7 +38,7 @@ public class NewsFeed extends Activity {
     List<String> headlines;
     List<String> links;
     List<RssItem> rssItems;
-    private final int SPLASH_DISPLAY_LENGTH = 5000;
+    private final int SPLASH_DISPLAY_LENGTH = 4000;
     AlertDialog alertDialog;
     private CircleProgress mProgressView;
 
@@ -67,6 +67,8 @@ public class NewsFeed extends Activity {
            /* alertDialog=new SpotsDialog(NewsFeed.this,R.style.Custom_Progress_Dialog);
             alertDialog.show();
             setCustomAlertDialog();*/
+            float factor = 5;
+            mProgressView.setRadius(factor);
             mProgressView.startAnim();
             //mProgressView.setRadius();
 

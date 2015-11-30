@@ -7,7 +7,7 @@
 
     <!-- Customize your theme here. -->
     <style name="NewsFeedTheme" parent="Theme.AppCompat.Light.DarkActionBar">
-        <item name="android:textColorPrimary">#00ea9f1d</item>
+        <item name="android:textColorPrimary">#786a6a</item>
     </style>
 
     <style name="Custom_Progress_Dialog" parent="android:Theme.DeviceDefault.Dialog">

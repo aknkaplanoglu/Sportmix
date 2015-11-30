@@ -10,7 +10,9 @@ import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
+import android.text.Html;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -70,18 +72,7 @@ public class FeedActivityMain extends ActionBarActivity {
         setUpDrawerProcess(savedInstanceState);
 
 
-        // old
-       // addDrawerItems();
-       // setupDrawer();
         initActionBar();
-
-
-
-        //Drawer end
-
-        // fill the list view
-      //  fillTheData();
-
 
     }
 
@@ -132,24 +123,33 @@ public class FeedActivityMain extends ActionBarActivity {
                 R.string.app_name // nav drawer close - description for accessibility
         ) {
             public void onDrawerClosed(View view) {
-                getSupportActionBar().setTitle(mTitle);
+                getSupportActionBar().setTitle(Html.fromHtml("<font color='#786a6a'>" + mTitle));
                 // calling onPrepareOptionsMenu() to show action bar icons
                 invalidateOptionsMenu();
             }
 
             public void onDrawerOpened(View drawerView) {
-                getSupportActionBar().setTitle(mTitle);
-                // calling onPrepareOptionsMenu() to hide action bar icons
-                invalidateOptionsMenu();
+                getSupportActionBar().setTitle(Html.fromHtml("<font color='#786a6a'>" + mTitle));
+                        // calling onPrepareOptionsMenu() to hide action bar icons
+                        invalidateOptionsMenu();
             }
         };
-        mDrawerToggle.setHomeAsUpIndicator(R.mipmap.ic_launcher);
+
+        setDrawerListWidth();
+
         mDrawerLayout.setDrawerListener(mDrawerToggle);
 
         if (savedInstanceState == null) {
             // on first time display view for first nav item
             displayView(0);
         }
+    }
+
+    private void setDrawerListWidth() {
+        int width = getResources().getDisplayMetrics().widthPixels*3/5;
+        DrawerLayout.LayoutParams params = (DrawerLayout.LayoutParams) mDrawerList.getLayoutParams();
+        params.width = width;
+        mDrawerList.setLayoutParams(params);
     }
 
     /**
@@ -237,12 +237,13 @@ public class FeedActivityMain extends ActionBarActivity {
 
     private void initActionBar() {
         Resources res = getResources();
-        Drawable drawable = res.getDrawable(R.drawable.action_bar_background);
+        Drawable drawable = res.getDrawable(R.drawable.real_action_bar);
         getSupportActionBar().setBackgroundDrawable(drawable);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
-        getSupportActionBar().setTitle(mTitle);
-        getSupportActionBar().setHomeAsUpIndicator(R.mipmap.ic_launcher);
+        getSupportActionBar().setTitle(Html.fromHtml("<font color='#786a6a'>" + mTitle));
+       // getSupportActionBar().setHomeAsUpIndicator(R.mipmap.ic_launcher);
+        getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_action_menu);
     }
 
 

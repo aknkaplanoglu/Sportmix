@@ -9,20 +9,20 @@
         android:id="@+id/frame_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#de08a0ff"/>
+        android:background="@drawable/frame_layout_bg"/>
 
 
     <!-- Listview to display slider menu -->
     <ListView
         android:id="@+id/navList"
-        android:layout_width="240dp"
+        android:layout_width="0dp"
         android:layout_height="match_parent"
         android:layout_gravity="start"
         android:choiceMode="singleChoice"
         android:divider="#00ff085e"
         android:dividerHeight="1dp"
         android:listSelector="@drawable/list_selector"
-        android:background="#de08a0ff"/>
+        android:background="@drawable/action_bar_background"/>
 
 
 </android.support.v4.widget.DrawerLayout>

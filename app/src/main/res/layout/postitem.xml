@@ -8,11 +8,10 @@
     <ImageView
         android:id="@+id/postThumb"
         android:layout_width="fill_parent"
-        android:layout_height="200dp"
+        android:layout_height="0dp"
         android:layout_alignParentLeft="true"
         android:layout_alignParentRight="true"
         android:scaleType="fitXY"
-        android:src="@drawable/imglogo"
         />
 
     <TextView

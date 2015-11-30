@@ -1,17 +1,15 @@
 <shape xmlns:android="http://schemas.android.com/apk/res/android"
-    android:dither="true"
-    android:shape="rectangle" >
+android:dither="true"
+android:shape="rectangle" >
 
-    <gradient
-        android:endColor="@android:color/holo_red_dark"
-        android:gradientRadius="90"
-        android:startColor="@android:color/holo_red_dark"
-        android:type="radial"
-        android:centerColor="@android:color/holo_red_dark"
-        android:useLevel="false" />
+<gradient
+    android:startColor="#de08a0ff"
+    android:centerColor="#deb6c8d2"
+    android:endColor="#ffffff"
+    android:angle="270" />
 
-    <size
-        android:height="100dp"
-        android:width="100dp" />
+<size
+    android:height="100dp"
+    android:width="100dp" />
 
 </shape>
