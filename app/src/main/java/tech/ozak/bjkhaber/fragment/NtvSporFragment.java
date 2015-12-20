@@ -1,15 +1,18 @@
 package tech.ozak.bjkhaber.fragment;
 
 import android.app.Fragment;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ListView;
 
 import java.util.List;
 
+import tech.ozak.bjkhaber.DisplayContentActivity;
 import tech.ozak.bjkhaber.NewsFeed;
 import tech.ozak.bjkhaber.R;
 import tech.ozak.bjkhaber.adapter.PostItemAdapter;
@@ -48,5 +51,15 @@ public class NtvSporFragment extends Fragment {
         PostItemAdapter itemAdapter = new PostItemAdapter(getActivity(),
                 R.layout.postitem, listData);
         listView.setAdapter(itemAdapter);
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                RssItem rssItem = listData[position];
+                Intent intent=new Intent(getActivity(), DisplayContentActivity.class);
+                intent.putExtra("feed_link",rssItem.getFeedLink());
+                startActivity(intent);
+
+            }
+        });
     }
 }

@@ -199,7 +199,7 @@ public class NewsFeed extends Activity {
 
             try {
                 // Create RSS reader
-                rssItems=RssReader.getLatestRssFeed();
+                rssItems=RssReader.getLatestRssFeed(getResources().getString(R.string.ntvspor_feed));
             } catch (Exception e) {
                 Log.e("ITCRssReader", e.getMessage());
             }

@@ -96,6 +96,7 @@ public class RSSHandler extends DefaultHandler {
 			try {
 				Log.d("LOGGING RSS XML", "Setting article link url: " + chars.toString());
 				currentArticle.setUrl(new URL(chars.toString()));
+				currentArticle.setFeedLink(chars.toString());
 			} catch (MalformedURLException e) {
 				Log.e("RSA Error", e.getMessage());
 			}

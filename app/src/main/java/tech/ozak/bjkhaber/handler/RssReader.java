@@ -35,8 +35,8 @@ public class RssReader {
 	 * 
 	 * @return List<JSONObject> - suitable for the List View activity
 	 */
-	public static List<RssItem> getLatestRssFeed(){
-		String feed = "http://www.ntvspor.net/Rss/anasayfa";
+	public static List<RssItem> getLatestRssFeed(String feed){
+		// feed = "http://www.ntvspor.net/Rss/anasayfa";
 		
 		
 		RSSHandler rh = new RSSHandler();

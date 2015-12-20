@@ -19,6 +19,15 @@ public class RssItem {
     private String pubDate;
     private URL url;
     private String encodedContent;
+    private String feedLink;
+
+    public String getFeedLink() {
+        return feedLink;
+    }
+
+    public void setFeedLink(String feedLink) {
+        this.feedLink = feedLink;
+    }
 
     public long getArticleId() {
         return articleId;

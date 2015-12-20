@@ -45,18 +45,10 @@ import tech.ozak.bjkhaber.dto.RssItem;
  */
 public class PostItemAdapter extends ArrayAdapter<RssItem> implements View.OnClickListener{
 
-  /*  private LayoutInflater inflater;
-
-    private DisplayImageOptions options;
-
-    private ImageLoadingListener animateFirstListener = new AnimateFirstDisplayListener();
-*/
   public tech.ozak.bjkhaber.lazyutil.ImageLoader imageLoader;
     private LayoutInflater inflater;
     private Activity myContext;
     private RssItem[] datas;
-    Bitmap img = null;
-   // AlertDialog alertDialog;
 
     public PostItemAdapter(Context context, int textViewResourceId,
                            RssItem[] objects) {
@@ -68,18 +60,6 @@ public class PostItemAdapter extends ArrayAdapter<RssItem> implements View.OnCli
         inflater = (LayoutInflater)myContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         imageLoader = new tech.ozak.bjkhaber.lazyutil.ImageLoader(myContext.getApplicationContext());
 
-       /* inflater = LayoutInflater.from(context);
-
-        options = new DisplayImageOptions.Builder()
-                .showImageOnLoading(R.drawable.sportmix_icon)
-                .showImageForEmptyUri(R.drawable.sportmix_icon)
-                .showImageOnFail(R.drawable.sportmix_icon)
-                .cacheInMemory(true)
-                .cacheOnDisk(true)
-                .considerExifParams(true)
-                .displayer(new CircleBitmapDisplayer(Color.WHITE, 5))
-                .build();*/
-        //  setCustomAlertDialog();
     }
 
     @Override
@@ -136,77 +116,6 @@ public class PostItemAdapter extends ArrayAdapter<RssItem> implements View.OnCli
         return vi;
     }
 
-    /*  private void setCustomAlertDialog() {
-        Window window = this.alertDialog.getWindow();
-        window.setGravity(Gravity.CENTER);
-        this.alertDialog.setCancelable(true);
-        alertDialog.setInverseBackgroundForced(true);
-        alertDialog.getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
-
-    }*/
-
-   /* public View getView(int position, View convertView, ViewGroup parent) {
-    ViewHolder viewHolder;
-        if (convertView == null) {
-            LayoutInflater layoutInflater = myContext.getLayoutInflater();
-            convertView = layoutInflater.inflate(R.layout.postitem, null);
-
-            viewHolder = new ViewHolder();
-            viewHolder.postThumbView = (ImageView) convertView.findViewById(R.id.postThumb);
-            viewHolder.postTitleView = (TextView) convertView.findViewById(R.id.postTitleLabel);
-            viewHolder.postDateView = (TextView) convertView.findViewById(R.id.postDateLabel);
-            convertView.setTag(viewHolder);
-        } else {
-            viewHolder = (ViewHolder) convertView.getTag();
-        }
-
-        RssItem post = datas[position];
-        viewHolder.postThumbViewURL = post.getImgLink();
-        new DownloadAsyncTask().execute(viewHolder);
-        viewHolder.postTitleView.setText(post.getTitle());
-        viewHolder.postDateView.setText(post.getPubDate());
-       // ImageLoader.getInstance().displayImage(post.getImgLink(), viewHolder.postThumbView, options);
-
-        return convertView;
-
-    }*/
-
-
-    /*View view = convertView;
-    final ViewHolder holder;
-    if (convertView == null) {
-        view = inflater.inflate(R.layout.postitem, parent, false);
-        holder = new ViewHolder();
-        holder.postTitleView = (TextView) view.findViewById(R.id.postTitleLabel);
-        holder.postThumbView = (ImageView) view.findViewById(R.id.postThumb);
-        holder.postDateView = (TextView) view.findViewById(R.id.postDateLabel);
-        view.setTag(holder);
-    } else {
-        holder = (ViewHolder) view.getTag();
-    }
-
-    RssItem post = datas[position];
-    holder.postTitleView.setText(post.getTitle());
-    holder.postDateView.setText(post.getPubDate());
-
-    ImageLoader.getInstance().displayImage(post.getImgLink(), holder.postThumbView, options, animateFirstListener);
-    return view;*/
-    private static class AnimateFirstDisplayListener extends SimpleImageLoadingListener {
-
-        static final List<String> displayedImages = Collections.synchronizedList(new LinkedList<String>());
-
-        @Override
-        public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
-            if (loadedImage != null) {
-                ImageView imageView = (ImageView) view;
-                boolean firstDisplay = !displayedImages.contains(imageUri);
-                if (firstDisplay) {
-                    FadeInBitmapDisplayer.animate(imageView, 500);
-                    displayedImages.add(imageUri);
-                }
-            }
-        }
-    }
 
     /********* Called when Item click in ListView ************/
     private class OnItemClickListener  implements View.OnClickListener {

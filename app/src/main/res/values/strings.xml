@@ -5,6 +5,11 @@
     <string name="action_settings">Settings</string>
     <string name="drawer_open">Open navigation drawer</string>
     <string name="drawer_close">Close navigation drawer</string>
+    <string name="ntvspor_feed">http://www.ntvspor.net/Rss/anasayfa</string>
+    <string name="sporx_feed">http://www.sporx.com/_xml/rss.php</string>
+    <string name="ligtv_feed">http://www.ligtv.com.tr/rss/ana-sayfa</string>
+    <string name="fotomac_feed">http://www.fotomac.com.tr/rss/Anasayfa.xml</string>
+    <string name="fanatik_feed">http://www.ntvspor.net/Rss/anasayfa</string>
 
 
 
