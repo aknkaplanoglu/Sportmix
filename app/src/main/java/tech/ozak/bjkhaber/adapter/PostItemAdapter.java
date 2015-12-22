@@ -1,42 +1,25 @@
 package tech.ozak.bjkhaber.adapter;
 
 import android.app.Activity;
-import android.app.AlertDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.Color;
 import android.os.AsyncTask;
-import android.support.v4.widget.DrawerLayout;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.Window;
-import android.view.WindowManager;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.nostra13.universalimageloader.core.DisplayImageOptions;
-import com.nostra13.universalimageloader.core.ImageLoader;
-import com.nostra13.universalimageloader.core.display.CircleBitmapDisplayer;
-import com.nostra13.universalimageloader.core.display.FadeInBitmapDisplayer;
-import com.nostra13.universalimageloader.core.display.RoundedBitmapDisplayer;
-import com.nostra13.universalimageloader.core.listener.ImageLoadingListener;
-import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListener;
-
 import java.io.IOException;
 import java.io.InputStream;
-import java.net.HttpURLConnection;
 import java.net.URL;
-import java.util.Collections;
-import java.util.LinkedList;
-import java.util.List;
 
-import dmax.dialog.SpotsDialog;
+import tech.ozak.bjkhaber.DisplayContentActivity;
 import tech.ozak.bjkhaber.R;
 import tech.ozak.bjkhaber.dto.RssItem;
 
@@ -127,7 +110,11 @@ public class PostItemAdapter extends ArrayAdapter<RssItem> implements View.OnCli
 
         @Override
         public void onClick(View arg0) {
-
+            RssItem rssItem = datas[mPosition];
+            Intent intent=new Intent(myContext, DisplayContentActivity.class);
+            intent.putExtra("feed_link",rssItem.getFeedLink());
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            myContext.startActivity(intent);
         }
     }
 

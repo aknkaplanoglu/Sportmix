@@ -18,4 +18,9 @@
     </style>
 
 
+    <color name="white_opaque">#28cdff</color>
+    <color name="pitch_black">#FF000000</color>
+
+
+
 </resources>

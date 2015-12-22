@@ -51,15 +51,6 @@ public class NtvSporFragment extends Fragment {
         PostItemAdapter itemAdapter = new PostItemAdapter(getActivity(),
                 R.layout.postitem, listData);
         listView.setAdapter(itemAdapter);
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                RssItem rssItem = listData[position];
-                Intent intent=new Intent(getActivity(), DisplayContentActivity.class);
-                intent.putExtra("feed_link",rssItem.getFeedLink());
-                startActivity(intent);
-
-            }
-        });
+        listView.setClickable(true);
     }
 }
