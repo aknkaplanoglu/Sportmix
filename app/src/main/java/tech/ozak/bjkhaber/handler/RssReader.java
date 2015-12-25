@@ -40,8 +40,14 @@ public class RssReader {
 		
 		
 		RSSHandler rh = new RSSHandler();
-		List<RssItem> articles =  rh.getLatestArticles(feed);
-		Log.e("RSS ERROR", "Number of articles " + articles.size());
+
+		List<RssItem> articles = null;
+		try {
+			articles = rh.getLatestArticles(feed);
+			Log.e("RSS ERROR", "Number of articles " + articles.size());
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 		//return fillData(articles);
         return articles;
 	}

@@ -1,22 +1,37 @@
 package tech.ozak.bjkhaber.handler;
 
-import java.io.IOException;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.util.ArrayList;
-import java.util.List;
+import android.util.Log;
 
-import javax.xml.parsers.ParserConfigurationException;
-import javax.xml.parsers.SAXParser;
-import javax.xml.parsers.SAXParserFactory;
-
+import org.apache.commons.lang3.StringEscapeUtils;
+import org.apache.http.HttpEntity;
+import org.apache.http.HttpResponse;
+import org.apache.http.client.ClientProtocolException;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.impl.client.DefaultHttpClient;
 import org.xml.sax.Attributes;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 import org.xml.sax.XMLReader;
 import org.xml.sax.helpers.DefaultHandler;
 
-import android.util.Log;
+import java.io.BufferedReader;
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.StringReader;
+import java.net.MalformedURLException;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.net.URL;
+import java.net.URLConnection;
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.parsers.SAXParser;
+import javax.xml.parsers.SAXParserFactory;
 
 import tech.ozak.bjkhaber.dto.RssItem;
 
@@ -141,6 +156,18 @@ public class RSSHandler extends DefaultHandler {
 
 
 
+   /* public static String stripInvalidXmlCharacters(String input) {
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < input.length(); i++) {
+            char c = input.charAt(i);
+            if (XMLChar.isValid(c)) {
+                sb.append(c);
+            }
+        }
+
+        return sb.toString();
+    }*/
+
 
 
 	/**
@@ -158,20 +185,127 @@ public class RSSHandler extends DefaultHandler {
 			XMLReader xr = sp.getXMLReader();
 
 			url = new URL(feedUrl);
-			
+
+
+            // for resolve java.io.FileNotFoundException: http://m.ligtv.com.tr/rss/ana-sayfa
+            URLConnection urlc = url.openConnection();
+            urlc.addRequestProperty("User-Agent", "firefox");
+
 			xr.setContentHandler(this);
-			xr.parse(new InputSource(url.openStream()));
+            InputStream inputStream = callWebSErvice(feedUrl);
+            String stringFromInputStream = getStringFromInputStream(inputStream);
+           // stringFromInputStream = excludeTurkishChar(stringFromInputStream);
+
+            Log.d("StringFromInputStream: ",stringFromInputStream);
+            String unescapeHtml4 = StringEscapeUtils.unescapeHtml4(stringFromInputStream);
+            Log.d("unescapeHtml4 :  ",unescapeHtml4);
+
+            InputSource inputSource = new InputSource();
+
+
+           // inputSource.setEncoding("ISO-8859-9");
+            inputSource.setCharacterStream(new StringReader(stringFromInputStream));
+        //   InputSource inputSource=new InputSource(inputStream);
+            xr.parse(inputSource);
+
+
+
 
 
 		} catch (IOException e) {
 			Log.e("RSS Handler IO", e.getMessage() + " >> " + e.toString());
 		} catch (SAXException e) {
-			Log.e("RSS Handler SAX", e.toString());
+			//Log.e("RSS Handler SAX", e.toString());
+            e.printStackTrace();
 		} catch (ParserConfigurationException e) {
 			Log.e("RSSHandlerParserConfig", e.toString());
 		}
 		
 		return articleList;
 	}
+
+    private String excludeTurkishChar(String stringFromInputStream) {
+        stringFromInputStream = stringFromInputStream.replaceAll("ı", "i");
+        stringFromInputStream = stringFromInputStream.replaceAll("ş", "s");
+        stringFromInputStream = stringFromInputStream.replaceAll("Ş", "S");
+        stringFromInputStream = stringFromInputStream.replaceAll("Ç", "C");
+        stringFromInputStream = stringFromInputStream.replaceAll("ç", "c");
+        stringFromInputStream = stringFromInputStream.replaceAll("ğ", "g");
+        stringFromInputStream = stringFromInputStream.replaceAll("ü", "u");
+        stringFromInputStream = stringFromInputStream.replaceAll("Ü", "U");
+        stringFromInputStream = stringFromInputStream.replaceAll("ö", "o");
+        stringFromInputStream = stringFromInputStream.replaceAll("Ö", "O");
+        return stringFromInputStream;
+    }
+
+
+    private static String getStringFromInputStream(InputStream is) {
+
+        BufferedReader br = null;
+        StringBuilder sb = new StringBuilder();
+
+        String line;
+        try {
+
+            br = new BufferedReader(new InputStreamReader(is));
+            while ((line = br.readLine()) != null) {
+                sb.append(line);
+            }
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            if (br != null) {
+                try {
+                    br.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+
+        return sb.toString();
+
+    }
+
+
+  private InputStream callWebSErvice(String serviceURL){
+        // http get client
+        HttpClient client=new DefaultHttpClient();
+        HttpGet getRequest=new HttpGet();
+
+        try {
+            // construct a URI object
+            getRequest.setURI(new URI(serviceURL));
+        } catch (URISyntaxException e) {
+            Log.e("URISyntaxException", e.toString());
+        }
+
+        // buffer reader to read the response
+        BufferedReader in=null;
+        // the service response
+        HttpResponse response=null;
+        try {
+            // execute the request
+            response = client.execute(getRequest);
+        } catch (ClientProtocolException e) {
+            Log.e("ClientProtocolException", e.toString());
+        } catch (IOException e) {
+            Log.e("IO exception", e.toString());
+        }
+        if(response!=null)
+            try {
+                HttpEntity entity = response.getEntity();
+                return entity.getContent();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        else
+            return null;
+
+      return null;
+
+    }
+
 
 }

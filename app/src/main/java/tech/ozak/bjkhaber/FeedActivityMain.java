@@ -1,12 +1,16 @@
 package tech.ozak.bjkhaber;
 
+import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
+import android.content.Context;
 import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.content.res.TypedArray;
 import android.graphics.drawable.Drawable;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.widget.DrawerLayout;
@@ -14,9 +18,12 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.text.Html;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
@@ -25,22 +32,35 @@ import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.List;
 
+import dmax.dialog.SpotsDialog;
 import tech.ozak.bjkhaber.adapter.NavDrawerListAdapter;
 import tech.ozak.bjkhaber.adapter.PostItemAdapter;
 import tech.ozak.bjkhaber.dto.NavDrawerItem;
 import tech.ozak.bjkhaber.dto.RssItem;
+import tech.ozak.bjkhaber.fragment.LigTvFragment;
 import tech.ozak.bjkhaber.fragment.NtvSporFragment;
+import tech.ozak.bjkhaber.fragment.SporxFragment;
+import tech.ozak.bjkhaber.handler.RssReader;
+import tech.ozak.bjkhaber.lazyutil.ImageLoader;
 
 /**
  * Created by ako on 10/9/2015.
  */
 public class FeedActivityMain extends ActionBarActivity {
 
+    public static FeedActivityMain mInstance;
     ArrayList<String> headlines;
     ArrayList<String> links;
     List<RssItem> rssItems;
     private RssItem[] listData;
 
+    public List<RssItem> getRssItems() {
+        return rssItems;
+    }
+
+    public void setRssItems(List<RssItem> rssItems) {
+        this.rssItems = rssItems;
+    }
 
     // Drawer
     private DrawerLayout mDrawerLayout;
@@ -65,8 +85,8 @@ public class FeedActivityMain extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        mInstance = this;
         setContentView(R.layout.activity_news_feed);
-
         // setting home page when activity first load.
         //setHomePage();
         setUpDrawerProcess(savedInstanceState);
@@ -74,6 +94,10 @@ public class FeedActivityMain extends ActionBarActivity {
 
         initActionBar();
 
+    }
+
+    public static FeedActivityMain getInstance() {
+        return mInstance;
     }
 
     private void setUpDrawerProcess(Bundle savedInstanceState) {
@@ -123,13 +147,13 @@ public class FeedActivityMain extends ActionBarActivity {
                 R.string.app_name // nav drawer close - description for accessibility
         ) {
             public void onDrawerClosed(View view) {
-                getSupportActionBar().setTitle(Html.fromHtml("<font color='#786a6a'>" + mTitle));
+          //      getSupportActionBar().setTitle(Html.fromHtml("<font color='#786a6a'>" + mTitle));
                 // calling onPrepareOptionsMenu() to show action bar icons
                 invalidateOptionsMenu();
             }
 
             public void onDrawerOpened(View drawerView) {
-                getSupportActionBar().setTitle(Html.fromHtml("<font color='#786a6a'>" + mTitle));
+            //    getSupportActionBar().setTitle(Html.fromHtml("<font color='#786a6a'>" + mTitle));
                         // calling onPrepareOptionsMenu() to hide action bar icons
                         invalidateOptionsMenu();
             }
@@ -152,6 +176,49 @@ public class FeedActivityMain extends ActionBarActivity {
         mDrawerList.setLayoutParams(params);
     }
 
+    AlertDialog alertDialog;
+
+    private class ProgressTask extends AsyncTask<String, Void, Boolean> {
+
+        private Activity activity;
+
+        private Thread thread;
+        /** progress dialog to show user that the backup is processing. */
+
+        public ProgressTask(Activity activity) {
+            this.activity = activity;
+            context = activity;
+        }
+
+        /** application context. */
+        private Context context;
+
+        protected void onPreExecute() {
+
+            alertDialog.show();
+        }
+
+
+        @Override
+        protected void onPostExecute(final Boolean success) {
+            alertDialog.dismiss();
+        }
+
+        @Override
+        protected Boolean doInBackground(String... params) {
+
+            try {
+                // Create RSS reader
+                rssItems= RssReader.getLatestRssFeed(params[0]);
+            } catch (Exception e) {
+                Log.e("ITCRssReader", e.getMessage());
+            }
+            return true;
+        }
+
+    }
+
+
     /**
      * Diplaying fragment view for selected nav drawer list item
      * */
@@ -161,12 +228,21 @@ public class FeedActivityMain extends ActionBarActivity {
         switch (position) {
             case 0:
                 fragment = new NtvSporFragment();
+                getSupportActionBar().setTitle(Html.fromHtml("<font color='#786a6a'>" + "NTV SPOR"));
                 break;
             case 1:
-                fragment = new NtvSporFragment();
+                alertDialog=new SpotsDialog(this,R.style.Custom_Progress_Dialog);
+                setCustomAlertDialog();
+                new ProgressTask(this).execute(getResources().getString(R.string.sporx_feed));
+                fragment = new SporxFragment();
+                getSupportActionBar().setTitle(Html.fromHtml("<font color='#786a6a'>" + "SPORX"));
                 break;
             case 2:
-                fragment = new NtvSporFragment();
+                alertDialog=new SpotsDialog(this,R.style.Custom_Progress_Dialog);
+                setCustomAlertDialog();
+                new ProgressTask(this).execute(getResources().getString(R.string.ligtv_feed));
+                fragment = new LigTvFragment();
+                getSupportActionBar().setTitle(Html.fromHtml("<font color='#786a6a'>" + "LİG TV"));
                 break;
             case 3:
                 fragment = new NtvSporFragment();
@@ -196,6 +272,15 @@ public class FeedActivityMain extends ActionBarActivity {
             // error in creating fragment
             Log.e("MainActivity", "Error in creating fragment");
         }
+    }
+
+    private void setCustomAlertDialog() {
+        Window window = this.alertDialog.getWindow();
+        window.setGravity(Gravity.CENTER);
+        this.alertDialog.setCancelable(true);
+        alertDialog.setInverseBackgroundForced(false);
+        alertDialog.getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+
     }
 
     /**

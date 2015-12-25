@@ -30,7 +30,7 @@
         <activity
             android:name=".DisplayContentActivity"
             android:launchMode="standard"
-            android:theme="@style/ThemeWeb" />
+             />
 
     </application>
 

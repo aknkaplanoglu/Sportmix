@@ -42,6 +42,7 @@ public class PostItemAdapter extends ArrayAdapter<RssItem> implements View.OnCli
         datas = objects;
         inflater = (LayoutInflater)myContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         imageLoader = new tech.ozak.bjkhaber.lazyutil.ImageLoader(myContext.getApplicationContext());
+       // imageLoader.clearCache();
 
     }
 
@@ -115,8 +116,10 @@ public class PostItemAdapter extends ArrayAdapter<RssItem> implements View.OnCli
             intent.putExtra("feed_link",rssItem.getFeedLink());
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             myContext.startActivity(intent);
+     //       myContext.overridePendingTransition(R.anim.abc_fade_in,R.anim.abc_fade_out);
         }
     }
+
 
 
     private class DownloadAsyncTask extends AsyncTask<ViewHolder, Void, ViewHolder> {

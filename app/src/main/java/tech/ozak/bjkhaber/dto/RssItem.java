@@ -1,5 +1,7 @@
 package tech.ozak.bjkhaber.dto;
 
+import android.util.Log;
+
 import java.net.URL;
 
 /**
@@ -72,7 +74,7 @@ public class RssItem {
             img = img.substring(0, indexOf);
 
             setImgLink(img);
-
+            Log.d("LOGGING RSS XML", "Setting image link: " + img);
             this.description = this.description.replace(cleanUp, "");
         }
     }
