@@ -8,8 +8,11 @@
     <string name="ntvspor_feed">http://www.ntvspor.net/Rss/anasayfa</string>
     <string name="sporx_feed">http://www.sporx.com/_xml/rss.php</string>
     <string name="ligtv_feed">http://www.ligtv.com.tr/rss/ana-sayfa</string>
-    <string name="fotomac_feed">http://www.fotomac.com.tr/rss/Anasayfa.xml</string>
-    <string name="fanatik_feed">http://www.ntvspor.net/Rss/anasayfa</string>
+    <string name="fotomac_feed">http://www.fotomac.com.tr/rss/WebTv.xml</string>
+    <string name="haberturk_feed">http://www.haberturk.com/rss/spor.xml</string>
+    <string name="sabah_feed">http://www.sabah.com.tr/rss/spor.xml</string>
+    <string name="aspor_feed">http://www.aspor.com.tr/rss/WebTV.xml</string>
+    <string name="trtspor_feed">http://www.aspor.com.tr/rss/WebTV.xml</string>
 
 
 
@@ -17,22 +20,22 @@
     <!-- Nav Drawer Menu Items -->
     <string-array name="nav_drawer_items">
         <item >Ntv Spor</item>
-        <item >Sporx</item>
+        <item >Fotomaç</item>
         <item >Lig TV</item>
-        <item >Communities</item>
-        <item >Pages</item>
-        <item >What Hot</item>
+        <item >HaberTürk</item>
+        <item >Sabah</item>
+        <item >A-Spor</item>
     </string-array>
 
     <!-- Nav Drawer List Item Icons -->
     <!-- Keep them in order as the titles are in -->
     <array name="nav_drawer_icons">
         <item>@mipmap/ntvspor</item>
-        <item>@mipmap/sporx</item>
+        <item>@mipmap/fotomac</item>
         <item>@mipmap/ligtv</item>
-        <item>@mipmap/ligtv</item>
-        <item>@mipmap/ligtv</item>
-        <item>@mipmap/ligtv</item>
+        <item>@mipmap/haberturk</item>
+        <item>@mipmap/sabah</item>
+        <item>@mipmap/aspor</item>
     </array>
 
     <!-- Content Description -->

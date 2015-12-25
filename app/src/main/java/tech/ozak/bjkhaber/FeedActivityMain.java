@@ -37,8 +37,12 @@ import tech.ozak.bjkhaber.adapter.NavDrawerListAdapter;
 import tech.ozak.bjkhaber.adapter.PostItemAdapter;
 import tech.ozak.bjkhaber.dto.NavDrawerItem;
 import tech.ozak.bjkhaber.dto.RssItem;
+import tech.ozak.bjkhaber.fragment.AsporFragment;
+import tech.ozak.bjkhaber.fragment.FotomacFragment;
+import tech.ozak.bjkhaber.fragment.HaberTurkFragment;
 import tech.ozak.bjkhaber.fragment.LigTvFragment;
 import tech.ozak.bjkhaber.fragment.NtvSporFragment;
+import tech.ozak.bjkhaber.fragment.SabahFragment;
 import tech.ozak.bjkhaber.fragment.SporxFragment;
 import tech.ozak.bjkhaber.handler.RssReader;
 import tech.ozak.bjkhaber.lazyutil.ImageLoader;
@@ -51,7 +55,7 @@ public class FeedActivityMain extends ActionBarActivity {
     public static FeedActivityMain mInstance;
     ArrayList<String> headlines;
     ArrayList<String> links;
-    List<RssItem> rssItems;
+    List<RssItem> rssItems=new ArrayList<RssItem>();
     private RssItem[] listData;
 
     public List<RssItem> getRssItems() {
@@ -124,11 +128,11 @@ public class FeedActivityMain extends ActionBarActivity {
         // Photos
         navDrawerItems.add(new NavDrawerItem(navMenuTitles[2], navMenuIcons.getResourceId(2, -1)));
         // Communities, Will add a counter here
-        navDrawerItems.add(new NavDrawerItem(navMenuTitles[3], navMenuIcons.getResourceId(3, -1), true, "22"));
+        navDrawerItems.add(new NavDrawerItem(navMenuTitles[3], navMenuIcons.getResourceId(3, -1)));
         // Pages
         navDrawerItems.add(new NavDrawerItem(navMenuTitles[4], navMenuIcons.getResourceId(4, -1)));
         // What's hot, We  will add a counter here
-        navDrawerItems.add(new NavDrawerItem(navMenuTitles[5], navMenuIcons.getResourceId(5, -1), true, "50+"));
+        navDrawerItems.add(new NavDrawerItem(navMenuTitles[5], navMenuIcons.getResourceId(5, -1)));
 
         // Recycle the typed array
         navMenuIcons.recycle();
@@ -233,9 +237,9 @@ public class FeedActivityMain extends ActionBarActivity {
             case 1:
                 alertDialog=new SpotsDialog(this,R.style.Custom_Progress_Dialog);
                 setCustomAlertDialog();
-                new ProgressTask(this).execute(getResources().getString(R.string.sporx_feed));
-                fragment = new SporxFragment();
-                getSupportActionBar().setTitle(Html.fromHtml("<font color='#786a6a'>" + "SPORX"));
+                new ProgressTask(this).execute(getResources().getString(R.string.fotomac_feed));
+                fragment = new FotomacFragment();
+                getSupportActionBar().setTitle(Html.fromHtml("<font color='#786a6a'>" + "FOTOMAÇ"));
                 break;
             case 2:
                 alertDialog=new SpotsDialog(this,R.style.Custom_Progress_Dialog);
@@ -245,13 +249,25 @@ public class FeedActivityMain extends ActionBarActivity {
                 getSupportActionBar().setTitle(Html.fromHtml("<font color='#786a6a'>" + "LİG TV"));
                 break;
             case 3:
-                fragment = new NtvSporFragment();
+                alertDialog=new SpotsDialog(this,R.style.Custom_Progress_Dialog);
+                setCustomAlertDialog();
+                new ProgressTask(this).execute(getResources().getString(R.string.haberturk_feed));
+                fragment = new HaberTurkFragment();
+                getSupportActionBar().setTitle(Html.fromHtml("<font color='#786a6a'>" + "HABERTÜRK"));
                 break;
             case 4:
-                fragment = new NtvSporFragment();
+                alertDialog=new SpotsDialog(this,R.style.Custom_Progress_Dialog);
+                setCustomAlertDialog();
+                new ProgressTask(this).execute(getResources().getString(R.string.sabah_feed));
+                fragment = new SabahFragment();
+                getSupportActionBar().setTitle(Html.fromHtml("<font color='#786a6a'>" + "SABAH"));
                 break;
             case 5:
-                fragment = new NtvSporFragment();
+                alertDialog=new SpotsDialog(this,R.style.Custom_Progress_Dialog);
+                setCustomAlertDialog();
+                new ProgressTask(this).execute(getResources().getString(R.string.aspor_feed));
+                fragment = new AsporFragment();
+                getSupportActionBar().setTitle(Html.fromHtml("<font color='#786a6a'>" + "A SPOR"));
                 break;
 
             default:
