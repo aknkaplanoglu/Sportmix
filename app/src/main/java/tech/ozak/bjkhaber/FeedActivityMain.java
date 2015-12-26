@@ -200,11 +200,34 @@ public class FeedActivityMain extends ActionBarActivity {
         protected void onPreExecute() {
 
             alertDialog.show();
+           /* if (rssItems!=null && !rssItems.isEmpty()){
+                rssItems.clear();
+            }*/
         }
 
 
         @Override
         protected void onPostExecute(final Boolean success) {
+            if (success){
+                Log.d("Rss Size FEEDACTIVITY: ", String.valueOf(rssItems.size()));
+                Fragment fragment = new HaberTurkFragment();
+
+                if (fragment != null) {
+                    FragmentManager fragmentManager = getFragmentManager();
+                    fragmentManager.beginTransaction()
+                            .replace(R.id.frame_container, fragment).commit();
+
+                    // update selected item and title, then close the drawer
+                    mDrawerList.setItemChecked(3, true);
+                    mDrawerList.setSelection(3);
+                    setTitle(navMenuTitles[3]);
+                    mDrawerLayout.closeDrawer(mDrawerList);
+                } else {
+                    // error in creating fragment
+                    Log.e("MainActivity", "Error in creating fragment");
+                }
+
+            }
             alertDialog.dismiss();
         }
 
@@ -233,40 +256,54 @@ public class FeedActivityMain extends ActionBarActivity {
             case 0:
                 fragment = new NtvSporFragment();
                 getSupportActionBar().setTitle(Html.fromHtml("<font color='#786a6a'>" + "NTV SPOR"));
+                if (fragment != null) {
+                    FragmentManager fragmentManager = getFragmentManager();
+                    fragmentManager.beginTransaction()
+                            .replace(R.id.frame_container, fragment).commit();
+
+                    // update selected item and title, then close the drawer
+                    mDrawerList.setItemChecked(position, true);
+                    mDrawerList.setSelection(position);
+                    setTitle(navMenuTitles[position]);
+                    mDrawerLayout.closeDrawer(mDrawerList);
+                } else {
+                    // error in creating fragment
+                    Log.e("MainActivity", "Error in creating fragment");
+                }
                 break;
             case 1:
                 alertDialog=new SpotsDialog(this,R.style.Custom_Progress_Dialog);
                 setCustomAlertDialog();
-                new ProgressTask(this).execute(getResources().getString(R.string.fotomac_feed));
-                fragment = new FotomacFragment();
+                new FotomacAsyncTask(this).execute(getResources().getString(R.string.fotomac_feed));
+
                 getSupportActionBar().setTitle(Html.fromHtml("<font color='#786a6a'>" + "FOTOMAÇ"));
                 break;
             case 2:
                 alertDialog=new SpotsDialog(this,R.style.Custom_Progress_Dialog);
                 setCustomAlertDialog();
-                new ProgressTask(this).execute(getResources().getString(R.string.ligtv_feed));
-                fragment = new LigTvFragment();
+                new LigTvAsyncTask(this).execute(getResources().getString(R.string.ligtv_feed));
+
                 getSupportActionBar().setTitle(Html.fromHtml("<font color='#786a6a'>" + "LİG TV"));
                 break;
             case 3:
                 alertDialog=new SpotsDialog(this,R.style.Custom_Progress_Dialog);
                 setCustomAlertDialog();
                 new ProgressTask(this).execute(getResources().getString(R.string.haberturk_feed));
-                fragment = new HaberTurkFragment();
+
                 getSupportActionBar().setTitle(Html.fromHtml("<font color='#786a6a'>" + "HABERTÜRK"));
                 break;
             case 4:
                 alertDialog=new SpotsDialog(this,R.style.Custom_Progress_Dialog);
                 setCustomAlertDialog();
-                new ProgressTask(this).execute(getResources().getString(R.string.sabah_feed));
-                fragment = new SabahFragment();
+                new SabahAsyncTask(this).execute(getResources().getString(R.string.sabah_feed));
+
                 getSupportActionBar().setTitle(Html.fromHtml("<font color='#786a6a'>" + "SABAH"));
                 break;
             case 5:
                 alertDialog=new SpotsDialog(this,R.style.Custom_Progress_Dialog);
                 setCustomAlertDialog();
-                new ProgressTask(this).execute(getResources().getString(R.string.aspor_feed));
-                fragment = new AsporFragment();
+                new AsporAsyncTask(this).execute(getResources().getString(R.string.aspor_feed));
+
                 getSupportActionBar().setTitle(Html.fromHtml("<font color='#786a6a'>" + "A SPOR"));
                 break;
 
@@ -274,7 +311,7 @@ public class FeedActivityMain extends ActionBarActivity {
                 break;
         }
 
-        if (fragment != null) {
+       /* if (fragment != null) {
             FragmentManager fragmentManager = getFragmentManager();
             fragmentManager.beginTransaction()
                     .replace(R.id.frame_container, fragment).commit();
@@ -287,7 +324,7 @@ public class FeedActivityMain extends ActionBarActivity {
         } else {
             // error in creating fragment
             Log.e("MainActivity", "Error in creating fragment");
-        }
+        }*/
     }
 
     private void setCustomAlertDialog() {
@@ -387,5 +424,263 @@ public class FeedActivityMain extends ActionBarActivity {
 
         return super.onOptionsItemSelected(item);
     }
+
+
+
+    private class LigTvAsyncTask extends AsyncTask<String, Void, Boolean> {
+
+        private Activity activity;
+
+        private Thread thread;
+        /** progress dialog to show user that the backup is processing. */
+
+        public LigTvAsyncTask(Activity activity) {
+            this.activity = activity;
+            context = activity;
+        }
+
+        /** application context. */
+        private Context context;
+
+        protected void onPreExecute() {
+
+            alertDialog.show();
+           /* if (rssItems!=null && !rssItems.isEmpty()){
+                rssItems.clear();
+            }*/
+        }
+
+
+        @Override
+        protected void onPostExecute(final Boolean success) {
+            if (success){
+                Log.d("Rss Size FEEDACTIVITY: ", String.valueOf(rssItems.size()));
+                Fragment fragment = new LigTvFragment();
+
+                if (fragment != null) {
+                    FragmentManager fragmentManager = getFragmentManager();
+                    fragmentManager.beginTransaction()
+                            .replace(R.id.frame_container, fragment).commit();
+
+                    // update selected item and title, then close the drawer
+                    mDrawerList.setItemChecked(2, true);
+                    mDrawerList.setSelection(2);
+                    setTitle(navMenuTitles[2]);
+                    mDrawerLayout.closeDrawer(mDrawerList);
+                } else {
+                    // error in creating fragment
+                    Log.e("MainActivity", "Error in creating fragment");
+                }
+
+            }
+            alertDialog.dismiss();
+        }
+
+        @Override
+        protected Boolean doInBackground(String... params) {
+
+            try {
+                // Create RSS reader
+                rssItems= RssReader.getLatestRssFeed(params[0]);
+            } catch (Exception e) {
+                Log.e("ITCRssReader", e.getMessage());
+            }
+            return true;
+        }
+
+    }
+
+
+    private class FotomacAsyncTask extends AsyncTask<String, Void, Boolean> {
+
+        private Activity activity;
+
+        private Thread thread;
+        /** progress dialog to show user that the backup is processing. */
+
+        public FotomacAsyncTask(Activity activity) {
+            this.activity = activity;
+            context = activity;
+        }
+
+        /** application context. */
+        private Context context;
+
+        protected void onPreExecute() {
+
+            alertDialog.show();
+           /* if (rssItems!=null && !rssItems.isEmpty()){
+                rssItems.clear();
+            }*/
+        }
+
+
+        @Override
+        protected void onPostExecute(final Boolean success) {
+            if (success){
+                Log.d("Rss Size FEEDACTIVITY: ", String.valueOf(rssItems.size()));
+                Fragment fragment = new FotomacFragment();
+
+                if (fragment != null) {
+                    FragmentManager fragmentManager = getFragmentManager();
+                    fragmentManager.beginTransaction()
+                            .replace(R.id.frame_container, fragment).commit();
+
+                    // update selected item and title, then close the drawer
+                    mDrawerList.setItemChecked(1, true);
+                    mDrawerList.setSelection(1);
+                    setTitle(navMenuTitles[1]);
+                    mDrawerLayout.closeDrawer(mDrawerList);
+                } else {
+                    // error in creating fragment
+                    Log.e("MainActivity", "Error in creating fragment");
+                }
+
+            }
+            alertDialog.dismiss();
+        }
+
+        @Override
+        protected Boolean doInBackground(String... params) {
+
+            try {
+                // Create RSS reader
+                rssItems= RssReader.getLatestRssFeed(params[0]);
+            } catch (Exception e) {
+                Log.e("ITCRssReader", e.getMessage());
+            }
+            return true;
+        }
+
+    }
+
+
+    private class SabahAsyncTask extends AsyncTask<String, Void, Boolean> {
+
+        private Activity activity;
+
+        private Thread thread;
+        /** progress dialog to show user that the backup is processing. */
+
+        public SabahAsyncTask(Activity activity) {
+            this.activity = activity;
+            context = activity;
+        }
+
+        /** application context. */
+        private Context context;
+
+        protected void onPreExecute() {
+
+            alertDialog.show();
+           /* if (rssItems!=null && !rssItems.isEmpty()){
+                rssItems.clear();
+            }*/
+        }
+
+
+        @Override
+        protected void onPostExecute(final Boolean success) {
+            if (success){
+                Log.d("Rss Size FEEDACTIVITY: ", String.valueOf(rssItems.size()));
+                Fragment fragment = new SabahFragment();
+
+                if (fragment != null) {
+                    FragmentManager fragmentManager = getFragmentManager();
+                    fragmentManager.beginTransaction()
+                            .replace(R.id.frame_container, fragment).commit();
+
+                    // update selected item and title, then close the drawer
+                    mDrawerList.setItemChecked(4, true);
+                    mDrawerList.setSelection(4);
+                    setTitle(navMenuTitles[4]);
+                    mDrawerLayout.closeDrawer(mDrawerList);
+                } else {
+                    // error in creating fragment
+                    Log.e("MainActivity", "Error in creating fragment");
+                }
+
+            }
+            alertDialog.dismiss();
+        }
+
+        @Override
+        protected Boolean doInBackground(String... params) {
+
+            try {
+                // Create RSS reader
+                rssItems= RssReader.getLatestRssFeed(params[0]);
+            } catch (Exception e) {
+                Log.e("ITCRssReader", e.getMessage());
+            }
+            return true;
+        }
+
+    }
+
+
+    private class AsporAsyncTask extends AsyncTask<String, Void, Boolean> {
+
+        private Activity activity;
+
+        private Thread thread;
+        /** progress dialog to show user that the backup is processing. */
+
+        public AsporAsyncTask(Activity activity) {
+            this.activity = activity;
+            context = activity;
+        }
+
+        /** application context. */
+        private Context context;
+
+        protected void onPreExecute() {
+
+            alertDialog.show();
+           /* if (rssItems!=null && !rssItems.isEmpty()){
+                rssItems.clear();
+            }*/
+        }
+
+
+        @Override
+        protected void onPostExecute(final Boolean success) {
+            if (success){
+                Log.d("Rss Size FEEDACTIVITY: ", String.valueOf(rssItems.size()));
+                Fragment fragment = new AsporFragment();
+
+                if (fragment != null) {
+                    FragmentManager fragmentManager = getFragmentManager();
+                    fragmentManager.beginTransaction()
+                            .replace(R.id.frame_container, fragment).commit();
+
+                    // update selected item and title, then close the drawer
+                    mDrawerList.setItemChecked(5, true);
+                    mDrawerList.setSelection(5);
+                    setTitle(navMenuTitles[5]);
+                    mDrawerLayout.closeDrawer(mDrawerList);
+                } else {
+                    // error in creating fragment
+                    Log.e("MainActivity", "Error in creating fragment");
+                }
+
+            }
+            alertDialog.dismiss();
+        }
+
+        @Override
+        protected Boolean doInBackground(String... params) {
+
+            try {
+                // Create RSS reader
+                rssItems= RssReader.getLatestRssFeed(params[0]);
+            } catch (Exception e) {
+                Log.e("ITCRssReader", e.getMessage());
+            }
+            return true;
+        }
+
+    }
+
 
 }

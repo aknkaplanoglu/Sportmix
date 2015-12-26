@@ -56,7 +56,7 @@ public class HaberTurkFragment extends Fragment {
 
         if (rssItems !=null && !rssItems.isEmpty()){
 
-            Log.e("Rss item size : ", String.valueOf(rssItems.size()));
+            Log.d("Rss Size HABERTURK: ", String.valueOf(rssItems.size()));
             listData = new RssItem[rssItems.size()];
             for (int i = 0; i < rssItems.size(); i++) {
                 listData[i] = rssItems.get(i);

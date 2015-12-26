@@ -65,13 +65,22 @@ public class RssItem {
         //parse description for any image or video links
         if (description.contains("<img ")){
             String img  = description.substring(description.indexOf("<img "));
-            String cleanUp = img.substring(0, img.indexOf(">")+1);
+            String cleanUp = img.substring(0, img.indexOf(">") + 1);
             img = img.substring(img.indexOf("src=") + 5);
-            int indexOf = img.indexOf("'");
-            if (indexOf==-1){
-                indexOf = img.indexOf("\"");
+         //   int indexOf = img.indexOf("'");
+          //  if (indexOf==-1){
+
+            int indexOf = img.indexOf("\"");
+           // }
+            if (indexOf!=-1){
+
+                img = img.substring(0, indexOf);
             }
-            img = img.substring(0, indexOf);
+            //for haberturk matches ' char.
+            else{
+                indexOf = img.indexOf("\'");
+                img = img.substring(0, indexOf);
+            }
 
             setImgLink(img);
             Log.d("LOGGING RSS XML", "Setting image link: " + img);
