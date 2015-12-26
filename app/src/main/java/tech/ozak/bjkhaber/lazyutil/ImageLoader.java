@@ -49,7 +49,7 @@ public class ImageLoader {
     }
     
     // default image show in list (Before online image download)
-    final int stub_id= R.drawable.stub;
+    final int stub_id= R.drawable.sportmix_logo;
     
     public void DisplayImage(String url, ImageView imageView)
     {

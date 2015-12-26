@@ -30,6 +30,7 @@
         <activity
             android:name=".DisplayContentActivity"
             android:launchMode="standard"
+            android:hardwareAccelerated="true"
              />
 
     </application>

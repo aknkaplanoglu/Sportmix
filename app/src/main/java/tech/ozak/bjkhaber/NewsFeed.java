@@ -3,7 +3,6 @@ package tech.ozak.bjkhaber;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -14,10 +13,8 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
 import android.view.Gravity;
-import android.view.Menu;
 import android.view.Window;
 import android.view.WindowManager;
-import android.widget.ImageView;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -25,7 +22,6 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
-import dmax.dialog.SpotsDialog;
 import tech.ozak.bjkhaber.dto.RssItem;
 import tech.ozak.bjkhaber.handler.RssReader;
 import tech.ozak.bjkhaber.progressBar.CircleProgress;

@@ -16,7 +16,6 @@ import org.xml.sax.XMLReader;
 import org.xml.sax.helpers.DefaultHandler;
 
 import java.io.BufferedReader;
-import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -190,9 +189,13 @@ public class RSSHandler extends DefaultHandler {
             // for resolve java.io.FileNotFoundException: http://m.ligtv.com.tr/rss/ana-sayfa
             URLConnection urlc = url.openConnection();
             urlc.addRequestProperty("User-Agent", "firefox");
-
-			xr.setContentHandler(this);
             InputStream inputStream = callWebSErvice(feedUrl);
+
+            // for java.net exception
+            System.setProperty("http.keepAlive", "false");
+
+            xr.setContentHandler(this);
+
             String stringFromInputStream = getStringFromInputStream(inputStream);
            // stringFromInputStream = excludeTurkishChar(stringFromInputStream);
 

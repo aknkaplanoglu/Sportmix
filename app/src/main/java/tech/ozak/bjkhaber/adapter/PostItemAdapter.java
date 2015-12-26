@@ -4,9 +4,6 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.os.AsyncTask;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,10 +11,6 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.URL;
 
 import tech.ozak.bjkhaber.DisplayContentActivity;
 import tech.ozak.bjkhaber.R;
@@ -121,42 +114,4 @@ public class PostItemAdapter extends ArrayAdapter<RssItem> implements View.OnCli
     }
 
 
-
-    private class DownloadAsyncTask extends AsyncTask<ViewHolder, Void, ViewHolder> {
-
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-          //  alertDialog.show();
-        }
-
-        @Override
-        protected ViewHolder doInBackground(ViewHolder... params) {
-            // TODO Auto-generated method stub
-            //load image directly
-            ViewHolder viewHolder = params[0];
-            try {
-                URL imageURL = new URL(viewHolder.postThumbViewURL);
-                InputStream is = imageURL.openStream();
-                viewHolder.bmap = BitmapFactory.decodeStream(is);
-            } catch (IOException e) {
-                // TODO: handle exception
-                Log.e("error", "Downloading Image Failed");
-                viewHolder.bmap = null;
-            }
-
-            return viewHolder;
-        }
-
-        @Override
-        protected void onPostExecute(ViewHolder result) {
-            // TODO Auto-generated method stub
-            if (result.bmap == null) {
-                result.postThumbView.setImageResource(R.drawable.imglogo);
-            } else {
-                result.postThumbView.setImageBitmap(result.bmap);
-            }
-          //  alertDialog.dismiss();
-        }
-    }
 }

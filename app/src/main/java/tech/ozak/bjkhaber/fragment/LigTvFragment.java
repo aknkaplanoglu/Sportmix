@@ -1,29 +1,20 @@
 package tech.ozak.bjkhaber.fragment;
 
-import android.app.Activity;
-import android.app.AlertDialog;
 import android.app.Fragment;
-import android.content.Context;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.Window;
-import android.view.WindowManager;
 import android.widget.ListView;
 
 import java.util.List;
 
-import dmax.dialog.SpotsDialog;
 import tech.ozak.bjkhaber.FeedActivityMain;
 import tech.ozak.bjkhaber.R;
 import tech.ozak.bjkhaber.adapter.PostItemAdapter;
 import tech.ozak.bjkhaber.dto.RssItem;
-import tech.ozak.bjkhaber.handler.RssReader;
 
 /**
  * Created by ako on 10/31/2015.

@@ -3,15 +3,14 @@
  */
 package tech.ozak.bjkhaber.handler;
 
-import java.util.ArrayList;
-import java.util.List;
+import android.text.Html;
+import android.util.Log;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import android.text.Html;
-import android.util.Log;
-
+import java.util.ArrayList;
+import java.util.List;
 
 import tech.ozak.bjkhaber.dto.RssItem;
 

@@ -14,7 +14,6 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.text.Html;
 import android.util.Log;
@@ -25,9 +24,7 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -43,9 +40,7 @@ import tech.ozak.bjkhaber.fragment.HaberTurkFragment;
 import tech.ozak.bjkhaber.fragment.LigTvFragment;
 import tech.ozak.bjkhaber.fragment.NtvSporFragment;
 import tech.ozak.bjkhaber.fragment.SabahFragment;
-import tech.ozak.bjkhaber.fragment.SporxFragment;
 import tech.ozak.bjkhaber.handler.RssReader;
-import tech.ozak.bjkhaber.lazyutil.ImageLoader;
 
 /**
  * Created by ako on 10/9/2015.
@@ -53,8 +48,6 @@ import tech.ozak.bjkhaber.lazyutil.ImageLoader;
 public class FeedActivityMain extends ActionBarActivity {
 
     public static FeedActivityMain mInstance;
-    ArrayList<String> headlines;
-    ArrayList<String> links;
     List<RssItem> rssItems=new ArrayList<RssItem>();
     private RssItem[] listData;
 
