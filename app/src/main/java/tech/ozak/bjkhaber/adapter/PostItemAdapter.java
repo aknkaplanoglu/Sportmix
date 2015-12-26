@@ -104,6 +104,7 @@ public class PostItemAdapter extends ArrayAdapter<RssItem> implements View.OnCli
 
         @Override
         public void onClick(View arg0) {
+
             RssItem rssItem = datas[mPosition];
             Intent intent=new Intent(myContext, DisplayContentActivity.class);
             intent.putExtra("feed_link",rssItem.getFeedLink());
