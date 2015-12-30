@@ -9,6 +9,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
 
+import com.nhaarman.listviewanimations.appearance.simple.SwingBottomInAnimationAdapter;
+
 import java.util.List;
 
 import tech.ozak.bjkhaber.FeedActivityMain;
@@ -19,9 +21,11 @@ import tech.ozak.bjkhaber.dto.RssItem;
 /**
  * Created by ako on 26-Dec-15.
  */
-public class AsporFragment extends Fragment {
+public class AsporFragment extends Fragment  {
 
+    private static final int INITIAL_DELAY_MILLIS = 300;
 
+    private PostItemAdapter itemAdapter;
     private RssItem[] listData;
     // AlertDialog alertDialog;
 
@@ -64,15 +68,16 @@ public class AsporFragment extends Fragment {
 
             ListView listView = (ListView) v.findViewById(R.id.postListView);
 
-            PostItemAdapter itemAdapter = new PostItemAdapter(getActivity(),
+            itemAdapter = new PostItemAdapter(getActivity(),
                     R.layout.postitem, listData);
-            listView.setAdapter(itemAdapter);
-            listView.setClickable(true);
+
+            SwingBottomInAnimationAdapter swingBottomInAnimationAdapter = new SwingBottomInAnimationAdapter(itemAdapter);
+            swingBottomInAnimationAdapter.setAbsListView(listView);
+
+            listView.setAdapter(swingBottomInAnimationAdapter);
         }
 
     }
-
-
 
 
 }

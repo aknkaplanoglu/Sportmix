@@ -9,6 +9,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
 
+import com.nhaarman.listviewanimations.appearance.simple.SwingBottomInAnimationAdapter;
+
 import java.util.List;
 
 import tech.ozak.bjkhaber.FeedActivityMain;
@@ -21,7 +23,7 @@ import tech.ozak.bjkhaber.dto.RssItem;
  */
 public class LigTvFragment extends Fragment{
 
-
+    private PostItemAdapter itemAdapter;
     private RssItem[] listData;
    // AlertDialog alertDialog;
 
@@ -40,14 +42,6 @@ public class LigTvFragment extends Fragment{
 
 
 
-   /* private void setCustomAlertDialog() {
-        Window window = this.alertDialog.getWindow();
-        window.setGravity(Gravity.CENTER);
-        this.alertDialog.setCancelable(true);
-        alertDialog.setInverseBackgroundForced(false);
-        alertDialog.getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
-
-    }*/
 
     private void fillTheData(View v) {
 
@@ -64,10 +58,13 @@ public class LigTvFragment extends Fragment{
 
             ListView listView = (ListView) v.findViewById(R.id.postListView);
 
-            PostItemAdapter itemAdapter = new PostItemAdapter(getActivity(),
+            itemAdapter = new PostItemAdapter(getActivity(),
                     R.layout.postitem, listData);
-            listView.setAdapter(itemAdapter);
-            listView.setClickable(true);
+
+            SwingBottomInAnimationAdapter swingBottomInAnimationAdapter = new SwingBottomInAnimationAdapter(itemAdapter);
+            swingBottomInAnimationAdapter.setAbsListView(listView);
+
+            listView.setAdapter(swingBottomInAnimationAdapter);
         }
 
     }

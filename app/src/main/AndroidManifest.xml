@@ -7,6 +7,9 @@
     <!-- Include following permission if you want to cache images on SD card -->
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
+    <meta-data android:name="tech.ozak.bjkhaber.glideModule.GlideConfiguration"
+        android:value="GlideModule"/>
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -32,6 +35,11 @@
             android:launchMode="standard"
             android:hardwareAccelerated="true"
              />
+
+        <activity
+            android:name=".ShowContentActivity"
+            android:label="@string/app_name"
+            android:theme="@style/NewsFeedTheme"></activity>
 
     </application>
 

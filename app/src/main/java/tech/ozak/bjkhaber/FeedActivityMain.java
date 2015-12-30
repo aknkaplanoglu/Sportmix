@@ -267,37 +267,40 @@ public class FeedActivityMain extends ActionBarActivity {
             case 1:
                 alertDialog=new SpotsDialog(this,R.style.Custom_Progress_Dialog);
                 setCustomAlertDialog();
-                new FotomacAsyncTask(this).execute(getResources().getString(R.string.fotomac_feed));
+                new AsporAsyncTask(this).execute(getResources().getString(R.string.aspor_feed));
 
-                getSupportActionBar().setTitle(Html.fromHtml("<font color='#786a6a'>" + "FOTOMAÇ"));
+                getSupportActionBar().setTitle(Html.fromHtml("<font color='#786a6a'>" + "A SPOR"));
                 break;
+
             case 2:
-                alertDialog=new SpotsDialog(this,R.style.Custom_Progress_Dialog);
-                setCustomAlertDialog();
-                new LigTvAsyncTask(this).execute(getResources().getString(R.string.ligtv_feed));
-
-                getSupportActionBar().setTitle(Html.fromHtml("<font color='#786a6a'>" + "LİG TV"));
-                break;
-            case 3:
-                alertDialog=new SpotsDialog(this,R.style.Custom_Progress_Dialog);
-                setCustomAlertDialog();
-                new ProgressTask(this).execute(getResources().getString(R.string.haberturk_feed));
-
-                getSupportActionBar().setTitle(Html.fromHtml("<font color='#786a6a'>" + "HABERTÜRK"));
-                break;
-            case 4:
                 alertDialog=new SpotsDialog(this,R.style.Custom_Progress_Dialog);
                 setCustomAlertDialog();
                 new SabahAsyncTask(this).execute(getResources().getString(R.string.sabah_feed));
 
                 getSupportActionBar().setTitle(Html.fromHtml("<font color='#786a6a'>" + "SABAH"));
                 break;
+
+            case 3:
+                alertDialog=new SpotsDialog(this,R.style.Custom_Progress_Dialog);
+                setCustomAlertDialog();
+                new LigTvAsyncTask(this).execute(getResources().getString(R.string.ligtv_feed));
+
+                getSupportActionBar().setTitle(Html.fromHtml("<font color='#786a6a'>" + "LİG TV"));
+                break;
+
+            case 4:
+                alertDialog=new SpotsDialog(this,R.style.Custom_Progress_Dialog);
+                setCustomAlertDialog();
+                new ProgressTask(this).execute(getResources().getString(R.string.haberturk_feed));
+
+                getSupportActionBar().setTitle(Html.fromHtml("<font color='#786a6a'>" + "HABERTÜRK"));
+                break;
             case 5:
                 alertDialog=new SpotsDialog(this,R.style.Custom_Progress_Dialog);
                 setCustomAlertDialog();
-                new AsporAsyncTask(this).execute(getResources().getString(R.string.aspor_feed));
+                new FotomacAsyncTask(this).execute(getResources().getString(R.string.fotomac_feed));
 
-                getSupportActionBar().setTitle(Html.fromHtml("<font color='#786a6a'>" + "A SPOR"));
+                getSupportActionBar().setTitle(Html.fromHtml("<font color='#786a6a'>" + "FOTOMAÇ"));
                 break;
 
             default:

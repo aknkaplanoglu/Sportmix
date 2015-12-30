@@ -12,8 +12,12 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+
 import tech.ozak.bjkhaber.DisplayContentActivity;
 import tech.ozak.bjkhaber.R;
+import tech.ozak.bjkhaber.ShowContentActivity;
 import tech.ozak.bjkhaber.dto.RssItem;
 
 /**
@@ -85,8 +89,27 @@ public class PostItemAdapter extends ArrayAdapter<RssItem> implements View.OnCli
         layoutParams.height = height;
         image.setLayoutParams(layoutParams);
 
+        int width = myContext.getResources().getDisplayMetrics().widthPixels;
+
         //DisplayImage function from ImageLoader Class
-        imageLoader.DisplayImage(post.getImgLink(), image);
+       // imageLoader.DisplayImage(post.getImgLink(), image);
+
+      /*  Picasso.with(myContext)
+                .load(post.getImgLink())
+                .resize(width,height)
+                .placeholder(R.drawable.sportmix_logo)
+                .error(R.drawable.imglogo)
+                .into(holder.postThumbView);*/
+
+        Glide.with(myContext)
+                .load(post.getImgLink())
+                .override(width, height)
+                .diskCacheStrategy(DiskCacheStrategy.ALL)
+                .placeholder(R.drawable.sportmix_logo)
+                .error(R.drawable.imglogo)
+                .into(holder.postThumbView);
+
+
 
         /******** Set Item Click Listner for LayoutInflater for each row ***********/
         vi.setOnClickListener(new OnItemClickListener(position));
@@ -106,8 +129,12 @@ public class PostItemAdapter extends ArrayAdapter<RssItem> implements View.OnCli
         public void onClick(View arg0) {
 
             RssItem rssItem = datas[mPosition];
-            Intent intent=new Intent(myContext, DisplayContentActivity.class);
-            intent.putExtra("feed_link",rssItem.getFeedLink());
+            Intent intent=new Intent(myContext, ShowContentActivity.class);
+            String feedLink = rssItem.getFeedLink();
+            String imgLink = rssItem.getImgLink();
+
+            intent.putExtra("feed_link", feedLink);
+            intent.putExtra("img_link",imgLink);
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             myContext.startActivity(intent);
      //       myContext.overridePendingTransition(R.anim.abc_fade_in,R.anim.abc_fade_out);
