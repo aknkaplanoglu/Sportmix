@@ -21,6 +21,7 @@ import org.apache.commons.lang3.StringUtils;
 import tech.ozak.bjkhaber.AsporContentActivity;
 import tech.ozak.bjkhaber.R;
 import tech.ozak.bjkhaber.NtvSporContentActivity;
+import tech.ozak.bjkhaber.SabahContentActivity;
 import tech.ozak.bjkhaber.dto.RssItem;
 
 /**
@@ -158,7 +159,7 @@ public class PostItemAdapter extends ArrayAdapter<RssItem> implements View.OnCli
         }
 
         else if (StringUtils.containsIgnoreCase(feedLink,"sabah")){
-            intent=new Intent(myContext, NtvSporContentActivity.class);
+            intent=new Intent(myContext, SabahContentActivity.class);
         }
 
         else if (StringUtils.containsIgnoreCase(feedLink,"aspor")){
