@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.support.annotation.NonNull;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,9 +16,11 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 
-import tech.ozak.bjkhaber.DisplayContentActivity;
+import org.apache.commons.lang3.StringUtils;
+
+import tech.ozak.bjkhaber.AsporContentActivity;
 import tech.ozak.bjkhaber.R;
-import tech.ozak.bjkhaber.ShowContentActivity;
+import tech.ozak.bjkhaber.NtvSporContentActivity;
 import tech.ozak.bjkhaber.dto.RssItem;
 
 /**
@@ -128,10 +131,14 @@ public class PostItemAdapter extends ArrayAdapter<RssItem> implements View.OnCli
         @Override
         public void onClick(View arg0) {
 
+            Intent intent=null;
+
             RssItem rssItem = datas[mPosition];
-            Intent intent=new Intent(myContext, ShowContentActivity.class);
             String feedLink = rssItem.getFeedLink();
             String imgLink = rssItem.getImgLink();
+
+            intent = decideWhichIntent(feedLink);
+
 
             intent.putExtra("feed_link", feedLink);
             intent.putExtra("img_link",imgLink);
@@ -139,6 +146,29 @@ public class PostItemAdapter extends ArrayAdapter<RssItem> implements View.OnCli
             myContext.startActivity(intent);
      //       myContext.overridePendingTransition(R.anim.abc_fade_in,R.anim.abc_fade_out);
         }
+    }
+
+    @NonNull
+    private Intent decideWhichIntent(String feedLink) {
+        Intent intent;
+        if (StringUtils.containsIgnoreCase(feedLink, "ntv")){
+
+            intent=new Intent(myContext, NtvSporContentActivity.class);
+
+        }
+
+        else if (StringUtils.containsIgnoreCase(feedLink,"sabah")){
+            intent=new Intent(myContext, NtvSporContentActivity.class);
+        }
+
+        else if (StringUtils.containsIgnoreCase(feedLink,"aspor")){
+            intent=new Intent(myContext, AsporContentActivity.class);
+        }
+
+        else {
+            intent=new Intent(myContext, AsporContentActivity.class);
+        }
+        return intent;
     }
 
 

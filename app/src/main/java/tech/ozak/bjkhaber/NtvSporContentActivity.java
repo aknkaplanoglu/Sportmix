@@ -1,9 +1,6 @@
 package tech.ozak.bjkhaber;
 
 import android.app.Activity;
-import android.app.Fragment;
-import android.app.FragmentManager;
-import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -12,10 +9,8 @@ import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.engine.DiskCacheStrategy;
 
 import org.htmlcleaner.CleanerProperties;
 import org.htmlcleaner.HtmlCleaner;
@@ -23,18 +18,14 @@ import org.htmlcleaner.SimpleHtmlSerializer;
 import org.htmlcleaner.TagNode;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
-import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
 import java.io.IOException;
 
-import tech.ozak.bjkhaber.fragment.HaberTurkFragment;
-import tech.ozak.bjkhaber.handler.RssReader;
-
 /**
  * Created by ako on 29-Dec-15.
  */
-public class ShowContentActivity extends Activity {
+public class NtvSporContentActivity extends Activity {
 
     private ImageView imageView;
     private WebView webView;
@@ -129,8 +120,8 @@ public class ShowContentActivity extends Activity {
 
                 System.out.println(doc.html());
                 Elements newsDiv = doc.select("div#newsDetailWrapper");
+
                 Elements article1 = newsDiv.select("article");
-               // Elements paragraphs = article.first().select("p");
                 newPage = article1.html();
 
 
