@@ -20,6 +20,7 @@ import org.apache.commons.lang3.StringUtils;
 
 import tech.ozak.bjkhaber.AsporContentActivity;
 import tech.ozak.bjkhaber.HaberTurkContentActivity;
+import tech.ozak.bjkhaber.LigTvContentActivity;
 import tech.ozak.bjkhaber.R;
 import tech.ozak.bjkhaber.NtvSporContentActivity;
 import tech.ozak.bjkhaber.SabahContentActivity;
@@ -169,6 +170,10 @@ public class PostItemAdapter extends ArrayAdapter<RssItem> implements View.OnCli
 
         else if (StringUtils.containsIgnoreCase(feedLink,"haberturk")){
             intent=new Intent(myContext, HaberTurkContentActivity.class);
+        }
+
+        else if (StringUtils.containsIgnoreCase(feedLink,"ligtv")){
+            intent=new Intent(myContext, LigTvContentActivity.class);
         }
 
         else {
