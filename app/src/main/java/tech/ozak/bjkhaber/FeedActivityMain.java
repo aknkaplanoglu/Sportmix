@@ -211,9 +211,9 @@ public class FeedActivityMain extends ActionBarActivity {
                             .replace(R.id.frame_container, fragment).commit();
 
                     // update selected item and title, then close the drawer
-                    mDrawerList.setItemChecked(3, true);
-                    mDrawerList.setSelection(3);
-                    setTitle(navMenuTitles[3]);
+                    mDrawerList.setItemChecked(4, true);
+                    mDrawerList.setSelection(4);
+                    setTitle(navMenuTitles[4]);
                     mDrawerLayout.closeDrawer(mDrawerList);
                 } else {
                     // error in creating fragment
@@ -459,9 +459,9 @@ public class FeedActivityMain extends ActionBarActivity {
                             .replace(R.id.frame_container, fragment).commit();
 
                     // update selected item and title, then close the drawer
-                    mDrawerList.setItemChecked(2, true);
-                    mDrawerList.setSelection(2);
-                    setTitle(navMenuTitles[2]);
+                    mDrawerList.setItemChecked(3, true);
+                    mDrawerList.setSelection(3);
+                    setTitle(navMenuTitles[3]);
                     mDrawerLayout.closeDrawer(mDrawerList);
                 } else {
                     // error in creating fragment
@@ -523,9 +523,9 @@ public class FeedActivityMain extends ActionBarActivity {
                             .replace(R.id.frame_container, fragment).commit();
 
                     // update selected item and title, then close the drawer
-                    mDrawerList.setItemChecked(1, true);
-                    mDrawerList.setSelection(1);
-                    setTitle(navMenuTitles[1]);
+                    mDrawerList.setItemChecked(5, true);
+                    mDrawerList.setSelection(5);
+                    setTitle(navMenuTitles[5]);
                     mDrawerLayout.closeDrawer(mDrawerList);
                 } else {
                     // error in creating fragment
@@ -587,9 +587,9 @@ public class FeedActivityMain extends ActionBarActivity {
                             .replace(R.id.frame_container, fragment).commit();
 
                     // update selected item and title, then close the drawer
-                    mDrawerList.setItemChecked(4, true);
-                    mDrawerList.setSelection(4);
-                    setTitle(navMenuTitles[4]);
+                    mDrawerList.setItemChecked(2, true);
+                    mDrawerList.setSelection(2);
+                    setTitle(navMenuTitles[2]);
                     mDrawerLayout.closeDrawer(mDrawerList);
                 } else {
                     // error in creating fragment
@@ -651,9 +651,9 @@ public class FeedActivityMain extends ActionBarActivity {
                             .replace(R.id.frame_container, fragment).commit();
 
                     // update selected item and title, then close the drawer
-                    mDrawerList.setItemChecked(5, true);
-                    mDrawerList.setSelection(5);
-                    setTitle(navMenuTitles[5]);
+                    mDrawerList.setItemChecked(1, true);
+                    mDrawerList.setSelection(1);
+                    setTitle(navMenuTitles[1]);
                     mDrawerLayout.closeDrawer(mDrawerList);
                 } else {
                     // error in creating fragment

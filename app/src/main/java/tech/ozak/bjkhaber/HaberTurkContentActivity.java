@@ -1,17 +1,14 @@
 package tech.ozak.bjkhaber;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.View;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.ProgressBar;
 
 import com.bumptech.glide.Glide;
 
@@ -28,7 +25,7 @@ import java.io.IOException;
 /**
  * Created by ako on 31-Dec-15.
  */
-public class AsporContentActivity extends Activity {
+public class HaberTurkContentActivity extends Activity {
 
     private ImageView imageView;
     private WebView webView;
@@ -63,7 +60,7 @@ public class AsporContentActivity extends Activity {
                 .placeholder(R.drawable.sportmix_logo)
                 .error(R.drawable.imglogo)
                 .into(imageView);
-        new ProgressTask(this).execute(feed_link);
+        new ProgressTask().execute(feed_link);
 
 
 
@@ -87,19 +84,10 @@ public class AsporContentActivity extends Activity {
 
     private class ProgressTask extends AsyncTask<String, Void, String> {
 
-        private ProgressBar progressBar;
-        Context c;
-
-        public ProgressTask(Context context) {
-
-            c=context;
-            this.progressBar = progressBar;
-        }
 
 
         protected void onPreExecute() {
-            progressBar= new ProgressBar(c, null, android.R.attr.progressBarStyleSmall);
-            progressBar.setVisibility(View.VISIBLE);
+
             Log.d("On pre execute: ", "yes");
         }
 
@@ -114,8 +102,6 @@ public class AsporContentActivity extends Activity {
                     new SimpleHtmlSerializer(props);
             webView.loadDataWithBaseURL(null,htmlSerializer.
                     getAsString(tagNode), "text/html", "charset=UTF-8",null);
-
-            progressBar.setVisibility(View.GONE);
 
             //   webView.loadData(htmlSerializer.getAsString(tagNode),"text/html","UTF-8");
 
@@ -133,9 +119,12 @@ public class AsporContentActivity extends Activity {
                 System.out.println(Jsoup.connect(url).userAgent("Mozilla").get().baseUri());
 
                 System.out.println(doc.html());
-                Elements newsDiv = doc.getElementsByClass("spot");
 
-                newPage = newsDiv.html();
+                doc.getElementsByClass("group row-fluid mbottom20 news-wd").remove();
+
+                Elements select = doc.select("div[itemprop=articleBody]");
+
+                newPage = select.html();
 
 
             } catch (IOException e) {
