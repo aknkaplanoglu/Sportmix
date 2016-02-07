@@ -175,14 +175,14 @@ public class FeedActivityMain extends ActionBarActivity {
 
     AlertDialog alertDialog;
 
-    private class ProgressTask extends AsyncTask<String, Void, Boolean> {
+    private class HaberTurkAsynTask extends AsyncTask<String, Void, Boolean> {
 
         private Activity activity;
 
         private Thread thread;
         /** progress dialog to show user that the backup is processing. */
 
-        public ProgressTask(Activity activity) {
+        public HaberTurkAsynTask(Activity activity) {
             this.activity = activity;
             context = activity;
         }
@@ -208,7 +208,7 @@ public class FeedActivityMain extends ActionBarActivity {
                 if (fragment != null) {
                     FragmentManager fragmentManager = getFragmentManager();
                     fragmentManager.beginTransaction()
-                            .replace(R.id.frame_container, fragment).commit();
+                            .replace(R.id.frame_container, fragment).addToBackStack(null).commit();
 
                     // update selected item and title, then close the drawer
                     mDrawerList.setItemChecked(4, true);
@@ -252,7 +252,7 @@ public class FeedActivityMain extends ActionBarActivity {
                 if (fragment != null) {
                     FragmentManager fragmentManager = getFragmentManager();
                     fragmentManager.beginTransaction()
-                            .replace(R.id.frame_container, fragment).commit();
+                            .replace(R.id.frame_container, fragment).addToBackStack(null).commit();
 
                     // update selected item and title, then close the drawer
                     mDrawerList.setItemChecked(position, true);
@@ -291,7 +291,7 @@ public class FeedActivityMain extends ActionBarActivity {
             case 4:
                 alertDialog=new SpotsDialog(this,R.style.Custom_Progress_Dialog);
                 setCustomAlertDialog();
-                new ProgressTask(this).execute(getResources().getString(R.string.haberturk_feed));
+                new HaberTurkAsynTask(this).execute(getResources().getString(R.string.haberturk_feed));
 
                 getSupportActionBar().setTitle(Html.fromHtml("<font color='#786a6a'>" + "HABERTÜRK"));
                 break;
@@ -456,7 +456,7 @@ public class FeedActivityMain extends ActionBarActivity {
                 if (fragment != null) {
                     FragmentManager fragmentManager = getFragmentManager();
                     fragmentManager.beginTransaction()
-                            .replace(R.id.frame_container, fragment).commit();
+                            .replace(R.id.frame_container, fragment).addToBackStack(null).commit();
 
                     // update selected item and title, then close the drawer
                     mDrawerList.setItemChecked(3, true);
@@ -520,7 +520,7 @@ public class FeedActivityMain extends ActionBarActivity {
                 if (fragment != null) {
                     FragmentManager fragmentManager = getFragmentManager();
                     fragmentManager.beginTransaction()
-                            .replace(R.id.frame_container, fragment).commit();
+                            .replace(R.id.frame_container, fragment).addToBackStack(null).commit();
 
                     // update selected item and title, then close the drawer
                     mDrawerList.setItemChecked(5, true);
@@ -584,7 +584,7 @@ public class FeedActivityMain extends ActionBarActivity {
                 if (fragment != null) {
                     FragmentManager fragmentManager = getFragmentManager();
                     fragmentManager.beginTransaction()
-                            .replace(R.id.frame_container, fragment).commit();
+                            .replace(R.id.frame_container, fragment).addToBackStack(null).commit();
 
                     // update selected item and title, then close the drawer
                     mDrawerList.setItemChecked(2, true);
@@ -648,7 +648,7 @@ public class FeedActivityMain extends ActionBarActivity {
                 if (fragment != null) {
                     FragmentManager fragmentManager = getFragmentManager();
                     fragmentManager.beginTransaction()
-                            .replace(R.id.frame_container, fragment).commit();
+                            .replace(R.id.frame_container, fragment).addToBackStack(null).commit();
 
                     // update selected item and title, then close the drawer
                     mDrawerList.setItemChecked(1, true);

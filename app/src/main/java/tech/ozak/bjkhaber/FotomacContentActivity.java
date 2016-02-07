@@ -1,10 +1,17 @@
 package tech.ozak.bjkhaber;
 
-import android.app.Activity;
 import android.content.Intent;
+import android.content.res.Resources;
+import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.v4.app.NavUtils;
+import android.support.v7.app.ActionBar;
+import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.MenuItem;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.widget.ImageView;
@@ -19,14 +26,13 @@ import org.htmlcleaner.TagNode;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
-import org.jsoup.select.Elements;
 
 import java.io.IOException;
 
 /**
  * Created by ako on 07-Feb-16.
  */
-public class FotomacContentActivity extends Activity {
+public class FotomacContentActivity extends AppCompatActivity {
 
     private ImageView imageView;
     private WebView webView;
@@ -38,6 +44,18 @@ public class FotomacContentActivity extends Activity {
 
 
         setContentView(R.layout.activity_show_content);
+
+        Toolbar myToolbar = (Toolbar) findViewById(R.id.my_toolbar);
+        setSupportActionBar(myToolbar);
+
+        // Get a support ActionBar corresponding to this toolbar
+        ActionBar ab = getSupportActionBar();
+        Resources res = getResources();
+        Drawable drawable = res.getDrawable(R.drawable.real_action_bar);
+        ab.setBackgroundDrawable(drawable);
+        // Enable the Up button
+        ab.setDisplayHomeAsUpEnabled(true);
+
         imageView= (ImageView) findViewById(R.id.imagevw);
         webView= (WebView) findViewById(R.id.webViewFeed);
 
@@ -121,7 +139,11 @@ public class FotomacContentActivity extends Activity {
 
                 System.out.println(doc.html());
                 Element divDetailNews = doc.getElementById("divDetailNews");
-                divDetailNews.getElementsByClass("row").remove();
+
+                if (divDetailNews.hasClass("row")){
+
+                    divDetailNews.getElementsByClass("row").remove();
+                }
                 newPage = divDetailNews.html();
 
 
@@ -136,6 +158,39 @@ public class FotomacContentActivity extends Activity {
 
     }
 
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                Intent parentIntent = NavUtils.getParentActivityIntent(this);
+                parentIntent.setFlags(Intent.FLAG_ACTIVITY_BROUGHT_TO_FRONT | Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+                startActivity(parentIntent);
+                finish();
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+/*    @Override
+    public void onBackPressed() {
+        if (getFragmentManager().getBackStackEntryCount() == 0) {
+            this.finish();
+        } else {
+            getFragmentManager().popBackStack();
+        }
+    }*/
+
+/*    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                NavUtils.navigateUpFromSameTask(this);
+                return true;
+            default:
+                super.onOptionsItemSelected(item);
+                return true;
+        }
+    }*/
 
 }
 

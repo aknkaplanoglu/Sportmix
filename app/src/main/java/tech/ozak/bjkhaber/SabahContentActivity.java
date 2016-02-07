@@ -2,9 +2,16 @@ package tech.ozak.bjkhaber;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.res.Resources;
+import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.v4.app.NavUtils;
+import android.support.v7.app.ActionBar;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.MenuItem;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.widget.ImageView;
@@ -25,7 +32,7 @@ import java.io.IOException;
 /**
  * Created by ako on 31-Dec-15.
  */
-public class SabahContentActivity extends Activity {
+public class SabahContentActivity extends AppCompatActivity {
 
     private ImageView imageView;
     private WebView webView;
@@ -37,6 +44,16 @@ public class SabahContentActivity extends Activity {
 
 
         setContentView(R.layout.activity_show_content);
+        Toolbar myToolbar = (Toolbar) findViewById(R.id.my_toolbar);
+        setSupportActionBar(myToolbar);
+
+        // Get a support ActionBar corresponding to this toolbar
+        ActionBar ab = getSupportActionBar();
+        Resources res = getResources();
+        Drawable drawable = res.getDrawable(R.drawable.real_action_bar);
+        ab.setBackgroundDrawable(drawable);
+        // Enable the Up button
+        ab.setDisplayHomeAsUpEnabled(true);
         imageView= (ImageView) findViewById(R.id.imagevw);
         webView= (WebView) findViewById(R.id.webViewFeed);
 
@@ -65,6 +82,18 @@ public class SabahContentActivity extends Activity {
 
 
 
+    }
+
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                Intent parentIntent = NavUtils.getParentActivityIntent(this);
+                parentIntent.setFlags(Intent.FLAG_ACTIVITY_BROUGHT_TO_FRONT | Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+                startActivity(parentIntent);
+                finish();
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     private void setWebViewSettings() {
