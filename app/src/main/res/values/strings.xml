@@ -25,6 +25,7 @@
         <item >Lig TV</item>
         <item >HT Spor</item>
         <item >Fotomaç</item>
+        <item >Puan Durumu</item>
     </string-array>
 
     <!-- Nav Drawer List Item Icons -->
@@ -36,6 +37,7 @@
         <item>@mipmap/ligtv</item>
         <item>@mipmap/haberturk</item>
         <item>@mipmap/fotomac</item>
+        <item>@mipmap/puan_durumu</item>
     </array>
 
     <!-- Content Description -->

@@ -127,6 +127,8 @@ public class FeedActivityMain extends ActionBarActivity {
         // What's hot, We  will add a counter here
         navDrawerItems.add(new NavDrawerItem(navMenuTitles[5], navMenuIcons.getResourceId(5, -1)));
 
+        navDrawerItems.add(new NavDrawerItem(navMenuTitles[6], navMenuIcons.getResourceId(6, -1)));
+
         // Recycle the typed array
         navMenuIcons.recycle();
 
@@ -296,6 +298,13 @@ public class FeedActivityMain extends ActionBarActivity {
                 getSupportActionBar().setTitle(Html.fromHtml("<font color='#786a6a'>" + "HABERTÜRK"));
                 break;
             case 5:
+                alertDialog=new SpotsDialog(this,R.style.Custom_Progress_Dialog);
+                setCustomAlertDialog();
+                new FotomacAsyncTask(this).execute(getResources().getString(R.string.fotomac_feed));
+
+                getSupportActionBar().setTitle(Html.fromHtml("<font color='#786a6a'>" + "FOTOMAÇ"));
+                break;
+            case 6:
                 alertDialog=new SpotsDialog(this,R.style.Custom_Progress_Dialog);
                 setCustomAlertDialog();
                 new FotomacAsyncTask(this).execute(getResources().getString(R.string.fotomac_feed));
