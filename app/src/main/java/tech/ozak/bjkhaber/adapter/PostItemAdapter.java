@@ -19,6 +19,7 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import org.apache.commons.lang3.StringUtils;
 
 import tech.ozak.bjkhaber.AsporContentActivity;
+import tech.ozak.bjkhaber.FotomacContentActivity;
 import tech.ozak.bjkhaber.HaberTurkContentActivity;
 import tech.ozak.bjkhaber.LigTvContentActivity;
 import tech.ozak.bjkhaber.R;
@@ -29,9 +30,9 @@ import tech.ozak.bjkhaber.dto.RssItem;
 /**
  * Created by ako on 10/11/2015.
  */
-public class PostItemAdapter extends ArrayAdapter<RssItem> implements View.OnClickListener{
+public class PostItemAdapter extends ArrayAdapter<RssItem> implements View.OnClickListener {
 
-  public tech.ozak.bjkhaber.lazyutil.ImageLoader imageLoader;
+    public tech.ozak.bjkhaber.lazyutil.ImageLoader imageLoader;
     private LayoutInflater inflater;
     private Activity myContext;
     private RssItem[] datas;
@@ -41,11 +42,11 @@ public class PostItemAdapter extends ArrayAdapter<RssItem> implements View.OnCli
         super(context, textViewResourceId, objects);
         // TODO Auto-generated constructor stub
         myContext = (Activity) context;
-      //  alertDialog=new SpotsDialog(myContext,R.style.Custom_Progress_Dialog);
+        //  alertDialog=new SpotsDialog(myContext,R.style.Custom_Progress_Dialog);
         datas = objects;
-        inflater = (LayoutInflater)myContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        inflater = (LayoutInflater) myContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         imageLoader = new tech.ozak.bjkhaber.lazyutil.ImageLoader(myContext.getApplicationContext());
-       // imageLoader.clearCache();
+        // imageLoader.clearCache();
 
     }
 
@@ -64,10 +65,10 @@ public class PostItemAdapter extends ArrayAdapter<RssItem> implements View.OnCli
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        View vi=convertView;
+        View vi = convertView;
         ViewHolder holder;
 
-        if(convertView==null){
+        if (convertView == null) {
 
             /****** Inflate tabitem.xml file for each row ( Defined below ) *******/
             vi = inflater.inflate(R.layout.postitem, null);
@@ -80,25 +81,24 @@ public class PostItemAdapter extends ArrayAdapter<RssItem> implements View.OnCli
             holder.postDateView = (TextView) vi.findViewById(R.id.postDateLabel);
 
             /************  Set holder with LayoutInflater ************/
-            vi.setTag( holder );
-        }
-        else
-            holder=(ViewHolder)vi.getTag();
+            vi.setTag(holder);
+        } else
+            holder = (ViewHolder) vi.getTag();
 
         RssItem post = datas[position];
         holder.postTitleView.setText(post.getTitle());
         holder.postDateView.setText(post.getPubDate());
         ImageView image = holder.postThumbView;
 
-        int height = myContext.getResources().getDisplayMetrics().heightPixels*1/4;
-        RelativeLayout.LayoutParams layoutParams= (RelativeLayout.LayoutParams) image.getLayoutParams();
+        int height = myContext.getResources().getDisplayMetrics().heightPixels * 1 / 4;
+        RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams) image.getLayoutParams();
         layoutParams.height = height;
         image.setLayoutParams(layoutParams);
 
         int width = myContext.getResources().getDisplayMetrics().widthPixels;
 
         //DisplayImage function from ImageLoader Class
-       // imageLoader.DisplayImage(post.getImgLink(), image);
+        // imageLoader.DisplayImage(post.getImgLink(), image);
 
       /*  Picasso.with(myContext)
                 .load(post.getImgLink())
@@ -106,15 +106,25 @@ public class PostItemAdapter extends ArrayAdapter<RssItem> implements View.OnCli
                 .placeholder(R.drawable.sportmix_logo)
                 .error(R.drawable.imglogo)
                 .into(holder.postThumbView);*/
-
-        Glide.with(myContext)
-                .load(post.getImgLink())
-                .override(width, height)
-                .diskCacheStrategy(DiskCacheStrategy.ALL)
-                .placeholder(R.drawable.sportmix_logo)
-                .error(R.drawable.imglogo)
-                .into(holder.postThumbView);
-
+        String imgLink = post.getImgLink();
+        if (StringUtils.isNotBlank(imgLink)) {
+            Glide.with(myContext)
+                    .load(imgLink)
+                    .override(width, height)
+                    .diskCacheStrategy(DiskCacheStrategy.ALL)
+                    .placeholder(R.drawable.sportmix_logo)
+                    .error(R.drawable.imglogo)
+                    .into(holder.postThumbView);
+        }
+        else{
+            Glide.with(myContext)
+                    .load(imgLink)
+                    .override(width, height)
+                    .diskCacheStrategy(DiskCacheStrategy.ALL)
+                    .placeholder(R.mipmap.fotomac)
+                    .error(R.mipmap.fotomac)
+                    .into(holder.postThumbView);
+        }
 
 
         /******** Set Item Click Listner for LayoutInflater for each row ***********/
@@ -123,18 +133,20 @@ public class PostItemAdapter extends ArrayAdapter<RssItem> implements View.OnCli
     }
 
 
-    /********* Called when Item click in ListView ************/
-    private class OnItemClickListener  implements View.OnClickListener {
+    /*********
+     * Called when Item click in ListView
+     ************/
+    private class OnItemClickListener implements View.OnClickListener {
         private int mPosition;
 
-        OnItemClickListener(int position){
+        OnItemClickListener(int position) {
             mPosition = position;
         }
 
         @Override
         public void onClick(View arg0) {
 
-            Intent intent=null;
+            Intent intent = null;
 
             RssItem rssItem = datas[mPosition];
             String feedLink = rssItem.getFeedLink();
@@ -144,40 +156,32 @@ public class PostItemAdapter extends ArrayAdapter<RssItem> implements View.OnCli
 
 
             intent.putExtra("feed_link", feedLink);
-            intent.putExtra("img_link",imgLink);
+            intent.putExtra("img_link", imgLink);
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             myContext.startActivity(intent);
-     //       myContext.overridePendingTransition(R.anim.abc_fade_in,R.anim.abc_fade_out);
+            //       myContext.overridePendingTransition(R.anim.abc_fade_in,R.anim.abc_fade_out);
         }
     }
 
     @NonNull
     private Intent decideWhichIntent(String feedLink) {
         Intent intent;
-        if (StringUtils.containsIgnoreCase(feedLink, "ntv")){
+        if (StringUtils.containsIgnoreCase(feedLink, "ntv")) {
 
-            intent=new Intent(myContext, NtvSporContentActivity.class);
+            intent = new Intent(myContext, NtvSporContentActivity.class);
 
-        }
-
-        else if (StringUtils.containsIgnoreCase(feedLink,"sabah")){
-            intent=new Intent(myContext, SabahContentActivity.class);
-        }
-
-        else if (StringUtils.containsIgnoreCase(feedLink,"aspor")){
-            intent=new Intent(myContext, AsporContentActivity.class);
-        }
-
-        else if (StringUtils.containsIgnoreCase(feedLink,"haberturk")){
-            intent=new Intent(myContext, HaberTurkContentActivity.class);
-        }
-
-        else if (StringUtils.containsIgnoreCase(feedLink,"ligtv")){
-            intent=new Intent(myContext, LigTvContentActivity.class);
-        }
-
-        else {
-            intent=new Intent(myContext, AsporContentActivity.class);
+        } else if (StringUtils.containsIgnoreCase(feedLink, "sabah")) {
+            intent = new Intent(myContext, SabahContentActivity.class);
+        } else if (StringUtils.containsIgnoreCase(feedLink, "aspor")) {
+            intent = new Intent(myContext, AsporContentActivity.class);
+        } else if (StringUtils.containsIgnoreCase(feedLink, "haberturk")) {
+            intent = new Intent(myContext, HaberTurkContentActivity.class);
+        } else if (StringUtils.containsIgnoreCase(feedLink, "ligtv")) {
+            intent = new Intent(myContext, LigTvContentActivity.class);
+        } else if (StringUtils.containsIgnoreCase(feedLink, "fotomac")) {
+            intent = new Intent(myContext, FotomacContentActivity.class);
+        }else {
+            intent = new Intent(myContext, AsporContentActivity.class);
         }
         return intent;
     }

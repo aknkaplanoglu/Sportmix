@@ -61,6 +61,11 @@
             android:label="@string/app_name"
             android:theme="@style/NewsFeedTheme"></activity>
 
+        <activity
+            android:name=".FotomacContentActivity"
+            android:label="@string/app_name"
+            android:theme="@style/NewsFeedTheme"></activity>
+
     </application>
 
 </manifest>
