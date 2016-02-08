@@ -3,7 +3,6 @@ package tech.ozak.bjkhaber.fragment;
 import android.app.AlertDialog;
 import android.app.Fragment;
 import android.content.Context;
-import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -16,37 +15,29 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
-import android.widget.ListView;
 import android.widget.ProgressBar;
 
-import com.nhaarman.listviewanimations.appearance.simple.SwingBottomInAnimationAdapter;
-
-import org.apache.commons.lang3.StringUtils;
 import org.htmlcleaner.CleanerProperties;
 import org.htmlcleaner.HtmlCleaner;
 import org.htmlcleaner.SimpleHtmlSerializer;
 import org.htmlcleaner.TagNode;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
-import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
 import java.io.IOException;
-import java.util.List;
 
 import dmax.dialog.SpotsDialog;
-import tech.ozak.bjkhaber.FeedActivityMain;
 import tech.ozak.bjkhaber.R;
-import tech.ozak.bjkhaber.adapter.PostItemAdapter;
-import tech.ozak.bjkhaber.dto.RssItem;
 
 /**
- * Created by ako on 07-Feb-16.
+ * Created by ako on 08-Feb-16.
  */
-public class PuanDurumuFragment extends Fragment {
+public class FiksturFragment  extends Fragment {
 
     AlertDialog alertDialog;
     private WebView webView;
+    String fikstur_url = "";
     // AlertDialog alertDialog;
 
     @Nullable
@@ -60,9 +51,9 @@ public class PuanDurumuFragment extends Fragment {
         setCustomAlertDialog();
        /* Intent i = getIntent();
         String feed_link = i.getStringExtra("feed_link");*/
-        String puan_durumu_url = getResources().getString(R.string.puan_durumu_url);
-        Log.d("Puan durumu url: ",puan_durumu_url);
-        new ProgressTask(getActivity()).execute(puan_durumu_url);
+        fikstur_url = getResources().getString(R.string.fikstur_url);
+        Log.d("fikstur_url url: ", fikstur_url);
+        new ProgressTask(getActivity()).execute(fikstur_url);
 
         return rootView;
     }
@@ -93,6 +84,7 @@ public class PuanDurumuFragment extends Fragment {
 
     private class ProgressTask extends AsyncTask<String, Void, String> {
 
+        private ProgressBar progressBar;
         Context c;
 
         public ProgressTask(Context context) {
@@ -115,10 +107,10 @@ public class PuanDurumuFragment extends Fragment {
             TagNode tagNode = new HtmlCleaner(props).clean(page);
             SimpleHtmlSerializer htmlSerializer =
                     new SimpleHtmlSerializer(props);
-            webView.loadDataWithBaseURL(null,htmlSerializer.
-                    getAsString(tagNode), "text/html", "charset=UTF-8",null);
-
+            webView.loadDataWithBaseURL(fikstur_url, htmlSerializer.
+                    getAsString(tagNode), "text/html", "charset=UTF-8", null);
             alertDialog.dismiss();
+
             //   webView.loadData(htmlSerializer.getAsString(tagNode),"text/html","UTF-8");
 
         }
@@ -135,16 +127,30 @@ public class PuanDurumuFragment extends Fragment {
                 System.out.println(Jsoup.connect(url).userAgent("Mozilla").get().baseUri());
 
                 System.out.println(doc.html());
-                Elements mainLeagueTablePage = doc.select("#standings_list_content");
-
+                Elements mainLeagueTablePage = doc.select(".fiksAlani");
 
                 if ( null != mainLeagueTablePage){
+                    Elements hafta = mainLeagueTablePage.select(".hafta");
+                    hafta.attr("style", "color:#D0D0D0 ;font-weight: bold;background-color:#505050");
 
-                //    mainLeagueTablePage.
-                    mainLeagueTablePage.select("a").text();
-                    Elements team_link = mainLeagueTablePage.select(".team_link");
+                    Elements fiksTarihDiv = mainLeagueTablePage.select(".fiksTarihDiv");
+                    fiksTarihDiv.attr("style", "color:#D0D0D0 ;font-weight: bold;background-color:#505050");
 
-                    team_link.attr("style", "color:#E4DDD7 ;font-weight: bold;background-color:#BDDCFF");
+                    Elements fiksTakimlarDiv = mainLeagueTablePage.select(".fiksTakimlarDiv");
+                    fiksTakimlarDiv.attr("style", "color:#0099CC ;background-color:#D8D8D8");
+
+                    Elements fiksTakimlar = mainLeagueTablePage.select(".fiksTakimlar");
+                    fiksTakimlar.attr("style", "color:#0099CC ;background-color:#D8D8D8");
+
+                    Elements tk1 = mainLeagueTablePage.select(".tk1");
+                    tk1.attr("style", "display:inline-block");
+
+                    Elements tk2 = mainLeagueTablePage.select(".tk2");
+                    tk2.attr("style", "display:inline-block");
+
+                    Elements tire = mainLeagueTablePage.select(".tire");
+                    tire.attr("style", "display:inline-block");
+
 
                     newPage = mainLeagueTablePage.html();
 
@@ -163,3 +169,4 @@ public class PuanDurumuFragment extends Fragment {
     }
 
 }
+

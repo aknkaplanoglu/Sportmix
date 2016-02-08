@@ -35,6 +35,7 @@ import tech.ozak.bjkhaber.adapter.PostItemAdapter;
 import tech.ozak.bjkhaber.dto.NavDrawerItem;
 import tech.ozak.bjkhaber.dto.RssItem;
 import tech.ozak.bjkhaber.fragment.AsporFragment;
+import tech.ozak.bjkhaber.fragment.FiksturFragment;
 import tech.ozak.bjkhaber.fragment.FotomacFragment;
 import tech.ozak.bjkhaber.fragment.HaberTurkFragment;
 import tech.ozak.bjkhaber.fragment.LigTvFragment;
@@ -313,15 +314,15 @@ public class FeedActivityMain extends ActionBarActivity {
                 setCustomAlertDialog();
                 new PuanDurumuAsyncTask(this).execute("");
 
-                getSupportActionBar().setTitle(Html.fromHtml("<font color='#786a6a'>" + "FOTOMAÇ"));
+                getSupportActionBar().setTitle(Html.fromHtml("<font color='#786a6a'>" + "PUAN DURUMU"));
                 break;
             // fikstur
             case 7:
                 alertDialog=new SpotsDialog(this,R.style.Custom_Progress_Dialog);
                 setCustomAlertDialog();
-                new FotomacAsyncTask(this).execute(getResources().getString(R.string.fotomac_feed));
+                new FiksturAsyncTask(this).execute("");
 
-                getSupportActionBar().setTitle(Html.fromHtml("<font color='#786a6a'>" + "FOTOMAÇ"));
+                getSupportActionBar().setTitle(Html.fromHtml("<font color='#786a6a'>" + "FİKSTÜR"));
                 break;
 
             default:
@@ -627,6 +628,70 @@ public class FeedActivityMain extends ActionBarActivity {
             try {
                 // Create RSS reader
                // rssItems= RssReader.getLatestRssFeed(params[0]);
+            } catch (Exception e) {
+                Log.e("ITCRssReader", e.getMessage());
+            }
+            return true;
+        }
+
+    }
+
+
+    private class FiksturAsyncTask extends AsyncTask<String, Void, Boolean> {
+
+        private Activity activity;
+
+        private Thread thread;
+        /** progress dialog to show user that the backup is processing. */
+
+        public FiksturAsyncTask(Activity activity) {
+            this.activity = activity;
+            context = activity;
+        }
+
+        /** application context. */
+        private Context context;
+
+        protected void onPreExecute() {
+
+            alertDialog.show();
+           /* if (rssItems!=null && !rssItems.isEmpty()){
+                rssItems.clear();
+            }*/
+        }
+
+
+        @Override
+        protected void onPostExecute(final Boolean success) {
+            if (success){
+                Log.d("Rss Size FEEDACTIVITY: ", String.valueOf(rssItems.size()));
+                Fragment fragment = new FiksturFragment();
+
+                if (fragment != null) {
+                    FragmentManager fragmentManager = getFragmentManager();
+                    fragmentManager.beginTransaction()
+                            .replace(R.id.frame_container, fragment).addToBackStack(null).commit();
+
+                    // update selected item and title, then close the drawer
+                    mDrawerList.setItemChecked(7, true);
+                    mDrawerList.setSelection(7);
+                    setTitle(navMenuTitles[7]);
+                    mDrawerLayout.closeDrawer(mDrawerList);
+                } else {
+                    // error in creating fragment
+                    Log.e("MainActivity", "Error in creating fragment");
+                }
+
+            }
+            alertDialog.dismiss();
+        }
+
+        @Override
+        protected Boolean doInBackground(String... params) {
+
+            try {
+                // Create RSS reader
+                // rssItems= RssReader.getLatestRssFeed(params[0]);
             } catch (Exception e) {
                 Log.e("ITCRssReader", e.getMessage());
             }
