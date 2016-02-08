@@ -13,6 +13,7 @@
     <string name="sabah_feed">http://www.sabah.com.tr/rss/spor.xml</string>
     <string name="aspor_feed">http://www.aspor.com.tr/rss/WebTV.xml</string>
     <string name="trtspor_feed">http://www.aspor.com.tr/rss/WebTV.xml</string>
+    <string name="puan_durumu_url">http://www.ligtv.com.tr/lig/spor-toto-super-lig/puan-durumu</string>
 
 
 
@@ -26,6 +27,7 @@
         <item >HT Spor</item>
         <item >Fotomaç</item>
         <item >Puan Durumu</item>
+        <item >Fikstür</item>
     </string-array>
 
     <!-- Nav Drawer List Item Icons -->
@@ -38,6 +40,7 @@
         <item>@mipmap/haberturk</item>
         <item>@mipmap/fotomac</item>
         <item>@mipmap/puan_durumu</item>
+        <item>@mipmap/fikstur</item>
     </array>
 
     <!-- Content Description -->

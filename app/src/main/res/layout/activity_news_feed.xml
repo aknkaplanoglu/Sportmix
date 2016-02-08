@@ -23,7 +23,7 @@
         android:divider="#00ff085e"
         android:dividerHeight="1dp"
         android:listSelector="@drawable/list_selector"
-        android:background="@drawable/action_bar_background"/>
+        android:background="@drawable/project_background"/>
 
     <!--<ListView
         android:id="@+id/navList1"
@@ -34,7 +34,7 @@
         android:divider="#00ff085e"
         android:dividerHeight="1dp"
         android:listSelector="@drawable/list_selector"
-        android:background="@drawable/action_bar_background"/>-->
+        android:background="@drawable/project_background"/>-->
 
 
 </android.support.v4.widget.DrawerLayout>

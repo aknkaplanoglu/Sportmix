@@ -39,6 +39,7 @@ import tech.ozak.bjkhaber.fragment.FotomacFragment;
 import tech.ozak.bjkhaber.fragment.HaberTurkFragment;
 import tech.ozak.bjkhaber.fragment.LigTvFragment;
 import tech.ozak.bjkhaber.fragment.NtvSporFragment;
+import tech.ozak.bjkhaber.fragment.PuanDurumuFragment;
 import tech.ozak.bjkhaber.fragment.SabahFragment;
 import tech.ozak.bjkhaber.handler.RssReader;
 
@@ -126,8 +127,10 @@ public class FeedActivityMain extends ActionBarActivity {
         navDrawerItems.add(new NavDrawerItem(navMenuTitles[4], navMenuIcons.getResourceId(4, -1)));
         // What's hot, We  will add a counter here
         navDrawerItems.add(new NavDrawerItem(navMenuTitles[5], navMenuIcons.getResourceId(5, -1)));
-
+        // puan durumu
         navDrawerItems.add(new NavDrawerItem(navMenuTitles[6], navMenuIcons.getResourceId(6, -1)));
+        // fikstür
+        navDrawerItems.add(new NavDrawerItem(navMenuTitles[7], navMenuIcons.getResourceId(7, -1)));
 
         // Recycle the typed array
         navMenuIcons.recycle();
@@ -304,7 +307,16 @@ public class FeedActivityMain extends ActionBarActivity {
 
                 getSupportActionBar().setTitle(Html.fromHtml("<font color='#786a6a'>" + "FOTOMAÇ"));
                 break;
+            // puan durumu
             case 6:
+                alertDialog=new SpotsDialog(this,R.style.Custom_Progress_Dialog);
+                setCustomAlertDialog();
+                new PuanDurumuAsyncTask(this).execute("");
+
+                getSupportActionBar().setTitle(Html.fromHtml("<font color='#786a6a'>" + "FOTOMAÇ"));
+                break;
+            // fikstur
+            case 7:
                 alertDialog=new SpotsDialog(this,R.style.Custom_Progress_Dialog);
                 setCustomAlertDialog();
                 new FotomacAsyncTask(this).execute(getResources().getString(R.string.fotomac_feed));
@@ -551,6 +563,70 @@ public class FeedActivityMain extends ActionBarActivity {
             try {
                 // Create RSS reader
                 rssItems= RssReader.getLatestRssFeed(params[0]);
+            } catch (Exception e) {
+                Log.e("ITCRssReader", e.getMessage());
+            }
+            return true;
+        }
+
+    }
+
+
+    private class PuanDurumuAsyncTask extends AsyncTask<String, Void, Boolean> {
+
+        private Activity activity;
+
+        private Thread thread;
+        /** progress dialog to show user that the backup is processing. */
+
+        public PuanDurumuAsyncTask(Activity activity) {
+            this.activity = activity;
+            context = activity;
+        }
+
+        /** application context. */
+        private Context context;
+
+        protected void onPreExecute() {
+
+            alertDialog.show();
+           /* if (rssItems!=null && !rssItems.isEmpty()){
+                rssItems.clear();
+            }*/
+        }
+
+
+        @Override
+        protected void onPostExecute(final Boolean success) {
+            if (success){
+                Log.d("Rss Size FEEDACTIVITY: ", String.valueOf(rssItems.size()));
+                Fragment fragment = new PuanDurumuFragment();
+
+                if (fragment != null) {
+                    FragmentManager fragmentManager = getFragmentManager();
+                    fragmentManager.beginTransaction()
+                            .replace(R.id.frame_container, fragment).addToBackStack(null).commit();
+
+                    // update selected item and title, then close the drawer
+                    mDrawerList.setItemChecked(6, true);
+                    mDrawerList.setSelection(6);
+                    setTitle(navMenuTitles[6]);
+                    mDrawerLayout.closeDrawer(mDrawerList);
+                } else {
+                    // error in creating fragment
+                    Log.e("MainActivity", "Error in creating fragment");
+                }
+
+            }
+            alertDialog.dismiss();
+        }
+
+        @Override
+        protected Boolean doInBackground(String... params) {
+
+            try {
+                // Create RSS reader
+               // rssItems= RssReader.getLatestRssFeed(params[0]);
             } catch (Exception e) {
                 Log.e("ITCRssReader", e.getMessage());
             }
