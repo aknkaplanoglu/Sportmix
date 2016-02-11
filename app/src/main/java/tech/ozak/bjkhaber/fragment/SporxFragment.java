@@ -15,7 +15,7 @@ import android.widget.ListView;
 
 import java.util.List;
 
-import tech.ozak.bjkhaber.FeedActivityMain;
+import tech.ozak.bjkhaber.ListActivity;
 import tech.ozak.bjkhaber.R;
 import tech.ozak.bjkhaber.adapter.PostItemAdapter;
 import tech.ozak.bjkhaber.dto.RssItem;
@@ -51,7 +51,7 @@ public class SporxFragment extends Fragment{
     }
 
     private void fillTheData(View v) {
-        rssItems = FeedActivityMain.getInstance().getRssItems();
+        rssItems = ListActivity.getInstance().getRssItems();
 
         if (this.rssItems !=null && !this.rssItems.isEmpty()) {
             Log.e("Rss item size : ",String.valueOf(this.rssItems.size()));

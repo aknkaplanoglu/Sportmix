@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">Sportmix</string>
 
-    <string name="hello_world">Hello world!</string>
+    <string name="loading">Yükleniyor lütfen bekleyiniz</string>
     <string name="action_settings">Settings</string>
     <string name="drawer_open">Open navigation drawer</string>
     <string name="drawer_close">Close navigation drawer</string>

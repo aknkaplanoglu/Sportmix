@@ -12,31 +12,28 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
-import android.view.Gravity;
-import android.view.Window;
-import android.view.WindowManager;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
 import tech.ozak.bjkhaber.dto.RssItem;
 import tech.ozak.bjkhaber.handler.RssReader;
-import tech.ozak.bjkhaber.progressBar.CircleProgress;
 
+/**
+ * Created by ako on 09-Feb-16.
+ */
+public class SplashActivity extends Activity {
 
-public class NewsFeed extends Activity {
-
-    public static NewsFeed mInstance;
+    public static SplashActivity mInstance;
     static final int DIALOG_ERROR_CONNECTION = 1;
     List<String> headlines;
     List<String> links;
     List<RssItem> rssItems;
     private final int SPLASH_DISPLAY_LENGTH = 4000;
     AlertDialog alertDialog;
-    private CircleProgress mProgressView;
+
+ //   private ProgressWheel pwOne;
+   // private CircleProgress mProgressView;
 
 
     public List<RssItem> getRssItems() {
@@ -55,26 +52,14 @@ public class NewsFeed extends Activity {
             showDialog(DIALOG_ERROR_CONNECTION); //displaying the created dialog.
         }
         else{
-            setContentView(R.layout.activity_splash);
+            setContentView(R.layout.splash_screen);
             headlines=new ArrayList<String>();
             links=new ArrayList<String>();
-            // Initializing instance variables
-            mProgressView = (CircleProgress) findViewById(R.id.progress);
-           /* alertDialog=new SpotsDialog(NewsFeed.this,R.style.Custom_Progress_Dialog);
-            alertDialog.show();
-            setCustomAlertDialog();*/
-            float factor = 5;
-            mProgressView.setRadius(factor);
-            mProgressView.startAnim();
-            //mProgressView.setRadius();
-
-             /* New Handler to start the Menu-Activity
-         * and close this Splash-Screen after some seconds.*/
             new Handler().postDelayed(new Runnable() {
                 @Override
                 public void run() {
                 /* Create an Intent that will start the Menu-Activity. */
-                    new ProgressTask(NewsFeed.this).execute();
+                    new ProgressTask(SplashActivity.this).execute();
                 }
             }, SPLASH_DISPLAY_LENGTH);
 
@@ -83,14 +68,6 @@ public class NewsFeed extends Activity {
 
     }
 
-    private void setCustomAlertDialog() {
-        Window window = this.alertDialog.getWindow();
-        window.setGravity(Gravity.BOTTOM);
-        this.alertDialog.setCancelable(true);
-        alertDialog.setInverseBackgroundForced(true);
-        alertDialog.getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
-
-    }
 
     public boolean isOnline(Context c) {
         ConnectivityManager cm = (ConnectivityManager) c
@@ -103,7 +80,7 @@ public class NewsFeed extends Activity {
             return false;
     }
 
-    public static NewsFeed getInstance() {
+    public static SplashActivity getInstance() {
         return mInstance;
     }
 
@@ -141,13 +118,6 @@ public class NewsFeed extends Activity {
         startActivity(intent);
     }
 
-    public InputStream getInputStream(URL url) {
-        try {
-            return url.openConnection().getInputStream();
-        } catch (IOException e) {
-            return null;
-        }
-    }
 
 
 
@@ -178,12 +148,11 @@ public class NewsFeed extends Activity {
 
 
              /* Create an Intent that will start the Menu-Activity. */
-            Intent i = new Intent(NewsFeed.this, FeedActivityMain.class);
+            Intent i = new Intent(SplashActivity.this, ListActivity.class);
             startActivity(i);
             // Dont return back to the splash screen
             finish();
-            mProgressView.stopAnim();
-           // alertDialog.dismiss();
+
 
 
         }
@@ -191,11 +160,9 @@ public class NewsFeed extends Activity {
         @Override
         protected Boolean doInBackground(String... params) {
 
-
-
             try {
                 // Create RSS reader
-                rssItems=RssReader.getLatestRssFeed(getResources().getString(R.string.ntvspor_feed));
+                rssItems= RssReader.getLatestRssFeed(getResources().getString(R.string.ntvspor_feed));
             } catch (Exception e) {
                 Log.e("ITCRssReader", e.getMessage());
             }
@@ -205,3 +172,4 @@ public class NewsFeed extends Activity {
     }
 
 }
+

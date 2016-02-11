@@ -12,8 +12,8 @@ import com.nhaarman.listviewanimations.appearance.simple.SwingBottomInAnimationA
 
 import java.util.List;
 
-import tech.ozak.bjkhaber.NewsFeed;
 import tech.ozak.bjkhaber.R;
+import tech.ozak.bjkhaber.SplashActivity;
 import tech.ozak.bjkhaber.adapter.PostItemAdapter;
 import tech.ozak.bjkhaber.dto.RssItem;
 
@@ -39,8 +39,8 @@ public class NtvSporFragment extends Fragment {
     }
 
     private void fillTheData(View v) {
-        NewsFeed newsFeed = NewsFeed.getInstance();
-        rssItems = newsFeed.getRssItems();
+        SplashActivity splashActivity = SplashActivity.getInstance();
+        rssItems = splashActivity.getRssItems();
         listData = new RssItem[rssItems.size()];
         for (int i = 0; i < rssItems.size(); i++) {
             listData[i] = rssItems.get(i);

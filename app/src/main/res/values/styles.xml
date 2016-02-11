@@ -6,7 +6,7 @@
 
 
     <!-- Customize your theme here. -->
-    <style name="NewsFeedTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+    <style name="SplashActivityTheme" parent="Theme.AppCompat.Light.DarkActionBar">
         <item name="android:textColorPrimary">#786a6a</item>
     </style>
 
@@ -16,7 +16,6 @@
         <item name="DialogSpotColor">@android:color/holo_orange_dark</item>
         <item name="DialogSpotCount">8</item>
     </style>
-
 
 
 </resources>

@@ -47,9 +47,9 @@ import tech.ozak.bjkhaber.handler.RssReader;
 /**
  * Created by ako on 10/9/2015.
  */
-public class FeedActivityMain extends ActionBarActivity {
+public class ListActivity extends ActionBarActivity {
 
-    public static FeedActivityMain mInstance;
+    public static ListActivity mInstance;
     List<RssItem> rssItems=new ArrayList<RssItem>();
     private RssItem[] listData;
 
@@ -95,7 +95,7 @@ public class FeedActivityMain extends ActionBarActivity {
 
     }
 
-    public static FeedActivityMain getInstance() {
+    public static ListActivity getInstance() {
         return mInstance;
     }
 
@@ -377,8 +377,8 @@ public class FeedActivityMain extends ActionBarActivity {
     }
 
     private void fillTheData() {
-        NewsFeed newsFeed = NewsFeed.getInstance();
-        rssItems = newsFeed.getRssItems();
+        SplashActivity splashActivity = SplashActivity.getInstance();
+        rssItems = splashActivity.getRssItems();
         listData = new RssItem[rssItems.size()];
         for (int i = 0; i < rssItems.size(); i++) {
             listData[i] = rssItems.get(i);

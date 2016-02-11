@@ -13,7 +13,7 @@ import com.nhaarman.listviewanimations.appearance.simple.SwingBottomInAnimationA
 
 import java.util.List;
 
-import tech.ozak.bjkhaber.FeedActivityMain;
+import tech.ozak.bjkhaber.ListActivity;
 import tech.ozak.bjkhaber.R;
 import tech.ozak.bjkhaber.adapter.PostItemAdapter;
 import tech.ozak.bjkhaber.dto.RssItem;
@@ -45,7 +45,7 @@ public class LigTvFragment extends Fragment{
 
     private void fillTheData(View v) {
 
-        List<RssItem> rssItems = FeedActivityMain.getInstance().getRssItems();
+        List<RssItem> rssItems = ListActivity.getInstance().getRssItems();
 
 
         if (rssItems !=null && !rssItems.isEmpty()){

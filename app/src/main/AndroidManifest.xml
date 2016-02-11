@@ -16,7 +16,7 @@
         android:label="@string/app_name"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".NewsFeed"
+            android:name=".SplashActivity"
             android:label="@string/app_name">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -26,9 +26,9 @@
         </activity>
 
         <activity
-            android:name=".FeedActivityMain"
+            android:name=".ListActivity"
             android:label="@string/app_name"
-            android:theme="@style/NewsFeedTheme"></activity>
+            android:theme="@style/SplashActivityTheme"></activity>
 
         <activity
             android:name=".DisplayContentActivity"
@@ -40,37 +40,37 @@
             android:name=".NtvSporContentActivity"
             android:label="@string/app_name"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar"
-            android:parentActivityName=".FeedActivityMain"></activity>
+            android:parentActivityName=".ListActivity"></activity>
 
         <activity
             android:name=".AsporContentActivity"
             android:label="@string/app_name"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar"
-            android:parentActivityName=".FeedActivityMain"></activity>
+            android:parentActivityName=".ListActivity"></activity>
 
         <activity
             android:name=".SabahContentActivity"
             android:label="@string/app_name"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar"
-            android:parentActivityName=".FeedActivityMain"></activity>
+            android:parentActivityName=".ListActivity"></activity>
 
         <activity
             android:name=".HaberTurkContentActivity"
             android:label="@string/app_name"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar"
-            android:parentActivityName=".FeedActivityMain"></activity>
+            android:parentActivityName=".ListActivity"></activity>
 
         <activity
             android:name=".LigTvContentActivity"
             android:label="@string/app_name"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar"
-            android:parentActivityName=".FeedActivityMain"></activity>
+            android:parentActivityName=".ListActivity"></activity>
 
         <activity
             android:name=".FotomacContentActivity"
             android:label="@string/app_name"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar"
-            android:parentActivityName=".FeedActivityMain"></activity>
+            android:parentActivityName=".ListActivity"></activity>
 
     </application>
 

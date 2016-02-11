@@ -42,6 +42,5 @@ dependencies {
     compile 'com.nineoldandroids:library:2.4.0'
     compile 'org.jsoup:jsoup:1.8.3'
     compile 'net.sourceforge.htmlcleaner:htmlcleaner:2.16'
-
-
+    compile 'com.antonionicolaspina:revealtextview:2.0'
 }

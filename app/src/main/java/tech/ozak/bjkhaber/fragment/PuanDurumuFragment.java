@@ -3,7 +3,6 @@ package tech.ozak.bjkhaber.fragment;
 import android.app.AlertDialog;
 import android.app.Fragment;
 import android.content.Context;
-import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -16,29 +15,19 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
-import android.widget.ListView;
-import android.widget.ProgressBar;
 
-import com.nhaarman.listviewanimations.appearance.simple.SwingBottomInAnimationAdapter;
-
-import org.apache.commons.lang3.StringUtils;
 import org.htmlcleaner.CleanerProperties;
 import org.htmlcleaner.HtmlCleaner;
 import org.htmlcleaner.SimpleHtmlSerializer;
 import org.htmlcleaner.TagNode;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
-import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
 import java.io.IOException;
-import java.util.List;
 
 import dmax.dialog.SpotsDialog;
-import tech.ozak.bjkhaber.FeedActivityMain;
 import tech.ozak.bjkhaber.R;
-import tech.ozak.bjkhaber.adapter.PostItemAdapter;
-import tech.ozak.bjkhaber.dto.RssItem;
 
 /**
  * Created by ako on 07-Feb-16.
