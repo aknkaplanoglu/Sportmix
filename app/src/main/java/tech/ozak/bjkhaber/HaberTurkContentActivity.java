@@ -3,6 +3,7 @@ package tech.ozak.bjkhaber;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.res.Resources;
+import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -16,6 +17,7 @@ import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 
@@ -36,6 +38,7 @@ public class HaberTurkContentActivity extends AppCompatActivity {
 
     private ImageView imageView;
     private WebView webView;
+    private TextView textView;
 
 
     @Override
@@ -44,6 +47,14 @@ public class HaberTurkContentActivity extends AppCompatActivity {
 
 
         setContentView(R.layout.activity_show_content);
+
+        Intent i = getIntent();
+        String feed_link = i.getStringExtra("feed_link");
+        String img_link = i.getStringExtra("img_link");
+        String header = i.getStringExtra("header");
+        textView= (TextView) findViewById(R.id.header);
+        textView.setText(header);
+
         Toolbar myToolbar = (Toolbar) findViewById(R.id.my_toolbar);
         setSupportActionBar(myToolbar);
 
@@ -57,13 +68,10 @@ public class HaberTurkContentActivity extends AppCompatActivity {
 
         imageView= (ImageView) findViewById(R.id.imagevw);
         webView= (WebView) findViewById(R.id.webViewFeed);
-
+        webView.setBackgroundColor(Color.TRANSPARENT);
         //setting webview features.
         setWebViewSettings();
 
-        Intent i = getIntent();
-        String feed_link = i.getStringExtra("feed_link");
-        String img_link = i.getStringExtra("img_link");
 
 
         int height = this.getResources().getDisplayMetrics().heightPixels*1/4;
@@ -150,10 +158,10 @@ public class HaberTurkContentActivity extends AppCompatActivity {
 
                 System.out.println(doc.html());
 
-                doc.getElementsByClass("group row-fluid mbottom20 news-wd").remove();
+                //doc.getElementsByClass("group row-fluid mbottom20 news-wd").remove();
 
                 Elements select = doc.select("div[itemprop=articleBody]");
-
+                select.select(".group").remove();
                 newPage = select.html();
 
 

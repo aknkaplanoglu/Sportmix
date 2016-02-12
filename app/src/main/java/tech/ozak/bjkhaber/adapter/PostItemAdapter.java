@@ -151,12 +151,13 @@ public class PostItemAdapter extends ArrayAdapter<RssItem> implements View.OnCli
             RssItem rssItem = datas[mPosition];
             String feedLink = rssItem.getFeedLink();
             String imgLink = rssItem.getImgLink();
-
+            String header = rssItem.getTitle();
             intent = decideWhichIntent(feedLink);
 
 
             intent.putExtra("feed_link", feedLink);
             intent.putExtra("img_link", imgLink);
+            intent.putExtra("header",header);
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             myContext.startActivity(intent);
             //       myContext.overridePendingTransition(R.anim.abc_fade_in,R.anim.abc_fade_out);

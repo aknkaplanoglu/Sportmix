@@ -31,7 +31,7 @@ public class SplashActivity extends Activity {
     List<String> headlines;
     List<String> links;
     List<RssItem> rssItems;
-    private final int SPLASH_DISPLAY_LENGTH = 4000;
+    private final int SPLASH_DISPLAY_LENGTH = 5000;
     AlertDialog alertDialog;
     RevealTextView revealTextView;
 

@@ -1,7 +1,8 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@drawable/real_action_bar">
 
 
     <com.antonionicolaspina.revealtextview.RevealTextView
@@ -12,8 +13,9 @@
         android:layout_centerHorizontal="true"
         android:layout_centerVertical="true"
         android:id="@+id/reveal"
-        android:textSize="25dp"
-        android:textColor="#de08a0ff"/>
+        android:textSize="30dp"
+        android:textColor="#de08a0ff"
+        android:textStyle="bold"/>/>
 
 
    <!-- <ImageView
