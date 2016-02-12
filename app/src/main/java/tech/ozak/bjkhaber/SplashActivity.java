@@ -13,6 +13,8 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
 
+import com.antonionicolaspina.revealtextview.RevealTextView;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -31,6 +33,7 @@ public class SplashActivity extends Activity {
     List<RssItem> rssItems;
     private final int SPLASH_DISPLAY_LENGTH = 4000;
     AlertDialog alertDialog;
+    RevealTextView revealTextView;
 
  //   private ProgressWheel pwOne;
    // private CircleProgress mProgressView;
@@ -53,6 +56,8 @@ public class SplashActivity extends Activity {
         }
         else{
             setContentView(R.layout.splash_screen);
+            revealTextView= (RevealTextView) findViewById(R.id.reveal);
+            revealTextView.replayAnimation();
             headlines=new ArrayList<String>();
             links=new ArrayList<String>();
             new Handler().postDelayed(new Runnable() {
