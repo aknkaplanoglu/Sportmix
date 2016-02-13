@@ -42,7 +42,6 @@ public class AsporContentActivity extends AppCompatActivity {
     private WebView webView;
     private TextView textView;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
