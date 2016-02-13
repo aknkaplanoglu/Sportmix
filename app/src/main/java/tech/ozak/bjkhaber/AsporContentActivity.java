@@ -86,8 +86,8 @@ public class AsporContentActivity extends AppCompatActivity {
         Glide.with(this)
                 .load(img_link)
                 .override(width, height)
-                .placeholder(R.drawable.sportmix_logo)
-                .error(R.drawable.imglogo)
+                .placeholder(R.mipmap.aspor)
+                .error(R.mipmap.aspor)
                 .into(imageView);
         new ProgressTask(this).execute(feed_link);
 

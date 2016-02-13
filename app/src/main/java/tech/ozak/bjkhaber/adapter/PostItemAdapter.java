@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.support.annotation.NonNull;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -107,29 +108,91 @@ public class PostItemAdapter extends ArrayAdapter<RssItem> implements View.OnCli
                 .error(R.drawable.imglogo)
                 .into(holder.postThumbView);*/
         String imgLink = post.getImgLink();
-        if (StringUtils.isNotBlank(imgLink)) {
-            Glide.with(myContext)
-                    .load(imgLink)
-                    .override(width, height)
-                    .diskCacheStrategy(DiskCacheStrategy.ALL)
-                    .placeholder(R.drawable.sportmix_logo)
-                    .error(R.drawable.imglogo)
-                    .into(holder.postThumbView);
-        }
-        else{
-            Glide.with(myContext)
-                    .load(imgLink)
-                    .override(width, height)
-                    .diskCacheStrategy(DiskCacheStrategy.ALL)
-                    .placeholder(R.mipmap.fotomac)
-                    .error(R.mipmap.fotomac)
-                    .into(holder.postThumbView);
-        }
+        String feedLink = post.getFeedLink();
+        decideWhichImageOnListItem(holder, height, width, imgLink, feedLink);
 
 
         /******** Set Item Click Listner for LayoutInflater for each row ***********/
         vi.setOnClickListener(new OnItemClickListener(position));
         return vi;
+    }
+
+    private void decideWhichImageOnListItem(ViewHolder holder, int height, int width, String imgLink, String feedLink) {
+        if (StringUtils.isBlank(imgLink)) {
+            if (StringUtils.containsIgnoreCase(feedLink, "ntv")) {
+
+                Glide.with(myContext)
+                        .load(imgLink)
+                        .override(width, height)
+                        .diskCacheStrategy(DiskCacheStrategy.ALL)
+                        .placeholder(R.mipmap.ntvspor)
+                        .error(R.mipmap.ntvspor)
+                        .into(holder.postThumbView);
+
+            } else if (StringUtils.containsIgnoreCase(feedLink, "sabah")) {
+
+                Glide.with(myContext)
+                        .load(imgLink)
+                        .override(width, height)
+                        .diskCacheStrategy(DiskCacheStrategy.ALL)
+                        .placeholder(R.mipmap.sabah)
+                        .error(R.mipmap.sabah)
+                        .into(holder.postThumbView);
+
+            } else if (StringUtils.containsIgnoreCase(feedLink, "aspor")) {
+
+                Glide.with(myContext)
+                        .load(imgLink)
+                        .override(width, height)
+                        .diskCacheStrategy(DiskCacheStrategy.ALL)
+                        .placeholder(R.mipmap.aspor)
+                        .error(R.mipmap.aspor)
+                        .into(holder.postThumbView);
+
+            } else if (StringUtils.containsIgnoreCase(feedLink, "haberturk")) {
+
+                Glide.with(myContext)
+                        .load(imgLink)
+                        .override(width, height)
+                        .diskCacheStrategy(DiskCacheStrategy.ALL)
+                        .placeholder(R.mipmap.haberturk)
+                        .error(R.mipmap.haberturk)
+                        .into(holder.postThumbView);
+
+            } else if (StringUtils.containsIgnoreCase(feedLink, "ligtv")) {
+
+                Glide.with(myContext)
+                        .load(imgLink)
+                        .override(width, height)
+                        .diskCacheStrategy(DiskCacheStrategy.ALL)
+                        .placeholder(R.mipmap.ligtv)
+                        .error(R.mipmap.ligtv)
+                        .into(holder.postThumbView);
+
+            } else if (StringUtils.containsIgnoreCase(feedLink, "fotomac")) {
+
+                Glide.with(myContext)
+                        .load(imgLink)
+                        .override(width, height)
+                        .diskCacheStrategy(DiskCacheStrategy.ALL)
+                        .placeholder(R.mipmap.fotomac)
+                        .error(R.mipmap.fotomac)
+                        .into(holder.postThumbView);
+
+            } else {
+            }
+
+        }
+
+        else{
+            Glide.with(myContext)
+                    .load(imgLink)
+                    .override(width, height)
+                    .diskCacheStrategy(DiskCacheStrategy.ALL)
+                    .placeholder(Color.TRANSPARENT)
+                    .error(Color.TRANSPARENT)
+                    .into(holder.postThumbView);
+        }
     }
 
 

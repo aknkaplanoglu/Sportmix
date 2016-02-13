@@ -82,8 +82,8 @@ public class NtvSporContentActivity extends AppCompatActivity {
         Glide.with(this)
                 .load(img_link)
                 .override(width, height)
-                .placeholder(R.drawable.sportmix_logo)
-                .error(R.drawable.imglogo)
+                .placeholder(R.mipmap.ntvspor)
+                .error(R.mipmap.ntvspor)
                 .into(imageView);
         new ProgressTask().execute(feed_link);
 

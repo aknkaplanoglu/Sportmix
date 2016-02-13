@@ -81,8 +81,8 @@ public class SabahContentActivity extends AppCompatActivity {
         Glide.with(this)
                 .load(img_link)
                 .override(width, height)
-                .placeholder(R.drawable.sportmix_logo)
-                .error(R.drawable.imglogo)
+                .placeholder(R.mipmap.sabah)
+                .error(R.mipmap.sabah)
                 .into(imageView);
         new ProgressTask().execute(feed_link);
 
