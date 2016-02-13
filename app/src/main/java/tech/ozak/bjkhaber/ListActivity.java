@@ -35,6 +35,7 @@ import tech.ozak.bjkhaber.adapter.PostItemAdapter;
 import tech.ozak.bjkhaber.dto.NavDrawerItem;
 import tech.ozak.bjkhaber.dto.RssItem;
 import tech.ozak.bjkhaber.fragment.AsporFragment;
+import tech.ozak.bjkhaber.fragment.CanliSkorFragment;
 import tech.ozak.bjkhaber.fragment.FiksturFragment;
 import tech.ozak.bjkhaber.fragment.FotomacFragment;
 import tech.ozak.bjkhaber.fragment.HaberTurkFragment;
@@ -132,6 +133,8 @@ public class ListActivity extends ActionBarActivity {
         navDrawerItems.add(new NavDrawerItem(navMenuTitles[6], navMenuIcons.getResourceId(6, -1)));
         // fikstür
         navDrawerItems.add(new NavDrawerItem(navMenuTitles[7], navMenuIcons.getResourceId(7, -1)));
+        // canliskor
+        navDrawerItems.add(new NavDrawerItem(navMenuTitles[8], navMenuIcons.getResourceId(8, -1)));
 
         // Recycle the typed array
         navMenuIcons.recycle();
@@ -323,6 +326,13 @@ public class ListActivity extends ActionBarActivity {
                 new FiksturAsyncTask(this).execute("");
 
                 getSupportActionBar().setTitle(Html.fromHtml("<font color='#786a6a'>" + "FİKSTÜR"));
+                break;
+            case 8:
+                alertDialog=new SpotsDialog(this,R.style.Custom_Progress_Dialog);
+                setCustomAlertDialog();
+                new CanliSkorAsyncTask(this).execute("");
+
+                getSupportActionBar().setTitle(Html.fromHtml("<font color='#786a6a'>" + "CANLI SKOR"));
                 break;
 
             default:
@@ -628,6 +638,69 @@ public class ListActivity extends ActionBarActivity {
             try {
                 // Create RSS reader
                // rssItems= RssReader.getLatestRssFeed(params[0]);
+            } catch (Exception e) {
+                Log.e("ITCRssReader", e.getMessage());
+            }
+            return true;
+        }
+
+    }
+
+    private class CanliSkorAsyncTask extends AsyncTask<String, Void, Boolean> {
+
+        private Activity activity;
+
+        private Thread thread;
+        /** progress dialog to show user that the backup is processing. */
+
+        public CanliSkorAsyncTask(Activity activity) {
+            this.activity = activity;
+            context = activity;
+        }
+
+        /** application context. */
+        private Context context;
+
+        protected void onPreExecute() {
+
+            alertDialog.show();
+           /* if (rssItems!=null && !rssItems.isEmpty()){
+                rssItems.clear();
+            }*/
+        }
+
+
+        @Override
+        protected void onPostExecute(final Boolean success) {
+            if (success){
+                Log.d("Rss Size FEEDACTIVITY: ", String.valueOf(rssItems.size()));
+                Fragment fragment = new CanliSkorFragment();
+
+                if (fragment != null) {
+                    FragmentManager fragmentManager = getFragmentManager();
+                    fragmentManager.beginTransaction()
+                            .replace(R.id.frame_container, fragment).addToBackStack(null).commit();
+
+                    // update selected item and title, then close the drawer
+                    mDrawerList.setItemChecked(8, true);
+                    mDrawerList.setSelection(8);
+                    setTitle(navMenuTitles[8]);
+                    mDrawerLayout.closeDrawer(mDrawerList);
+                } else {
+                    // error in creating fragment
+                    Log.e("MainActivity", "Error in creating fragment");
+                }
+
+            }
+            alertDialog.dismiss();
+        }
+
+        @Override
+        protected Boolean doInBackground(String... params) {
+
+            try {
+                // Create RSS reader
+                // rssItems= RssReader.getLatestRssFeed(params[0]);
             } catch (Exception e) {
                 Log.e("ITCRssReader", e.getMessage());
             }

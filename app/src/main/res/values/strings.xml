@@ -15,6 +15,7 @@
     <string name="trtspor_feed">http://www.aspor.com.tr/rss/WebTV.xml</string>
     <string name="puan_durumu_url">http://m.ntvspor.net/f/Puan.aspx</string>
     <string name="fikstur_url">http://m.ntvspor.net/f/Fikstur.aspx</string>
+    <string name="canli_skor_url">http://m.ntvspor.net/f/Live.aspx</string>
 
 
 
@@ -29,6 +30,7 @@
         <item >Fotomaç</item>
         <item >Puan Durumu</item>
         <item >Fikstür</item>
+        <item >Canlı Skor</item>
     </string-array>
 
     <!-- Nav Drawer List Item Icons -->
@@ -42,6 +44,7 @@
         <item>@mipmap/fotomac</item>
         <item>@mipmap/puan_durumu</item>
         <item>@mipmap/fikstur</item>
+        <item>@mipmap/canliskor</item>
     </array>
 
     <!-- Content Description -->
