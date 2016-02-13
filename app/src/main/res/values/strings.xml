@@ -13,8 +13,8 @@
     <string name="sabah_feed">http://www.sabah.com.tr/rss/spor.xml</string>
     <string name="aspor_feed">http://www.aspor.com.tr/rss/WebTV.xml</string>
     <string name="trtspor_feed">http://www.aspor.com.tr/rss/WebTV.xml</string>
-    <string name="puan_durumu_url">http://www.ligtv.com.tr/lig/spor-toto-super-lig/puan-durumu</string>
-    <string name="fikstur_url">http://spor.haberler.com/superlig/puan-durumu/</string>
+    <string name="puan_durumu_url">http://m.ntvspor.net/f/Puan.aspx</string>
+    <string name="fikstur_url">http://m.ntvspor.net/f/Fikstur.aspx</string>
 
 
 

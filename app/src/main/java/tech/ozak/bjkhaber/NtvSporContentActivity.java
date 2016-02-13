@@ -46,7 +46,6 @@ public class NtvSporContentActivity extends AppCompatActivity {
 
 
         setContentView(R.layout.activity_show_content);
-
         Intent i = getIntent();
         String feed_link = i.getStringExtra("feed_link");
         String img_link = i.getStringExtra("img_link");
@@ -68,9 +67,9 @@ public class NtvSporContentActivity extends AppCompatActivity {
         imageView= (ImageView) findViewById(R.id.imagevw);
         webView= (WebView) findViewById(R.id.webViewFeed);
         webView.setBackgroundColor(Color.TRANSPARENT);
-
         //setting webview features.
         setWebViewSettings();
+
 
 
         int height = this.getResources().getDisplayMetrics().heightPixels*1/4;

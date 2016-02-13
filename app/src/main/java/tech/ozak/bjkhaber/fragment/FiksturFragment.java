@@ -102,13 +102,14 @@ public class FiksturFragment  extends Fragment {
         @Override
         protected void onPostExecute(final String page) {
 
-            HtmlCleaner cleaner = new HtmlCleaner();
+          /*  HtmlCleaner cleaner = new HtmlCleaner();
             CleanerProperties props = cleaner.getProperties();
             TagNode tagNode = new HtmlCleaner(props).clean(page);
             SimpleHtmlSerializer htmlSerializer =
                     new SimpleHtmlSerializer(props);
             webView.loadDataWithBaseURL(fikstur_url, htmlSerializer.
-                    getAsString(tagNode), "text/html", "charset=UTF-8", null);
+                    getAsString(tagNode), "text/html", "charset=UTF-8", null);*/
+            webView.loadUrl(page);
             alertDialog.dismiss();
 
             //   webView.loadData(htmlSerializer.getAsString(tagNode),"text/html","UTF-8");
@@ -119,8 +120,8 @@ public class FiksturFragment  extends Fragment {
         protected String doInBackground(String... params) {
             String newPage="";
             Document doc = null;
+            String url = params[0];
             try {
-                String url = params[0];
                 // url=url.replace("m.","www.");
                 doc = Jsoup.connect(url).userAgent("Mozilla").get();
 
@@ -129,32 +130,10 @@ public class FiksturFragment  extends Fragment {
                 System.out.println(doc.html());
                 Elements mainLeagueTablePage = doc.select(".fiksAlani");
 
-                if ( null != mainLeagueTablePage){
-                    Elements hafta = mainLeagueTablePage.select(".hafta");
-                    hafta.attr("style", "color:#D0D0D0 ;font-weight: bold;background-color:#505050");
-
-                    Elements fiksTarihDiv = mainLeagueTablePage.select(".fiksTarihDiv");
-                    fiksTarihDiv.attr("style", "color:#D0D0D0 ;font-weight: bold;background-color:#505050");
-
-                    Elements fiksTakimlarDiv = mainLeagueTablePage.select(".fiksTakimlarDiv");
-                    fiksTakimlarDiv.attr("style", "color:#0099CC ;background-color:#D8D8D8");
-
-                    Elements fiksTakimlar = mainLeagueTablePage.select(".fiksTakimlar");
-                    fiksTakimlar.attr("style", "color:#0099CC ;background-color:#D8D8D8");
-
-                    Elements tk1 = mainLeagueTablePage.select(".tk1");
-                    tk1.attr("style", "display:inline-block");
-
-                    Elements tk2 = mainLeagueTablePage.select(".tk2");
-                    tk2.attr("style", "display:inline-block");
-
-                    Elements tire = mainLeagueTablePage.select(".tire");
-                    tire.attr("style", "display:inline-block");
 
 
                     newPage = mainLeagueTablePage.html();
 
-                }
 
 
             } catch (IOException e) {
@@ -163,7 +142,7 @@ public class FiksturFragment  extends Fragment {
             }
 
 
-            return newPage;
+            return url;
         }
 
     }

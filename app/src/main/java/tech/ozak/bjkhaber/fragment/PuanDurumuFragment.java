@@ -99,13 +99,15 @@ public class PuanDurumuFragment extends Fragment {
         @Override
         protected void onPostExecute(final String page) {
 
-            HtmlCleaner cleaner = new HtmlCleaner();
+            /*HtmlCleaner cleaner = new HtmlCleaner();
             CleanerProperties props = cleaner.getProperties();
             TagNode tagNode = new HtmlCleaner(props).clean(page);
             SimpleHtmlSerializer htmlSerializer =
                     new SimpleHtmlSerializer(props);
             webView.loadDataWithBaseURL(null,htmlSerializer.
-                    getAsString(tagNode), "text/html", "charset=UTF-8",null);
+                    getAsString(tagNode), "text/html", "charset=UTF-8",null);*/
+
+            webView.loadUrl(page);
 
             alertDialog.dismiss();
             //   webView.loadData(htmlSerializer.getAsString(tagNode),"text/html","UTF-8");
@@ -116,28 +118,18 @@ public class PuanDurumuFragment extends Fragment {
         protected String doInBackground(String... params) {
             String newPage="";
             Document doc = null;
+            String url = params[0];
             try {
-                String url = params[0];
                 // url=url.replace("m.","www.");
                 doc = Jsoup.connect(url).userAgent("Mozilla").get();
 
                 System.out.println(Jsoup.connect(url).userAgent("Mozilla").get().baseUri());
 
                 System.out.println(doc.html());
-                Elements mainLeagueTablePage = doc.select("#standings_list_content");
+             //   Elements mainLeagueTablePage = doc.select("#form1");
+               // mainLeagueTablePage.select("#main").remove();
+                newPage = doc.html();
 
-
-                if ( null != mainLeagueTablePage){
-
-                //    mainLeagueTablePage.
-                    mainLeagueTablePage.select("a").text();
-                    Elements team_link = mainLeagueTablePage.select(".team_link");
-
-                    team_link.attr("style", "color:#E4DDD7 ;font-weight: bold;background-color:#BDDCFF");
-
-                    newPage = mainLeagueTablePage.html();
-
-                }
 
 
             } catch (IOException e) {
@@ -146,7 +138,7 @@ public class PuanDurumuFragment extends Fragment {
             }
 
 
-            return newPage;
+            return url;
         }
 
     }
