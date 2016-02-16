@@ -14,6 +14,8 @@
 
     <!-- Listview to display slider menu -->
     <!-- start-->
+
+
     <ListView
         android:id="@+id/navList"
         android:layout_width="0dp"
