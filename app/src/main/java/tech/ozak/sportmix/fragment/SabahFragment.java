@@ -45,6 +45,12 @@ public class SabahFragment extends Fragment implements SwipeRefreshLayout.OnRefr
 
         swipeRefreshLayout.setOnRefreshListener(this);
 
+        // Configure the refreshing colors
+        swipeRefreshLayout.setColorSchemeResources(android.R.color.holo_blue_bright,
+                android.R.color.holo_green_light,
+                android.R.color.holo_orange_light,
+                android.R.color.holo_red_light);
+
         swipeRefreshLayout.post(new Runnable() {
                                     @Override
                                     public void run() {
