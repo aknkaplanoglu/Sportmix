@@ -41,6 +41,7 @@ public class AsporContentActivity extends AppCompatActivity {
     private ImageView imageView;
     private WebView webView;
     private TextView textView;
+    ProgressBar progressBar = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,6 +56,7 @@ public class AsporContentActivity extends AppCompatActivity {
         String header = i.getStringExtra("header");
         textView= (TextView) findViewById(R.id.header);
         textView.setText(header);
+        progressBar = (ProgressBar) findViewById(R.id.progressBar);
 
         Toolbar myToolbar = (Toolbar) findViewById(R.id.my_toolbar);
         setSupportActionBar(myToolbar);
@@ -123,18 +125,15 @@ public class AsporContentActivity extends AppCompatActivity {
 
     private class ProgressTask extends AsyncTask<String, Void, String> {
 
-        private ProgressBar progressBar;
         Context c;
 
         public ProgressTask(Context context) {
 
             c=context;
-            this.progressBar = progressBar;
         }
 
 
         protected void onPreExecute() {
-            progressBar= new ProgressBar(c, null, android.R.attr.progressBarStyleSmall);
             progressBar.setVisibility(View.VISIBLE);
             Log.d("On pre execute: ", "yes");
         }

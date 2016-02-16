@@ -56,6 +56,14 @@
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"/>
 
+            <ProgressBar
+                android:id="@+id/progressBar"
+                style="?android:attr/progressBarStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background ="@drawable/progress"
+                android:layout_gravity="center_horizontal" />
+
             <WebView
                 android:id="@+id/webViewFeed"
                 android:layout_width="wrap_content"

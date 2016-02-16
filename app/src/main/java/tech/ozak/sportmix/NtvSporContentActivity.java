@@ -12,10 +12,12 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
+import android.view.View;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
@@ -38,6 +40,7 @@ public class NtvSporContentActivity extends AppCompatActivity {
     private ImageView imageView;
     private WebView webView;
     private TextView textView;
+    ProgressBar progressBar = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,8 +52,9 @@ public class NtvSporContentActivity extends AppCompatActivity {
         String feed_link = i.getStringExtra("feed_link");
         String img_link = i.getStringExtra("img_link");
         String header = i.getStringExtra("header");
-        textView= (TextView) findViewById(R.id.header);
+        textView = (TextView) findViewById(R.id.header);
         textView.setText(header);
+        progressBar = (ProgressBar) findViewById(R.id.progressBar);
 
         Toolbar myToolbar = (Toolbar) findViewById(R.id.my_toolbar);
         setSupportActionBar(myToolbar);
@@ -63,16 +67,15 @@ public class NtvSporContentActivity extends AppCompatActivity {
         // Enable the Up button
         ab.setDisplayHomeAsUpEnabled(true);
 
-        imageView= (ImageView) findViewById(R.id.imagevw);
-        webView= (WebView) findViewById(R.id.webViewFeed);
+        imageView = (ImageView) findViewById(R.id.imagevw);
+        webView = (WebView) findViewById(R.id.webViewFeed);
         webView.setBackgroundColor(Color.TRANSPARENT);
         //setting webview features.
         setWebViewSettings();
 
 
-
-        int height = this.getResources().getDisplayMetrics().heightPixels*1/4;
-        LinearLayout.LayoutParams layoutParams= (LinearLayout.LayoutParams) imageView.getLayoutParams();
+        int height = this.getResources().getDisplayMetrics().heightPixels * 1 / 4;
+        LinearLayout.LayoutParams layoutParams = (LinearLayout.LayoutParams) imageView.getLayoutParams();
         layoutParams.height = height;
         imageView.setLayoutParams(layoutParams);
         int width = this.getResources().getDisplayMetrics().widthPixels;
@@ -84,8 +87,6 @@ public class NtvSporContentActivity extends AppCompatActivity {
                 .error(R.mipmap.ntvspor)
                 .into(imageView);
         new ProgressTask().execute(feed_link);
-
-
 
 
     }
@@ -120,10 +121,9 @@ public class NtvSporContentActivity extends AppCompatActivity {
     private class ProgressTask extends AsyncTask<String, Void, String> {
 
 
-
         protected void onPreExecute() {
-
-           Log.d("On pre execute: ","yes");
+            progressBar.setVisibility(View.VISIBLE);
+            Log.d("On pre execute: ", "yes");
         }
 
 
@@ -135,20 +135,21 @@ public class NtvSporContentActivity extends AppCompatActivity {
             TagNode tagNode = new HtmlCleaner(props).clean(page);
             SimpleHtmlSerializer htmlSerializer =
                     new SimpleHtmlSerializer(props);
-            webView.loadDataWithBaseURL(null,htmlSerializer.
-                    getAsString(tagNode), "text/html", "charset=UTF-8",null);
+            webView.loadDataWithBaseURL(null, htmlSerializer.
+                    getAsString(tagNode), "text/html", "charset=UTF-8", null);
+            progressBar.setVisibility(View.GONE);
 
-         //   webView.loadData(htmlSerializer.getAsString(tagNode),"text/html","UTF-8");
+            //   webView.loadData(htmlSerializer.getAsString(tagNode),"text/html","UTF-8");
 
         }
 
         @Override
         protected String doInBackground(String... params) {
-            String newPage="";
+            String newPage = "";
             Document doc = null;
             try {
                 String url = params[0];
-               // url=url.replace("m.","www.");
+                // url=url.replace("m.","www.");
                 doc = Jsoup.connect(url).userAgent("Mozilla").get();
 
                 System.out.println(Jsoup.connect(url).userAgent("Mozilla").get().baseUri());

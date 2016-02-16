@@ -12,10 +12,12 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
+import android.view.View;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
@@ -39,6 +41,7 @@ public class FotomacContentActivity extends AppCompatActivity {
     private ImageView imageView;
     private WebView webView;
     private TextView textView;
+    ProgressBar progressBar = null;
 
 
     @Override
@@ -54,6 +57,7 @@ public class FotomacContentActivity extends AppCompatActivity {
         String header = i.getStringExtra("header");
         textView= (TextView) findViewById(R.id.header);
         textView.setText(header);
+        progressBar = (ProgressBar) findViewById(R.id.progressBar);
 
         Toolbar myToolbar = (Toolbar) findViewById(R.id.my_toolbar);
         setSupportActionBar(myToolbar);
@@ -113,7 +117,7 @@ public class FotomacContentActivity extends AppCompatActivity {
 
 
         protected void onPreExecute() {
-
+            progressBar.setVisibility(View.VISIBLE);
             Log.d("On pre execute: ", "yes");
         }
 
@@ -128,6 +132,7 @@ public class FotomacContentActivity extends AppCompatActivity {
                     new SimpleHtmlSerializer(props);
             webView.loadDataWithBaseURL(null,htmlSerializer.
                     getAsString(tagNode), "text/html", "charset=UTF-8",null);
+            progressBar.setVisibility(View.GONE);
 
             //   webView.loadData(htmlSerializer.getAsString(tagNode),"text/html","UTF-8");
 
