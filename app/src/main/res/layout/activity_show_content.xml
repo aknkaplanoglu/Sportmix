@@ -27,7 +27,6 @@
             android:weightSum="4">
 
 
-
             <ImageView
                 android:id="@+id/imagevw"
                 android:layout_width="fill_parent"
@@ -41,9 +40,9 @@
                 android:id="@+id/header"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
+                android:layout_marginTop="10dp"
                 android:text=""
                 android:textSize="20dp"
                 android:textStyle="bold" />
@@ -51,25 +50,35 @@
             <View
                 android:layout_width="fill_parent"
                 android:layout_height="2dp"
-                android:background="#de08a0ff"
-                android:layout_marginTop="10dp"
                 android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"/>
-
-            <ProgressBar
-                android:id="@+id/progressBar"
-                style="?android:attr/progressBarStyle"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background ="@drawable/progress"
-                android:layout_gravity="center_horizontal" />
-
-            <WebView
-                android:id="@+id/webViewFeed"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_marginRight="10dp"
                 android:layout_marginTop="10dp"
-                android:layout_weight="3" />
+                android:background="#de08a0ff" />
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:layout_marginTop="10dp"
+                android:layout_gravity="center_vertical|center_horizontal"
+                android:gravity="center_vertical|center_horizontal">
+
+                <WebView
+                    android:id="@+id/webViewFeed"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="3" />
+
+                <ProgressBar
+                    android:id="@+id/progressBar"
+                    style="?android:attr/progressBarStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/progress"
+                    android:layout_gravity="center_vertical|center_horizontal" />
+
+
+            </FrameLayout>
         </LinearLayout>
 
     </ScrollView>
