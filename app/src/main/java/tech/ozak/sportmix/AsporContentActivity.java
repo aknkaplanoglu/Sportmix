@@ -8,10 +8,13 @@ import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.NavUtils;
+import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.ShareActionProvider;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.webkit.WebSettings;
@@ -42,6 +45,7 @@ public class AsporContentActivity extends AppCompatActivity {
     private WebView webView;
     private TextView textView;
     ProgressBar progressBar = null;
+    ShareActionProvider provider;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -94,6 +98,27 @@ public class AsporContentActivity extends AppCompatActivity {
 
 
 
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.content_share_menu, menu);
+
+        // Get the ActionProvider for later usage
+        MenuItem item = menu.findItem(R.id.menu_share);
+        provider= (ShareActionProvider) MenuItemCompat.getActionProvider(item);
+
+        doShare();
+        return true;
+    }
+
+    public void doShare() {
+        // populate the share intent with data
+        Intent intent = new Intent(Intent.ACTION_SEND);
+        intent.setType("text/plain");
+        String feed_link = getIntent().getStringExtra("feed_link");
+        intent.putExtra(Intent.EXTRA_TEXT, feed_link);
+        provider.setShareIntent(intent);
     }
 
     public boolean onOptionsItemSelected(MenuItem item) {
