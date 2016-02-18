@@ -37,121 +37,109 @@ import tech.ozak.sportmix.dto.RssItem;
 
 public class RSSHandler extends DefaultHandler {
 
-	// Feed and Article objects to use for temporary storage
-	private RssItem currentArticle = new RssItem();
-	private List<RssItem> articleList = new ArrayList<RssItem>();
+    // Feed and Article objects to use for temporary storage
+    private RssItem currentArticle = new RssItem();
+    private List<RssItem> articleList = new ArrayList<RssItem>();
 
-	// Number of articles added so far
-	private int articlesAdded = 0;
+    // Number of articles added so far
+    private int articlesAdded = 0;
 
-	// Number of articles to download
-	private static final int ARTICLES_LIMIT = 15;
-	
-	//Current characters being accumulated
-	StringBuffer chars = new StringBuffer();
+    // Number of articles to download
+    private static final int ARTICLES_LIMIT = 15;
 
-	
-	/* 
-	 * This method is called everytime a start element is found (an opening XML marker)
-	 * here we always reset the characters StringBuffer as we are only currently interested
-	 * in the the text values stored at leaf nodes
-	 * 
-	 * (non-Javadoc)
-	 * @see org.xml.sax.helpers.DefaultHandler#startElement(java.lang.String, java.lang.String, java.lang.String, org.xml.sax.Attributes)
-	 */
-	public void startElement(String uri, String localName, String qName, Attributes atts) {
-		chars = new StringBuffer();
-	}
+    //Current characters being accumulated
+    StringBuffer chars = new StringBuffer();
 
 
-
-	/* 
-	 * This method is called everytime an end element is found (a closing XML marker)
-	 * here we check what element is being closed, if it is a relevant leaf node that we are
-	 * checking, such as Title, then we get the characters we have accumulated in the StringBuffer
-	 * and set the current Article's title to the value
-	 * 
-	 * If this is closing the "Item", it means it is the end of the article, so we add that to the list
-	 * and then reset our Article object for the next one on the stream
-	 * 
-	 * 
-	 * (non-Javadoc)
-	 * @see org.xml.sax.helpers.DefaultHandler#endElement(java.lang.String, java.lang.String, java.lang.String)
-	 */
-	public void endElement(String uri, String localName, String qName) throws SAXException {
-
-		if (localName.equalsIgnoreCase("title"))
-		{
-			Log.d("LOGGING RSS XML", "Setting article title: " + chars.toString());
-			currentArticle.setTitle(chars.toString());
-
-		}
-		else if (localName.equalsIgnoreCase("description"))
-		{
-			Log.d("LOGGING RSS XML", "Setting article description: " + chars.toString());
-			currentArticle.setDescription(chars.toString());
-		}
-		else if (localName.equalsIgnoreCase("pubDate"))
-		{
-			Log.d("LOGGING RSS XML", "Setting article published date: " + chars.toString());
-			currentArticle.setPubDate(chars.toString());
-		}
-		else if (localName.equalsIgnoreCase("encoded"))
-		{
-			Log.d("LOGGING RSS XML", "Setting article content: " + chars.toString());
-			currentArticle.setEncodedContent(chars.toString());
-		}
-		else if (localName.equalsIgnoreCase("item"))
-		{
-
-		}
-		else if (localName.equalsIgnoreCase("link"))
-		{
-			try {
-				Log.d("LOGGING RSS XML", "Setting article link url: " + chars.toString());
-				currentArticle.setUrl(new URL(chars.toString()));
-				currentArticle.setFeedLink(chars.toString());
-			} catch (MalformedURLException e) {
-				Log.e("RSA Error", e.getMessage());
-			}
-
-		}
+    /*
+     * This method is called everytime a start element is found (an opening XML marker)
+     * here we always reset the characters StringBuffer as we are only currently interested
+     * in the the text values stored at leaf nodes
+     *
+     * (non-Javadoc)
+     * @see org.xml.sax.helpers.DefaultHandler#startElement(java.lang.String, java.lang.String, java.lang.String, org.xml.sax.Attributes)
+     */
+    public void startElement(String uri, String localName, String qName, Attributes atts) {
+        chars = new StringBuffer();
+    }
 
 
+    /*
+     * This method is called everytime an end element is found (a closing XML marker)
+     * here we check what element is being closed, if it is a relevant leaf node that we are
+     * checking, such as Title, then we get the characters we have accumulated in the StringBuffer
+     * and set the current Article's title to the value
+     *
+     * If this is closing the "Item", it means it is the end of the article, so we add that to the list
+     * and then reset our Article object for the next one on the stream
+     *
+     *
+     * (non-Javadoc)
+     * @see org.xml.sax.helpers.DefaultHandler#endElement(java.lang.String, java.lang.String, java.lang.String)
+     */
+    public void endElement(String uri, String localName, String qName) throws SAXException {
+
+        if (localName.equalsIgnoreCase("title")) {
+            Log.d("LOGGING RSS XML", "Setting article title: " + chars.toString());
+            currentArticle.setTitle(chars.toString());
+
+        } else if (localName.equalsIgnoreCase("description")) {
+            Log.d("LOGGING RSS XML", "Setting article description: " + chars.toString());
+            currentArticle.setDescription(chars.toString());
+        } else if (localName.equalsIgnoreCase("pubDate")) {
+            Log.d("LOGGING RSS XML", "Setting article published date: " + chars.toString());
+            currentArticle.setPubDate(chars.toString());
+        } else if (localName.equalsIgnoreCase("imageUrl")) {
+            String imgLink = chars.toString();
+            Log.d("LOGGING RSS XML", "Setting article image link: " + imgLink);
+            imgLink = imgLink.replace("_2", "_1");
+            Log.d("LOGGING RSS XML", "Setting article image link after _2_1: " + imgLink);
+            currentArticle.setImgLink(imgLink);
+        } else if (localName.equalsIgnoreCase("encoded")) {
+            Log.d("LOGGING RSS XML", "Setting article content: " + chars.toString());
+            currentArticle.setEncodedContent(chars.toString());
+        } else if (localName.equalsIgnoreCase("item")) {
+
+        } else if (localName.equalsIgnoreCase("link")) {
+            try {
+                Log.d("LOGGING RSS XML", "Setting article link url: " + chars.toString());
+                currentArticle.setUrl(new URL(chars.toString()));
+                currentArticle.setFeedLink(chars.toString());
+            } catch (MalformedURLException e) {
+                Log.e("RSA Error", e.getMessage());
+            }
+
+        }
 
 
-		// Check if looking for article, and if article is complete
-		if (localName.equalsIgnoreCase("item")) {
+        // Check if looking for article, and if article is complete
+        if (localName.equalsIgnoreCase("item")) {
 
-			articleList.add(currentArticle);
-			
-			currentArticle = new RssItem();
+            articleList.add(currentArticle);
 
-			// Lets check if we've hit our limit on number of articles
-			articlesAdded++;
-			if (articlesAdded >= ARTICLES_LIMIT)
-			{
-				throw new SAXException();
-			}
-		}
-	}
-	
-	
+            currentArticle = new RssItem();
+
+            // Lets check if we've hit our limit on number of articles
+            articlesAdded++;
+            if (articlesAdded >= ARTICLES_LIMIT) {
+                throw new SAXException();
+            }
+        }
+    }
 
 
-
-	/* 
-	 * This method is called when characters are found in between XML markers, however, there is no
-	 * guarante that this will be called at the end of the node, or that it will be called only once
-	 * , so we just accumulate these and then deal with them in endElement() to be sure we have all the
-	 * text
-	 * 
-	 * (non-Javadoc)
-	 * @see org.xml.sax.helpers.DefaultHandler#characters(char[], int, int)
-	 */
-	public void characters(char ch[], int start, int length) {
-		chars.append(new String(ch, start, length));
-	}
+    /*
+     * This method is called when characters are found in between XML markers, however, there is no
+     * guarante that this will be called at the end of the node, or that it will be called only once
+     * , so we just accumulate these and then deal with them in endElement() to be sure we have all the
+     * text
+     *
+     * (non-Javadoc)
+     * @see org.xml.sax.helpers.DefaultHandler#characters(char[], int, int)
+     */
+    public void characters(char ch[], int start, int length) {
+        chars.append(new String(ch, start, length));
+    }
 
 
 
@@ -168,22 +156,21 @@ public class RSSHandler extends DefaultHandler {
     }*/
 
 
+    /**
+     * This is the entry point to the parser and creates the feed to be parsed
+     *
+     * @param feedUrl
+     * @return
+     */
+    public List<RssItem> getLatestArticles(String feedUrl) {
+        URL url = null;
+        try {
 
-	/**
-	 * This is the entry point to the parser and creates the feed to be parsed
-	 * 
-	 * @param feedUrl
-	 * @return
-	 */
-	public List<RssItem> getLatestArticles(String feedUrl) {
-		URL url = null;
-		try {
+            SAXParserFactory spf = SAXParserFactory.newInstance();
+            SAXParser sp = spf.newSAXParser();
+            XMLReader xr = sp.getXMLReader();
 
-			SAXParserFactory spf = SAXParserFactory.newInstance();
-			SAXParser sp = spf.newSAXParser();
-			XMLReader xr = sp.getXMLReader();
-
-			url = new URL(feedUrl);
+            url = new URL(feedUrl);
 
 
             // for resolve java.io.FileNotFoundException: http://m.ligtv.com.tr/rss/ana-sayfa
@@ -197,35 +184,32 @@ public class RSSHandler extends DefaultHandler {
             xr.setContentHandler(this);
 
             String stringFromInputStream = getStringFromInputStream(inputStream);
-           // stringFromInputStream = excludeTurkishChar(stringFromInputStream);
+            // stringFromInputStream = excludeTurkishChar(stringFromInputStream);
 
-            Log.d("StringFromInputStream: ",stringFromInputStream);
+            Log.d("StringFromInputStream: ", stringFromInputStream);
             String unescapeHtml4 = StringEscapeUtils.unescapeHtml4(stringFromInputStream);
-            Log.d("unescapeHtml4 :  ",unescapeHtml4);
+            Log.d("unescapeHtml4 :  ", unescapeHtml4);
 
             InputSource inputSource = new InputSource();
 
 
-           // inputSource.setEncoding("ISO-8859-9");
+            inputSource.setEncoding("ISO-8859-9");
             inputSource.setCharacterStream(new StringReader(stringFromInputStream));
-        //   InputSource inputSource=new InputSource(inputStream);
+            //   InputSource inputSource=new InputSource(inputStream);
             xr.parse(inputSource);
 
 
-
-
-
-		} catch (IOException e) {
-			Log.e("RSS Handler IO", e.getMessage() + " >> " + e.toString());
-		} catch (SAXException e) {
-			//Log.e("RSS Handler SAX", e.toString());
+        } catch (IOException e) {
+            Log.e("RSS Handler IO", e.getMessage() + " >> " + e.toString());
+        } catch (SAXException e) {
+            //Log.e("RSS Handler SAX", e.toString());
             e.printStackTrace();
-		} catch (ParserConfigurationException e) {
-			Log.e("RSSHandlerParserConfig", e.toString());
-		}
-		
-		return articleList;
-	}
+        } catch (ParserConfigurationException e) {
+            Log.e("RSSHandlerParserConfig", e.toString());
+        }
+
+        return articleList;
+    }
 
     private String excludeTurkishChar(String stringFromInputStream) {
         stringFromInputStream = stringFromInputStream.replaceAll("ı", "i");
@@ -272,10 +256,10 @@ public class RSSHandler extends DefaultHandler {
     }
 
 
-  private InputStream callWebSErvice(String serviceURL){
+    private InputStream callWebSErvice(String serviceURL) {
         // http get client
-        HttpClient client=new DefaultHttpClient();
-        HttpGet getRequest=new HttpGet();
+        HttpClient client = new DefaultHttpClient();
+        HttpGet getRequest = new HttpGet();
 
         try {
             // construct a URI object
@@ -285,9 +269,9 @@ public class RSSHandler extends DefaultHandler {
         }
 
         // buffer reader to read the response
-        BufferedReader in=null;
+        BufferedReader in = null;
         // the service response
-        HttpResponse response=null;
+        HttpResponse response = null;
         try {
             // execute the request
             response = client.execute(getRequest);
@@ -296,7 +280,7 @@ public class RSSHandler extends DefaultHandler {
         } catch (IOException e) {
             Log.e("IO exception", e.toString());
         }
-        if(response!=null)
+        if (response != null)
             try {
                 HttpEntity entity = response.getEntity();
                 return entity.getContent();
@@ -306,7 +290,7 @@ public class RSSHandler extends DefaultHandler {
         else
             return null;
 
-      return null;
+        return null;
 
     }
 

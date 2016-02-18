@@ -34,7 +34,7 @@ import tech.ozak.sportmix.adapter.NavDrawerListAdapter;
 import tech.ozak.sportmix.adapter.PostItemAdapter;
 import tech.ozak.sportmix.dto.NavDrawerItem;
 import tech.ozak.sportmix.dto.RssItem;
-import tech.ozak.sportmix.fragment.AsporFragment;
+import tech.ozak.sportmix.fragment.TrtsporFragment;
 import tech.ozak.sportmix.fragment.CanliSkorFragment;
 import tech.ozak.sportmix.fragment.FiksturFragment;
 import tech.ozak.sportmix.fragment.FotomacFragment;
@@ -276,9 +276,9 @@ public class ListActivity extends ActionBarActivity {
             case 1:
                 alertDialog=new SpotsDialog(this,R.style.Custom_Progress_Dialog);
                 setCustomAlertDialog();
-                new AsporAsyncTask(this).execute(getResources().getString(R.string.aspor_feed));
+                new TrtsporAsyncTask(this).execute(getResources().getString(R.string.trtspor_feed));
 
-                getSupportActionBar().setTitle(Html.fromHtml("<font color='#786a6a'>" + "A SPOR"));
+                getSupportActionBar().setTitle(Html.fromHtml("<font color='#786a6a'>" + "TRT SPOR"));
                 break;
 
             case 2:
@@ -838,14 +838,14 @@ public class ListActivity extends ActionBarActivity {
     }
 
 
-    private class AsporAsyncTask extends AsyncTask<String, Void, Boolean> {
+    private class TrtsporAsyncTask extends AsyncTask<String, Void, Boolean> {
 
         private Activity activity;
 
         private Thread thread;
         /** progress dialog to show user that the backup is processing. */
 
-        public AsporAsyncTask(Activity activity) {
+        public TrtsporAsyncTask(Activity activity) {
             this.activity = activity;
             context = activity;
         }
@@ -866,7 +866,7 @@ public class ListActivity extends ActionBarActivity {
         protected void onPostExecute(final Boolean success) {
             if (success){
                 Log.d("Rss Size FEEDACTIVITY: ", String.valueOf(rssItems.size()));
-                Fragment fragment = new AsporFragment();
+                Fragment fragment = new TrtsporFragment();
 
                 if (fragment != null) {
                     FragmentManager fragmentManager = getFragmentManager();

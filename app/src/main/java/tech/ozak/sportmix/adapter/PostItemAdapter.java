@@ -19,7 +19,7 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy;
 
 import org.apache.commons.lang3.StringUtils;
 
-import tech.ozak.sportmix.AsporContentActivity;
+import tech.ozak.sportmix.TrtsporContentActivity;
 import tech.ozak.sportmix.FotomacContentActivity;
 import tech.ozak.sportmix.HaberTurkContentActivity;
 import tech.ozak.sportmix.LigTvContentActivity;
@@ -139,14 +139,14 @@ public class PostItemAdapter extends ArrayAdapter<RssItem> implements View.OnCli
                         .error(R.mipmap.sabah)
                         .into(holder.postThumbView);
 
-            } else if (StringUtils.containsIgnoreCase(feedLink, "aspor")) {
+            } else if (StringUtils.containsIgnoreCase(feedLink, "trt")) {
 
                 Glide.with(myContext)
                         .load(imgLink)
                         .override(width, height)
                         .diskCacheStrategy(DiskCacheStrategy.ALL)
-                        .placeholder(R.mipmap.aspor)
-                        .error(R.mipmap.aspor)
+                        .placeholder(R.mipmap.trtspor)
+                        .error(R.mipmap.trtspor)
                         .into(holder.postThumbView);
 
             } else if (StringUtils.containsIgnoreCase(feedLink, "haberturk")) {
@@ -236,8 +236,8 @@ public class PostItemAdapter extends ArrayAdapter<RssItem> implements View.OnCli
 
         } else if (StringUtils.containsIgnoreCase(feedLink, "sabah")) {
             intent = new Intent(myContext, SabahContentActivity.class);
-        } else if (StringUtils.containsIgnoreCase(feedLink, "aspor")) {
-            intent = new Intent(myContext, AsporContentActivity.class);
+        } else if (StringUtils.containsIgnoreCase(feedLink, "trt")) {
+            intent = new Intent(myContext, TrtsporContentActivity.class);
         } else if (StringUtils.containsIgnoreCase(feedLink, "haberturk")) {
             intent = new Intent(myContext, HaberTurkContentActivity.class);
         } else if (StringUtils.containsIgnoreCase(feedLink, "ligtv")) {
@@ -245,7 +245,7 @@ public class PostItemAdapter extends ArrayAdapter<RssItem> implements View.OnCli
         } else if (StringUtils.containsIgnoreCase(feedLink, "fotomac")) {
             intent = new Intent(myContext, FotomacContentActivity.class);
         }else {
-            intent = new Intent(myContext, AsporContentActivity.class);
+            intent = new Intent(myContext, TrtsporContentActivity.class);
         }
         return intent;
     }

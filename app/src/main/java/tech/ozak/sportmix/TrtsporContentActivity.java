@@ -39,7 +39,7 @@ import java.io.IOException;
 /**
  * Created by ako on 31-Dec-15.
  */
-public class AsporContentActivity extends AppCompatActivity {
+public class TrtsporContentActivity extends AppCompatActivity {
 
     private ImageView imageView;
     private WebView webView;
@@ -193,7 +193,9 @@ public class AsporContentActivity extends AppCompatActivity {
                 System.out.println(Jsoup.connect(url).userAgent("Mozilla").get().baseUri());
 
                 System.out.println(doc.html());
-                Elements newsDiv = doc.getElementsByClass("spot");
+                Elements newsDiv = doc.getElementsByClass("news-detail");
+
+                newsDiv.select("img").first().remove();
 
                 newPage = newsDiv.html();
 

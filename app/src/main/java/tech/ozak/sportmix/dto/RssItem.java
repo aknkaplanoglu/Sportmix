@@ -7,7 +7,7 @@ import java.net.URL;
 /**
  * This code encapsulates RSS item data.
  * Our application needs title and link data.
- * 
+ *
  * @author ITCuties
  *
  */
@@ -81,8 +81,8 @@ public class RssItem {
                 indexOf = img.indexOf("\'");
                 img = img.substring(0, indexOf);
             }
-
-            setImgLink(img);
+            String a=img.replace("100_100","200_200");
+            setImgLink(a);
             Log.d("LOGGING RSS XML", "Setting image link: " + img);
             this.description = this.description.replace(cleanUp, "");
         }

@@ -26,7 +26,7 @@ import tech.ozak.sportmix.dto.RssItem;
 /**
  * Created by ako on 26-Dec-15.
  */
-public class AsporFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener, DownloadAsyncTaskResponse {
+public class TrtsporFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener, DownloadAsyncTaskResponse {
 
     private PostItemAdapter itemAdapter;
     private RssItem[] listData;
@@ -117,7 +117,7 @@ public class AsporFragment extends Fragment implements SwipeRefreshLayout.OnRefr
             public void processFinish(List<RssItem> output) {
                 newRssItems = output;
             }
-        }, swipeRefreshLayout).execute(resources.getString(R.string.aspor_feed));
+        }, swipeRefreshLayout).execute(resources.getString(R.string.trtspor_feed));
 
         setNewListAdapter();
     }

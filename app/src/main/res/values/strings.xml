@@ -12,10 +12,11 @@
     <string name="haberturk_feed">http://www.haberturk.com/rss/spor.xml</string>
     <string name="sabah_feed">http://www.sabah.com.tr/rss/spor.xml</string>
     <string name="aspor_feed">http://www.aspor.com.tr/rss/WebTV.xml</string>
-    <string name="trtspor_feed">http://www.aspor.com.tr/rss/WebTV.xml</string>
+    <string name="trtspor_feed">http://www.trtspor.com/sondakika.rss</string>
     <string name="puan_durumu_url">http://m.ntvspor.net/f/Puan.aspx</string>
     <string name="fikstur_url">http://m.ntvspor.net/f/Fikstur.aspx</string>
     <string name="canli_skor_url">http://m.ntvspor.net/f/Live.aspx</string>
+    <string name="spor_haber3_feed">http://spor.haber3.com/rss/</string>
 
 
 
@@ -23,7 +24,7 @@
     <!-- Nav Drawer Menu Items -->
     <string-array name="nav_drawer_items">
         <item >Ntv Spor</item>
-        <item >A-Spor</item>
+        <item >Trt Spor</item>
         <item >Sabah-Spor</item>
         <item >Lig TV</item>
         <item >HT Spor</item>
@@ -37,7 +38,7 @@
     <!-- Keep them in order as the titles are in -->
     <array name="nav_drawer_icons">
         <item>@mipmap/ntvspor</item>
-        <item>@mipmap/aspor</item>
+        <item>@mipmap/trtspor</item>
         <item>@mipmap/sabah</item>
         <item>@mipmap/ligtv</item>
         <item>@mipmap/haberturk</item>
