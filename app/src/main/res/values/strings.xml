@@ -24,6 +24,7 @@
     <!-- Nav Drawer Menu Items -->
     <string-array name="nav_drawer_items">
         <item >Ntv Spor</item>
+        <item >Sporx</item>
         <item >Trt Spor</item>
         <item >Sabah-Spor</item>
         <item >Lig TV</item>
@@ -32,13 +33,13 @@
         <item >Puan Durumu</item>
         <item >Fikstür</item>
         <item >Canlı Skor</item>
-        <item >Sporx</item>
     </string-array>
 
     <!-- Nav Drawer List Item Icons -->
     <!-- Keep them in order as the titles are in -->
     <array name="nav_drawer_icons">
         <item>@mipmap/ntvspor</item>
+        <item>@mipmap/sporx</item>
         <item>@mipmap/trtspor</item>
         <item>@mipmap/sabah</item>
         <item>@mipmap/ligtv</item>
@@ -47,7 +48,6 @@
         <item>@mipmap/puan_durumu</item>
         <item>@mipmap/fikstur</item>
         <item>@mipmap/canliskor</item>
-        <item>@mipmap/sporx</item>
     </array>
 
     <!-- Content Description -->

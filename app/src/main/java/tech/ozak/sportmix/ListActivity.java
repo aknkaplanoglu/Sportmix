@@ -223,9 +223,9 @@ public class ListActivity extends ActionBarActivity {
                             .replace(R.id.frame_container, fragment).addToBackStack(null).commit();
 
                     // update selected item and title, then close the drawer
-                    mDrawerList.setItemChecked(4, true);
-                    mDrawerList.setSelection(4);
-                    setTitle(navMenuTitles[4]);
+                    mDrawerList.setItemChecked(5, true);
+                    mDrawerList.setSelection(5);
+                    setTitle(navMenuTitles[5]);
                     mDrawerLayout.closeDrawer(mDrawerList);
                 } else {
                     // error in creating fragment
@@ -287,9 +287,9 @@ public class ListActivity extends ActionBarActivity {
                             .replace(R.id.frame_container, fragment).addToBackStack(null).commit();
 
                     // update selected item and title, then close the drawer
-                    mDrawerList.setItemChecked(9, true);
-                    mDrawerList.setSelection(9);
-                    setTitle(navMenuTitles[9]);
+                    mDrawerList.setItemChecked(1, true);
+                    mDrawerList.setSelection(1);
+                    setTitle(navMenuTitles[1]);
                     mDrawerLayout.closeDrawer(mDrawerList);
                 } else {
                     // error in creating fragment
@@ -343,12 +343,20 @@ public class ListActivity extends ActionBarActivity {
             case 1:
                 alertDialog=new SpotsDialog(this,R.style.Custom_Progress_Dialog);
                 setCustomAlertDialog();
+                new SporxAsyncTask(this).execute(getResources().getString(R.string.sporx_feed));
+
+                getSupportActionBar().setTitle(Html.fromHtml("<font color='#786a6a'>" + "SPORX"));
+                break;
+
+            case 2:
+                alertDialog=new SpotsDialog(this,R.style.Custom_Progress_Dialog);
+                setCustomAlertDialog();
                 new TrtsporAsyncTask(this).execute(getResources().getString(R.string.trtspor_feed));
 
                 getSupportActionBar().setTitle(Html.fromHtml("<font color='#786a6a'>" + "TRT SPOR"));
                 break;
 
-            case 2:
+            case 3:
                 alertDialog=new SpotsDialog(this,R.style.Custom_Progress_Dialog);
                 setCustomAlertDialog();
                 new SabahAsyncTask(this).execute(getResources().getString(R.string.sabah_feed));
@@ -356,7 +364,7 @@ public class ListActivity extends ActionBarActivity {
                 getSupportActionBar().setTitle(Html.fromHtml("<font color='#786a6a'>" + "SABAH"));
                 break;
 
-            case 3:
+            case 4:
                 alertDialog=new SpotsDialog(this,R.style.Custom_Progress_Dialog);
                 setCustomAlertDialog();
                 new LigTvAsyncTask(this).execute(getResources().getString(R.string.ligtv_feed));
@@ -364,50 +372,47 @@ public class ListActivity extends ActionBarActivity {
                 getSupportActionBar().setTitle(Html.fromHtml("<font color='#786a6a'>" + "LİG TV"));
                 break;
 
-            case 4:
+            case 5:
                 alertDialog=new SpotsDialog(this,R.style.Custom_Progress_Dialog);
                 setCustomAlertDialog();
                 new HaberTurkAsynTask(this).execute(getResources().getString(R.string.haberturk_feed));
 
                 getSupportActionBar().setTitle(Html.fromHtml("<font color='#786a6a'>" + "HABERTÜRK"));
                 break;
-            case 5:
+            // puan durumu
+            case 6:
                 alertDialog=new SpotsDialog(this,R.style.Custom_Progress_Dialog);
                 setCustomAlertDialog();
                 new FotomacAsyncTask(this).execute(getResources().getString(R.string.fotomac_feed));
 
                 getSupportActionBar().setTitle(Html.fromHtml("<font color='#786a6a'>" + "FOTOMAÇ"));
                 break;
-            // puan durumu
-            case 6:
+
+            // fikstur
+            case 7:
                 alertDialog=new SpotsDialog(this,R.style.Custom_Progress_Dialog);
                 setCustomAlertDialog();
                 new PuanDurumuAsyncTask(this).execute("");
 
                 getSupportActionBar().setTitle(Html.fromHtml("<font color='#786a6a'>" + "PUAN DURUMU"));
                 break;
-            // fikstur
-            case 7:
+
+            case 8:
                 alertDialog=new SpotsDialog(this,R.style.Custom_Progress_Dialog);
                 setCustomAlertDialog();
                 new FiksturAsyncTask(this).execute("");
 
                 getSupportActionBar().setTitle(Html.fromHtml("<font color='#786a6a'>" + "FİKSTÜR"));
                 break;
-            case 8:
+
+            case 9:
                 alertDialog=new SpotsDialog(this,R.style.Custom_Progress_Dialog);
                 setCustomAlertDialog();
                 new CanliSkorAsyncTask(this).execute("");
 
                 getSupportActionBar().setTitle(Html.fromHtml("<font color='#786a6a'>" + "CANLI SKOR"));
                 break;
-            case 9:
-                alertDialog=new SpotsDialog(this,R.style.Custom_Progress_Dialog);
-                setCustomAlertDialog();
-                new SporxAsyncTask(this).execute(getResources().getString(R.string.sporx_feed));
 
-                getSupportActionBar().setTitle(Html.fromHtml("<font color='#786a6a'>" + "SPORX"));
-                break;
 
             default:
                 break;
@@ -565,9 +570,9 @@ public class ListActivity extends ActionBarActivity {
                             .replace(R.id.frame_container, fragment).addToBackStack(null).commit();
 
                     // update selected item and title, then close the drawer
-                    mDrawerList.setItemChecked(3, true);
-                    mDrawerList.setSelection(3);
-                    setTitle(navMenuTitles[3]);
+                    mDrawerList.setItemChecked(4, true);
+                    mDrawerList.setSelection(4);
+                    setTitle(navMenuTitles[4]);
                     mDrawerLayout.closeDrawer(mDrawerList);
                 } else {
                     // error in creating fragment
@@ -629,9 +634,9 @@ public class ListActivity extends ActionBarActivity {
                             .replace(R.id.frame_container, fragment).addToBackStack(null).commit();
 
                     // update selected item and title, then close the drawer
-                    mDrawerList.setItemChecked(5, true);
-                    mDrawerList.setSelection(5);
-                    setTitle(navMenuTitles[5]);
+                    mDrawerList.setItemChecked(6, true);
+                    mDrawerList.setSelection(6);
+                    setTitle(navMenuTitles[6]);
                     mDrawerLayout.closeDrawer(mDrawerList);
                 } else {
                     // error in creating fragment
@@ -693,9 +698,9 @@ public class ListActivity extends ActionBarActivity {
                             .replace(R.id.frame_container, fragment).addToBackStack(null).commit();
 
                     // update selected item and title, then close the drawer
-                    mDrawerList.setItemChecked(6, true);
-                    mDrawerList.setSelection(6);
-                    setTitle(navMenuTitles[6]);
+                    mDrawerList.setItemChecked(7, true);
+                    mDrawerList.setSelection(7);
+                    setTitle(navMenuTitles[7]);
                     mDrawerLayout.closeDrawer(mDrawerList);
                 } else {
                     // error in creating fragment
@@ -756,9 +761,9 @@ public class ListActivity extends ActionBarActivity {
                             .replace(R.id.frame_container, fragment).addToBackStack(null).commit();
 
                     // update selected item and title, then close the drawer
-                    mDrawerList.setItemChecked(8, true);
-                    mDrawerList.setSelection(8);
-                    setTitle(navMenuTitles[8]);
+                    mDrawerList.setItemChecked(9, true);
+                    mDrawerList.setSelection(9);
+                    setTitle(navMenuTitles[9]);
                     mDrawerLayout.closeDrawer(mDrawerList);
                 } else {
                     // error in creating fragment
@@ -820,9 +825,9 @@ public class ListActivity extends ActionBarActivity {
                             .replace(R.id.frame_container, fragment).addToBackStack(null).commit();
 
                     // update selected item and title, then close the drawer
-                    mDrawerList.setItemChecked(7, true);
-                    mDrawerList.setSelection(7);
-                    setTitle(navMenuTitles[7]);
+                    mDrawerList.setItemChecked(8, true);
+                    mDrawerList.setSelection(8);
+                    setTitle(navMenuTitles[8]);
                     mDrawerLayout.closeDrawer(mDrawerList);
                 } else {
                     // error in creating fragment
@@ -884,9 +889,9 @@ public class ListActivity extends ActionBarActivity {
                             .replace(R.id.frame_container, fragment).addToBackStack(null).commit();
 
                     // update selected item and title, then close the drawer
-                    mDrawerList.setItemChecked(2, true);
-                    mDrawerList.setSelection(2);
-                    setTitle(navMenuTitles[2]);
+                    mDrawerList.setItemChecked(3, true);
+                    mDrawerList.setSelection(3);
+                    setTitle(navMenuTitles[3]);
                     mDrawerLayout.closeDrawer(mDrawerList);
                 } else {
                     // error in creating fragment
@@ -948,9 +953,9 @@ public class ListActivity extends ActionBarActivity {
                             .replace(R.id.frame_container, fragment).addToBackStack(null).commit();
 
                     // update selected item and title, then close the drawer
-                    mDrawerList.setItemChecked(1, true);
-                    mDrawerList.setSelection(1);
-                    setTitle(navMenuTitles[1]);
+                    mDrawerList.setItemChecked(2, true);
+                    mDrawerList.setSelection(2);
+                    setTitle(navMenuTitles[2]);
                     mDrawerLayout.closeDrawer(mDrawerList);
                 } else {
                     // error in creating fragment
