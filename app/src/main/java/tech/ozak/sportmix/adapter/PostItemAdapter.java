@@ -19,6 +19,7 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy;
 
 import org.apache.commons.lang3.StringUtils;
 
+import tech.ozak.sportmix.SporxContentActivity;
 import tech.ozak.sportmix.TrtsporContentActivity;
 import tech.ozak.sportmix.FotomacContentActivity;
 import tech.ozak.sportmix.HaberTurkContentActivity;
@@ -179,6 +180,16 @@ public class PostItemAdapter extends ArrayAdapter<RssItem> implements View.OnCli
                         .error(R.mipmap.fotomac)
                         .into(holder.postThumbView);
 
+            }else if (StringUtils.containsIgnoreCase(feedLink, "sporx")) {
+
+                Glide.with(myContext)
+                        .load(imgLink)
+                        .override(width, height)
+                        .diskCacheStrategy(DiskCacheStrategy.ALL)
+                        .placeholder(R.mipmap.sporx)
+                        .error(R.mipmap.sporx)
+                        .into(holder.postThumbView);
+
             } else {
             }
 
@@ -244,6 +255,8 @@ public class PostItemAdapter extends ArrayAdapter<RssItem> implements View.OnCli
             intent = new Intent(myContext, LigTvContentActivity.class);
         } else if (StringUtils.containsIgnoreCase(feedLink, "fotomac")) {
             intent = new Intent(myContext, FotomacContentActivity.class);
+        } else if (StringUtils.containsIgnoreCase(feedLink, "sporx")) {
+            intent = new Intent(myContext, SporxContentActivity.class);
         }else {
             intent = new Intent(myContext, TrtsporContentActivity.class);
         }

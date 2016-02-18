@@ -34,6 +34,7 @@ import tech.ozak.sportmix.adapter.NavDrawerListAdapter;
 import tech.ozak.sportmix.adapter.PostItemAdapter;
 import tech.ozak.sportmix.dto.NavDrawerItem;
 import tech.ozak.sportmix.dto.RssItem;
+import tech.ozak.sportmix.fragment.SporxFragment;
 import tech.ozak.sportmix.fragment.TrtsporFragment;
 import tech.ozak.sportmix.fragment.CanliSkorFragment;
 import tech.ozak.sportmix.fragment.FiksturFragment;
@@ -135,6 +136,8 @@ public class ListActivity extends ActionBarActivity {
         navDrawerItems.add(new NavDrawerItem(navMenuTitles[7], navMenuIcons.getResourceId(7, -1)));
         // canliskor
         navDrawerItems.add(new NavDrawerItem(navMenuTitles[8], navMenuIcons.getResourceId(8, -1)));
+        // sporx
+        navDrawerItems.add(new NavDrawerItem(navMenuTitles[9], navMenuIcons.getResourceId(9, -1)));
 
         // Recycle the typed array
         navMenuIcons.recycle();
@@ -248,6 +251,70 @@ public class ListActivity extends ActionBarActivity {
     }
 
 
+    private class SporxAsyncTask extends AsyncTask<String, Void, Boolean> {
+
+        private Activity activity;
+
+        private Thread thread;
+        /** progress dialog to show user that the backup is processing. */
+
+        public SporxAsyncTask(Activity activity) {
+            this.activity = activity;
+            context = activity;
+        }
+
+        /** application context. */
+        private Context context;
+
+        protected void onPreExecute() {
+
+            alertDialog.show();
+           /* if (rssItems!=null && !rssItems.isEmpty()){
+                rssItems.clear();
+            }*/
+        }
+
+
+        @Override
+        protected void onPostExecute(final Boolean success) {
+            if (success){
+                Log.d("Rss Size FEEDACTIVITY: ", String.valueOf(rssItems.size()));
+                Fragment fragment = new SporxFragment();
+
+                if (fragment != null) {
+                    FragmentManager fragmentManager = getFragmentManager();
+                    fragmentManager.beginTransaction()
+                            .replace(R.id.frame_container, fragment).addToBackStack(null).commit();
+
+                    // update selected item and title, then close the drawer
+                    mDrawerList.setItemChecked(9, true);
+                    mDrawerList.setSelection(9);
+                    setTitle(navMenuTitles[9]);
+                    mDrawerLayout.closeDrawer(mDrawerList);
+                } else {
+                    // error in creating fragment
+                    Log.e("MainActivity", "Error in creating fragment");
+                }
+
+            }
+            alertDialog.dismiss();
+        }
+
+        @Override
+        protected Boolean doInBackground(String... params) {
+
+            try {
+                // Create RSS reader
+                rssItems= RssReader.getLatestRssFeed(params[0]);
+            } catch (Exception e) {
+                Log.e("ITCRssReader", e.getMessage());
+            }
+            return true;
+        }
+
+    }
+
+
     /**
      * Diplaying fragment view for selected nav drawer list item
      * */
@@ -333,6 +400,13 @@ public class ListActivity extends ActionBarActivity {
                 new CanliSkorAsyncTask(this).execute("");
 
                 getSupportActionBar().setTitle(Html.fromHtml("<font color='#786a6a'>" + "CANLI SKOR"));
+                break;
+            case 9:
+                alertDialog=new SpotsDialog(this,R.style.Custom_Progress_Dialog);
+                setCustomAlertDialog();
+                new SporxAsyncTask(this).execute(getResources().getString(R.string.sporx_feed));
+
+                getSupportActionBar().setTitle(Html.fromHtml("<font color='#786a6a'>" + "SPORX"));
                 break;
 
             default:

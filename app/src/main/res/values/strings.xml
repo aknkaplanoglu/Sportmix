@@ -32,6 +32,7 @@
         <item >Puan Durumu</item>
         <item >Fikstür</item>
         <item >Canlı Skor</item>
+        <item >Sporx</item>
     </string-array>
 
     <!-- Nav Drawer List Item Icons -->
@@ -46,6 +47,7 @@
         <item>@mipmap/puan_durumu</item>
         <item>@mipmap/fikstur</item>
         <item>@mipmap/canliskor</item>
+        <item>@mipmap/sporx</item>
     </array>
 
     <!-- Content Description -->

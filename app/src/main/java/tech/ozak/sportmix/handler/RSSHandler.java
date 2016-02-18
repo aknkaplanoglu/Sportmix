@@ -3,6 +3,7 @@ package tech.ozak.sportmix.handler;
 import android.util.Log;
 
 import org.apache.commons.lang3.StringEscapeUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.ClientProtocolException;
@@ -19,12 +20,14 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.Reader;
 import java.io.StringReader;
 import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.net.URLConnection;
+import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -183,20 +186,25 @@ public class RSSHandler extends DefaultHandler {
 
             xr.setContentHandler(this);
 
-            String stringFromInputStream = getStringFromInputStream(inputStream);
-            // stringFromInputStream = excludeTurkishChar(stringFromInputStream);
+            if (StringUtils.containsIgnoreCase(feedUrl, "sporx")){
+                Reader reader = new InputStreamReader(inputStream, Charset.forName("ISO-8859-9"));
+                InputSource is = new InputSource(reader);
+                xr.setContentHandler(this);
+                xr.parse(is);
 
-            Log.d("StringFromInputStream: ", stringFromInputStream);
-            String unescapeHtml4 = StringEscapeUtils.unescapeHtml4(stringFromInputStream);
-            Log.d("unescapeHtml4 :  ", unescapeHtml4);
+            }
 
-            InputSource inputSource = new InputSource();
+            else{
+                String stringFromInputStream = getStringFromInputStream(inputStream);
+
+                InputSource inputSource = new InputSource();
+
+                inputSource.setEncoding("ISO-8859-9");
+                inputSource.setCharacterStream(new StringReader(stringFromInputStream));
+                xr.parse(inputSource);
+            }
 
 
-            inputSource.setEncoding("ISO-8859-9");
-            inputSource.setCharacterStream(new StringReader(stringFromInputStream));
-            //   InputSource inputSource=new InputSource(inputStream);
-            xr.parse(inputSource);
 
 
         } catch (IOException e) {
