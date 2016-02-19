@@ -88,6 +88,7 @@ public class SabahContentActivity extends AppCompatActivity {
         Glide.with(this)
                 .load(img_link)
                 .override(width, height)
+                .centerCrop()
                 .placeholder(R.mipmap.sabah)
                 .error(R.mipmap.sabah)
                 .into(imageView);

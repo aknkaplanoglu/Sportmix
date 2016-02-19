@@ -90,6 +90,7 @@ public class HaberTurkContentActivity extends AppCompatActivity {
         Glide.with(this)
                 .load(img_link)
                 .override(width, height)
+                .fitCenter()
                 .placeholder(R.mipmap.haberturk)
                 .error(R.mipmap.haberturk)
                 .into(imageView);

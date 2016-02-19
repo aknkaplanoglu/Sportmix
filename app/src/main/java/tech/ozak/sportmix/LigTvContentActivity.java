@@ -90,6 +90,7 @@ public class LigTvContentActivity extends AppCompatActivity {
         Glide.with(this)
                 .load(img_link)
                 .override(width, height)
+                .fitCenter()
                 .placeholder(R.mipmap.ligtv)
                 .error(R.mipmap.ligtv)
                 .into(imageView);

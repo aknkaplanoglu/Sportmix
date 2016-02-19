@@ -87,6 +87,7 @@ public class NtvSporContentActivity extends AppCompatActivity {
         Glide.with(this)
                 .load(img_link)
                 .override(width, height)
+                .fitCenter()
                 .placeholder(R.mipmap.ntvspor)
                 .error(R.mipmap.ntvspor)
                 .into(imageView);

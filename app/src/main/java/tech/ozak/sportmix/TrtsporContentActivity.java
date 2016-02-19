@@ -90,8 +90,9 @@ public class TrtsporContentActivity extends AppCompatActivity {
         Glide.with(this)
                 .load(img_link)
                 .override(width, height)
-                .placeholder(R.mipmap.aspor)
-                .error(R.mipmap.aspor)
+                .fitCenter()
+                .placeholder(R.mipmap.trtspor)
+                .error(R.mipmap.trtspor)
                 .into(imageView);
         new ProgressTask(this).execute(feed_link);
 

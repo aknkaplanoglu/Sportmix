@@ -92,6 +92,7 @@ public class FotomacContentActivity extends AppCompatActivity {
                 .load(img_link)
                 .override(width, height)
                 .placeholder(R.mipmap.fotomac)
+                .fitCenter()
                 .error(R.mipmap.fotomac)
                 .into(imageView);
         new ProgressTask().execute(feed_link);

@@ -89,6 +89,7 @@ public class SporxContentActivity extends AppCompatActivity {
         Glide.with(this)
                 .load(img_link)
                 .override(width, height)
+                .fitCenter()
                 .placeholder(R.mipmap.sporx)
                 .error(R.mipmap.sporx)
                 .into(imageView);

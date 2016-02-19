@@ -987,8 +987,7 @@ public class ListActivity extends ActionBarActivity {
             mDrawerLayout.openDrawer(mDrawerList);
         }
         else{
-
-            super.onBackPressed();
+            mDrawerLayout.closeDrawer(mDrawerList);
         }
     }
 }
