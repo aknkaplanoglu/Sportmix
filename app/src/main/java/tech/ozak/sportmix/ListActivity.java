@@ -981,4 +981,14 @@ public class ListActivity extends ActionBarActivity {
     }
 
 
+    @Override
+    public void onBackPressed() {
+        if (!mDrawerLayout.isDrawerOpen(mDrawerList)){
+            mDrawerLayout.openDrawer(mDrawerList);
+        }
+        else{
+
+            super.onBackPressed();
+        }
+    }
 }
