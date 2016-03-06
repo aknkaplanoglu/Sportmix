@@ -1,4 +1,6 @@
 # Sportmix
 For reading all sports channel from one source.
-Will add more channel soon.
-Will add swipe-refresh feature.
+
+You can see the project on Google Play via :
+
+https://play.google.com/store/apps/details?id=tech.ozak.spormix
