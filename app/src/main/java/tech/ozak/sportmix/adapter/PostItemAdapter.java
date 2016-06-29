@@ -3,7 +3,6 @@ package tech.ozak.sportmix.adapter;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.support.annotation.NonNull;
 import android.view.LayoutInflater;
@@ -19,14 +18,14 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy;
 
 import org.apache.commons.lang3.StringUtils;
 
-import tech.ozak.sportmix.SporxContentActivity;
-import tech.ozak.sportmix.TrtsporContentActivity;
 import tech.ozak.sportmix.FotomacContentActivity;
 import tech.ozak.sportmix.HaberTurkContentActivity;
 import tech.ozak.sportmix.LigTvContentActivity;
-import tech.ozak.sportmix.R;
 import tech.ozak.sportmix.NtvSporContentActivity;
+import tech.ozak.sportmix.R;
 import tech.ozak.sportmix.SabahContentActivity;
+import tech.ozak.sportmix.SporxContentActivity;
+import tech.ozak.sportmix.TrtsporContentActivity;
 import tech.ozak.sportmix.dto.RssItem;
 
 /**
@@ -61,14 +60,12 @@ public class PostItemAdapter extends ArrayAdapter<RssItem> implements View.OnCli
         TextView postTitleView;
         TextView postDateView;
         ImageView postThumbView;
-        String postThumbViewURL;
-        Bitmap bmap;
     }
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         View vi = convertView;
-        ViewHolder holder;
+        final ViewHolder holder;
 
         if (convertView == null) {
 
@@ -87,34 +84,29 @@ public class PostItemAdapter extends ArrayAdapter<RssItem> implements View.OnCli
         } else
             holder = (ViewHolder) vi.getTag();
 
-        RssItem post = datas[position];
-        holder.postTitleView.setText(post.getTitle());
-        holder.postDateView.setText(post.getPubDate());
-        ImageView image = holder.postThumbView;
-
-        int height = myContext.getResources().getDisplayMetrics().heightPixels * 1 / 4;
-        RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams) image.getLayoutParams();
-        layoutParams.height = height;
-        image.setLayoutParams(layoutParams);
-
-        int width = myContext.getResources().getDisplayMetrics().widthPixels;
-
-        //DisplayImage function from ImageLoader Class
-        // imageLoader.DisplayImage(post.getImgLink(), image);
-
-      /*  Picasso.with(myContext)
-                .load(post.getImgLink())
-                .resize(width,height)
-                .placeholder(R.drawable.sportmix_logo)
-                .error(R.drawable.imglogo)
-                .into(holder.postThumbView);*/
-        String imgLink = post.getImgLink();
-        String feedLink = post.getFeedLink();
-        decideWhichImageOnListItem(holder, height, width, imgLink, feedLink);
 
 
-        /******** Set Item Click Listner for LayoutInflater for each row ***********/
-        vi.setOnClickListener(new OnItemClickListener(position));
+            RssItem post = datas[position];
+            holder.postTitleView.setText(post.getTitle());
+            holder.postDateView.setText(post.getPubDate());
+            ImageView image = holder.postThumbView;
+
+            int height = myContext.getResources().getDisplayMetrics().heightPixels * 1 / 4;
+            RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams) image.getLayoutParams();
+            layoutParams.height = height;
+            image.setLayoutParams(layoutParams);
+
+            int width = myContext.getResources().getDisplayMetrics().widthPixels;
+
+            String imgLink = post.getImgLink();
+            String feedLink = post.getFeedLink();
+            decideWhichImageOnListItem(holder, height, width, imgLink, feedLink);
+
+
+            /******** Set Item Click Listner for LayoutInflater for each row ***********/
+            vi.setOnClickListener(new OnItemClickListener(position));
+
+
         return vi;
     }
 
@@ -186,7 +178,7 @@ public class PostItemAdapter extends ArrayAdapter<RssItem> implements View.OnCli
                         .error(R.mipmap.fotomac)
                         .into(holder.postThumbView);
 
-            }else if (StringUtils.containsIgnoreCase(feedLink, "sporx")) {
+            } else if (StringUtils.containsIgnoreCase(feedLink, "sporx")) {
 
                 Glide.with(myContext)
                         .load(imgLink)
@@ -200,9 +192,7 @@ public class PostItemAdapter extends ArrayAdapter<RssItem> implements View.OnCli
             } else {
             }
 
-        }
-
-        else{
+        } else {
             Glide.with(myContext)
                     .load(imgLink)
                     .override(width, height)
@@ -239,7 +229,7 @@ public class PostItemAdapter extends ArrayAdapter<RssItem> implements View.OnCli
 
             intent.putExtra("feed_link", feedLink);
             intent.putExtra("img_link", imgLink);
-            intent.putExtra("header",header);
+            intent.putExtra("header", header);
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             myContext.startActivity(intent);
             //       myContext.overridePendingTransition(R.anim.abc_fade_in,R.anim.abc_fade_out);
@@ -265,7 +255,7 @@ public class PostItemAdapter extends ArrayAdapter<RssItem> implements View.OnCli
             intent = new Intent(myContext, FotomacContentActivity.class);
         } else if (StringUtils.containsIgnoreCase(feedLink, "sporx")) {
             intent = new Intent(myContext, SporxContentActivity.class);
-        }else {
+        } else {
             intent = new Intent(myContext, TrtsporContentActivity.class);
         }
         return intent;

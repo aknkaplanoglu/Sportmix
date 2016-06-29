@@ -42,7 +42,6 @@ public class TrtsporFragment extends Fragment implements SwipeRefreshLayout.OnRe
       /*  alertDialog=new SpotsDialog(getActivity(),R.style.Custom_Progress_Dialog);
         setCustomAlertDialog();*/
         // fillTheData();
-
         swipeRefreshLayout.setOnRefreshListener(this);
         // Configure the refreshing colors
         swipeRefreshLayout.setColorSchemeResources(android.R.color.holo_blue_bright,
@@ -96,6 +95,7 @@ public class TrtsporFragment extends Fragment implements SwipeRefreshLayout.OnRe
                     R.layout.postitem, listData);
 
             SwingBottomInAnimationAdapter swingBottomInAnimationAdapter = new SwingBottomInAnimationAdapter(itemAdapter);
+
             swingBottomInAnimationAdapter.setAbsListView(listView);
 
             listView.setAdapter(swingBottomInAnimationAdapter);
@@ -136,6 +136,7 @@ public class TrtsporFragment extends Fragment implements SwipeRefreshLayout.OnRe
                     R.layout.postitem, listData);
 
             SwingBottomInAnimationAdapter swingBottomInAnimationAdapter = new SwingBottomInAnimationAdapter(itemAdapter);
+
             swingBottomInAnimationAdapter.setAbsListView(listView);
 
             listView.setAdapter(swingBottomInAnimationAdapter);

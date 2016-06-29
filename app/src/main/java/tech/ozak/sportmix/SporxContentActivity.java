@@ -194,7 +194,7 @@ public class SporxContentActivity extends AppCompatActivity {
                 }
 
 
-            } catch (IOException e) {
+            } catch (Exception e) {
                 Log.d("Jsoup :", "Error in jsoup");
                 e.printStackTrace();
             }

@@ -186,7 +186,7 @@ public class NtvSporContentActivity extends AppCompatActivity {
                 newPage = article1.html();
 
 
-            } catch (IOException e) {
+            } catch (Exception e) {
                 Log.d("Jsoup :", "Error in jsoup");
                 e.printStackTrace();
             }

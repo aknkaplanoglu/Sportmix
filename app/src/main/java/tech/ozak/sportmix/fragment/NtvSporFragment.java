@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
 
+import com.avocarrot.androidsdk.AvocarrotInstream;
 import com.nhaarman.listviewanimations.appearance.simple.SwingBottomInAnimationAdapter;
 
 import java.util.List;
@@ -35,7 +36,6 @@ public class NtvSporFragment extends Fragment implements SwipeRefreshLayout.OnRe
     private View v;
     private List<RssItem> newRssItems;
 
-
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -45,7 +45,6 @@ public class NtvSporFragment extends Fragment implements SwipeRefreshLayout.OnRe
       /*  alertDialog=new SpotsDialog(getActivity(),R.style.Custom_Progress_Dialog);
         setCustomAlertDialog();*/
         // fillTheData();
-
         swipeRefreshLayout.setOnRefreshListener(this);
 
         // Configure the refreshing colors
@@ -92,7 +91,20 @@ public class NtvSporFragment extends Fragment implements SwipeRefreshLayout.OnRe
         itemAdapter = new PostItemAdapter(getActivity(),
                 R.layout.postitem, listData);
 
-        SwingBottomInAnimationAdapter swingBottomInAnimationAdapter = new SwingBottomInAnimationAdapter(itemAdapter);
+        AvocarrotInstream avocarrotInstream = new AvocarrotInstream(
+                itemAdapter,      /* pass your listAdapter */
+                getActivity(),                   /* reference to your Activity */
+                getResources().getString(R.string.avarracot_api_key), /* this is your Avocarrot API Key */
+                getResources().getString(R.string.avarracot_ad_id)  /* this is your Avocarrot Placement Key */
+        );
+        avocarrotInstream.setLogger(true, "ALL");
+        avocarrotInstream.setSandbox(true);
+        // Show ads every 15 cells starting from the 2nd cell.
+        avocarrotInstream.setFrequency(2,4);
+        // Bind the created avocarrotInstream adapter to your list instead of your listAdapter
+
+        SwingBottomInAnimationAdapter swingBottomInAnimationAdapter = new SwingBottomInAnimationAdapter(avocarrotInstream);
+
         swingBottomInAnimationAdapter.setAbsListView(listView);
 
         listView.setAdapter(swingBottomInAnimationAdapter);
@@ -130,7 +142,22 @@ public class NtvSporFragment extends Fragment implements SwipeRefreshLayout.OnRe
             itemAdapter = new PostItemAdapter(getActivity(),
                     R.layout.postitem, listData);
 
-            SwingBottomInAnimationAdapter swingBottomInAnimationAdapter = new SwingBottomInAnimationAdapter(itemAdapter);
+
+
+            AvocarrotInstream avocarrotInstream = new AvocarrotInstream(
+                    itemAdapter,      /* pass your listAdapter */
+                    getActivity(),                   /* reference to your Activity */
+                    getResources().getString(R.string.avarracot_api_key), /* this is your Avocarrot API Key */
+                    getResources().getString(R.string.avarracot_ad_id)  /* this is your Avocarrot Placement Key */
+            );
+            avocarrotInstream.setLogger(true, "ALL");
+            avocarrotInstream.setSandbox(true);
+            // Show ads every 15 cells starting from the 2nd cell.
+            avocarrotInstream.setFrequency(2,4);
+            // Bind the created avocarrotInstream adapter to your list instead of your listAdapter
+
+            SwingBottomInAnimationAdapter swingBottomInAnimationAdapter = new SwingBottomInAnimationAdapter(avocarrotInstream);
+
             swingBottomInAnimationAdapter.setAbsListView(listView);
 
             listView.setAdapter(swingBottomInAnimationAdapter);

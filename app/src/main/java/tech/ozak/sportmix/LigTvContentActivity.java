@@ -187,7 +187,7 @@ public class LigTvContentActivity extends AppCompatActivity {
                 newPage = select.html();
 
 
-            } catch (IOException e) {
+            } catch (Exception e) {
                 Log.d("Jsoup :", "Error in jsoup");
                 e.printStackTrace();
             }

@@ -200,8 +200,7 @@ public class TrtsporContentActivity extends AppCompatActivity {
 
                 newPage = newsDiv.html();
 
-
-            } catch (IOException e) {
+            } catch (Exception e) {
                 Log.d("Jsoup :", "Error in jsoup");
                 e.printStackTrace();
             }

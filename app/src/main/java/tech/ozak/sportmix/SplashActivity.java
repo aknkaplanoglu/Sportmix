@@ -49,6 +49,7 @@ public class SplashActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+
         mInstance = this;
 
         if (!isOnline(this)) {
@@ -175,6 +176,13 @@ public class SplashActivity extends Activity {
         }
 
     }
+
+
+    @Override
+    public void onResume() {
+        super.onResume();
+    }
+
 
 }
 

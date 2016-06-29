@@ -6,6 +6,7 @@ import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.content.res.TypedArray;
@@ -34,8 +35,6 @@ import tech.ozak.sportmix.adapter.NavDrawerListAdapter;
 import tech.ozak.sportmix.adapter.PostItemAdapter;
 import tech.ozak.sportmix.dto.NavDrawerItem;
 import tech.ozak.sportmix.dto.RssItem;
-import tech.ozak.sportmix.fragment.SporxFragment;
-import tech.ozak.sportmix.fragment.TrtsporFragment;
 import tech.ozak.sportmix.fragment.CanliSkorFragment;
 import tech.ozak.sportmix.fragment.FiksturFragment;
 import tech.ozak.sportmix.fragment.FotomacFragment;
@@ -44,6 +43,8 @@ import tech.ozak.sportmix.fragment.LigTvFragment;
 import tech.ozak.sportmix.fragment.NtvSporFragment;
 import tech.ozak.sportmix.fragment.PuanDurumuFragment;
 import tech.ozak.sportmix.fragment.SabahFragment;
+import tech.ozak.sportmix.fragment.SporxFragment;
+import tech.ozak.sportmix.fragment.TrtsporFragment;
 import tech.ozak.sportmix.handler.RssReader;
 
 /**
@@ -52,7 +53,7 @@ import tech.ozak.sportmix.handler.RssReader;
 public class ListActivity extends ActionBarActivity {
 
     public static ListActivity mInstance;
-    List<RssItem> rssItems=new ArrayList<RssItem>();
+    List<RssItem> rssItems = new ArrayList<RssItem>();
     private RssItem[] listData;
 
     public List<RssItem> getRssItems() {
@@ -80,6 +81,8 @@ public class ListActivity extends ActionBarActivity {
 
     private ArrayList<NavDrawerItem> navDrawerItems;
     private NavDrawerListAdapter adapter;
+
+
 // Drawer end
 
     @Override
@@ -87,6 +90,7 @@ public class ListActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
 
         mInstance = this;
+
         setContentView(R.layout.activity_news_feed);
         // setting home page when activity first load.
         //setHomePage();
@@ -101,6 +105,8 @@ public class ListActivity extends ActionBarActivity {
         return mInstance;
     }
 
+
+    @SuppressWarnings("ResourceType")
     private void setUpDrawerProcess(Bundle savedInstanceState) {
         //Drawer
         mTitle = mDrawerTitle = getTitle();
@@ -156,15 +162,15 @@ public class ListActivity extends ActionBarActivity {
                 R.string.app_name // nav drawer close - description for accessibility
         ) {
             public void onDrawerClosed(View view) {
-          //      getSupportActionBar().setTitle(Html.fromHtml("<font color='#786a6a'>" + mTitle));
+                //      getSupportActionBar().setTitle(Html.fromHtml("<font color='#786a6a'>" + mTitle));
                 // calling onPrepareOptionsMenu() to show action bar icons
                 invalidateOptionsMenu();
             }
 
             public void onDrawerOpened(View drawerView) {
-            //    getSupportActionBar().setTitle(Html.fromHtml("<font color='#786a6a'>" + mTitle));
-                        // calling onPrepareOptionsMenu() to hide action bar icons
-                        invalidateOptionsMenu();
+                //    getSupportActionBar().setTitle(Html.fromHtml("<font color='#786a6a'>" + mTitle));
+                // calling onPrepareOptionsMenu() to hide action bar icons
+                invalidateOptionsMenu();
             }
         };
 
@@ -179,7 +185,7 @@ public class ListActivity extends ActionBarActivity {
     }
 
     private void setDrawerListWidth() {
-        int width = getResources().getDisplayMetrics().widthPixels*3/5;
+        int width = getResources().getDisplayMetrics().widthPixels * 3 / 5;
         DrawerLayout.LayoutParams params = (DrawerLayout.LayoutParams) mDrawerList.getLayoutParams();
         params.width = width;
         mDrawerList.setLayoutParams(params);
@@ -192,14 +198,19 @@ public class ListActivity extends ActionBarActivity {
         private Activity activity;
 
         private Thread thread;
-        /** progress dialog to show user that the backup is processing. */
+
+        /**
+         * progress dialog to show user that the backup is processing.
+         */
 
         public HaberTurkAsynTask(Activity activity) {
             this.activity = activity;
             context = activity;
         }
 
-        /** application context. */
+        /**
+         * application context.
+         */
         private Context context;
 
         protected void onPreExecute() {
@@ -213,7 +224,7 @@ public class ListActivity extends ActionBarActivity {
 
         @Override
         protected void onPostExecute(final Boolean success) {
-            if (success){
+            if (success) {
                 Log.d("Rss Size FEEDACTIVITY: ", String.valueOf(rssItems.size()));
                 Fragment fragment = new HaberTurkFragment();
 
@@ -241,7 +252,7 @@ public class ListActivity extends ActionBarActivity {
 
             try {
                 // Create RSS reader
-                rssItems= RssReader.getLatestRssFeed(params[0]);
+                rssItems = RssReader.getLatestRssFeed(params[0]);
             } catch (Exception e) {
                 Log.e("ITCRssReader", e.getMessage());
             }
@@ -256,14 +267,19 @@ public class ListActivity extends ActionBarActivity {
         private Activity activity;
 
         private Thread thread;
-        /** progress dialog to show user that the backup is processing. */
+
+        /**
+         * progress dialog to show user that the backup is processing.
+         */
 
         public SporxAsyncTask(Activity activity) {
             this.activity = activity;
             context = activity;
         }
 
-        /** application context. */
+        /**
+         * application context.
+         */
         private Context context;
 
         protected void onPreExecute() {
@@ -277,7 +293,7 @@ public class ListActivity extends ActionBarActivity {
 
         @Override
         protected void onPostExecute(final Boolean success) {
-            if (success){
+            if (success) {
                 Log.d("Rss Size FEEDACTIVITY: ", String.valueOf(rssItems.size()));
                 Fragment fragment = new SporxFragment();
 
@@ -305,7 +321,7 @@ public class ListActivity extends ActionBarActivity {
 
             try {
                 // Create RSS reader
-                rssItems= RssReader.getLatestRssFeed(params[0]);
+                rssItems = RssReader.getLatestRssFeed(params[0]);
             } catch (Exception e) {
                 Log.e("ITCRssReader", e.getMessage());
             }
@@ -317,7 +333,7 @@ public class ListActivity extends ActionBarActivity {
 
     /**
      * Diplaying fragment view for selected nav drawer list item
-     * */
+     */
     private void displayView(int position) {
         // update the main content by replacing fragments
         Fragment fragment = null;
@@ -341,7 +357,7 @@ public class ListActivity extends ActionBarActivity {
                 }
                 break;
             case 1:
-                alertDialog=new SpotsDialog(this,R.style.Custom_Progress_Dialog);
+                alertDialog = new SpotsDialog(this, R.style.Custom_Progress_Dialog);
                 setCustomAlertDialog();
                 new SporxAsyncTask(this).execute(getResources().getString(R.string.sporx_feed));
 
@@ -349,7 +365,7 @@ public class ListActivity extends ActionBarActivity {
                 break;
 
             case 2:
-                alertDialog=new SpotsDialog(this,R.style.Custom_Progress_Dialog);
+                alertDialog = new SpotsDialog(this, R.style.Custom_Progress_Dialog);
                 setCustomAlertDialog();
                 new TrtsporAsyncTask(this).execute(getResources().getString(R.string.trtspor_feed));
 
@@ -357,7 +373,7 @@ public class ListActivity extends ActionBarActivity {
                 break;
 
             case 3:
-                alertDialog=new SpotsDialog(this,R.style.Custom_Progress_Dialog);
+                alertDialog = new SpotsDialog(this, R.style.Custom_Progress_Dialog);
                 setCustomAlertDialog();
                 new SabahAsyncTask(this).execute(getResources().getString(R.string.sabah_feed));
 
@@ -365,7 +381,7 @@ public class ListActivity extends ActionBarActivity {
                 break;
 
             case 4:
-                alertDialog=new SpotsDialog(this,R.style.Custom_Progress_Dialog);
+                alertDialog = new SpotsDialog(this, R.style.Custom_Progress_Dialog);
                 setCustomAlertDialog();
                 new LigTvAsyncTask(this).execute(getResources().getString(R.string.ligtv_feed));
 
@@ -373,7 +389,7 @@ public class ListActivity extends ActionBarActivity {
                 break;
 
             case 5:
-                alertDialog=new SpotsDialog(this,R.style.Custom_Progress_Dialog);
+                alertDialog = new SpotsDialog(this, R.style.Custom_Progress_Dialog);
                 setCustomAlertDialog();
                 new HaberTurkAsynTask(this).execute(getResources().getString(R.string.haberturk_feed));
 
@@ -381,7 +397,7 @@ public class ListActivity extends ActionBarActivity {
                 break;
             // puan durumu
             case 6:
-                alertDialog=new SpotsDialog(this,R.style.Custom_Progress_Dialog);
+                alertDialog = new SpotsDialog(this, R.style.Custom_Progress_Dialog);
                 setCustomAlertDialog();
                 new FotomacAsyncTask(this).execute(getResources().getString(R.string.fotomac_feed));
 
@@ -390,7 +406,7 @@ public class ListActivity extends ActionBarActivity {
 
             // fikstur
             case 7:
-                alertDialog=new SpotsDialog(this,R.style.Custom_Progress_Dialog);
+                alertDialog = new SpotsDialog(this, R.style.Custom_Progress_Dialog);
                 setCustomAlertDialog();
                 new PuanDurumuAsyncTask(this).execute("");
 
@@ -398,7 +414,7 @@ public class ListActivity extends ActionBarActivity {
                 break;
 
             case 8:
-                alertDialog=new SpotsDialog(this,R.style.Custom_Progress_Dialog);
+                alertDialog = new SpotsDialog(this, R.style.Custom_Progress_Dialog);
                 setCustomAlertDialog();
                 new FiksturAsyncTask(this).execute("");
 
@@ -406,7 +422,7 @@ public class ListActivity extends ActionBarActivity {
                 break;
 
             case 9:
-                alertDialog=new SpotsDialog(this,R.style.Custom_Progress_Dialog);
+                alertDialog = new SpotsDialog(this, R.style.Custom_Progress_Dialog);
                 setCustomAlertDialog();
                 new CanliSkorAsyncTask(this).execute("");
 
@@ -445,7 +461,7 @@ public class ListActivity extends ActionBarActivity {
 
     /**
      * Slide menu item click listener
-     * */
+     */
     private class SlideMenuClickListener implements
             ListView.OnItemClickListener {
         @Override
@@ -487,7 +503,7 @@ public class ListActivity extends ActionBarActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
         getSupportActionBar().setTitle(Html.fromHtml("<font color='#786a6a'>" + mTitle));
-       // getSupportActionBar().setHomeAsUpIndicator(R.mipmap.ic_launcher);
+        // getSupportActionBar().setHomeAsUpIndicator(R.mipmap.ic_launcher);
         getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_action_menu);
     }
 
@@ -533,20 +549,24 @@ public class ListActivity extends ActionBarActivity {
     }
 
 
-
     private class LigTvAsyncTask extends AsyncTask<String, Void, Boolean> {
 
         private Activity activity;
 
         private Thread thread;
-        /** progress dialog to show user that the backup is processing. */
+
+        /**
+         * progress dialog to show user that the backup is processing.
+         */
 
         public LigTvAsyncTask(Activity activity) {
             this.activity = activity;
             context = activity;
         }
 
-        /** application context. */
+        /**
+         * application context.
+         */
         private Context context;
 
         protected void onPreExecute() {
@@ -560,7 +580,7 @@ public class ListActivity extends ActionBarActivity {
 
         @Override
         protected void onPostExecute(final Boolean success) {
-            if (success){
+            if (success) {
                 Log.d("Rss Size FEEDACTIVITY: ", String.valueOf(rssItems.size()));
                 Fragment fragment = new LigTvFragment();
 
@@ -588,7 +608,7 @@ public class ListActivity extends ActionBarActivity {
 
             try {
                 // Create RSS reader
-                rssItems= RssReader.getLatestRssFeed(params[0]);
+                rssItems = RssReader.getLatestRssFeed(params[0]);
             } catch (Exception e) {
                 Log.e("ITCRssReader", e.getMessage());
             }
@@ -603,14 +623,19 @@ public class ListActivity extends ActionBarActivity {
         private Activity activity;
 
         private Thread thread;
-        /** progress dialog to show user that the backup is processing. */
+
+        /**
+         * progress dialog to show user that the backup is processing.
+         */
 
         public FotomacAsyncTask(Activity activity) {
             this.activity = activity;
             context = activity;
         }
 
-        /** application context. */
+        /**
+         * application context.
+         */
         private Context context;
 
         protected void onPreExecute() {
@@ -624,7 +649,7 @@ public class ListActivity extends ActionBarActivity {
 
         @Override
         protected void onPostExecute(final Boolean success) {
-            if (success){
+            if (success) {
                 Log.d("Rss Size FEEDACTIVITY: ", String.valueOf(rssItems.size()));
                 Fragment fragment = new FotomacFragment();
 
@@ -652,7 +677,7 @@ public class ListActivity extends ActionBarActivity {
 
             try {
                 // Create RSS reader
-                rssItems= RssReader.getLatestRssFeed(params[0]);
+                rssItems = RssReader.getLatestRssFeed(params[0]);
             } catch (Exception e) {
                 Log.e("ITCRssReader", e.getMessage());
             }
@@ -667,14 +692,19 @@ public class ListActivity extends ActionBarActivity {
         private Activity activity;
 
         private Thread thread;
-        /** progress dialog to show user that the backup is processing. */
+
+        /**
+         * progress dialog to show user that the backup is processing.
+         */
 
         public PuanDurumuAsyncTask(Activity activity) {
             this.activity = activity;
             context = activity;
         }
 
-        /** application context. */
+        /**
+         * application context.
+         */
         private Context context;
 
         protected void onPreExecute() {
@@ -688,7 +718,7 @@ public class ListActivity extends ActionBarActivity {
 
         @Override
         protected void onPostExecute(final Boolean success) {
-            if (success){
+            if (success) {
                 Log.d("Rss Size FEEDACTIVITY: ", String.valueOf(rssItems.size()));
                 Fragment fragment = new PuanDurumuFragment();
 
@@ -716,7 +746,7 @@ public class ListActivity extends ActionBarActivity {
 
             try {
                 // Create RSS reader
-               // rssItems= RssReader.getLatestRssFeed(params[0]);
+                // rssItems= RssReader.getLatestRssFeed(params[0]);
             } catch (Exception e) {
                 Log.e("ITCRssReader", e.getMessage());
             }
@@ -730,14 +760,19 @@ public class ListActivity extends ActionBarActivity {
         private Activity activity;
 
         private Thread thread;
-        /** progress dialog to show user that the backup is processing. */
+
+        /**
+         * progress dialog to show user that the backup is processing.
+         */
 
         public CanliSkorAsyncTask(Activity activity) {
             this.activity = activity;
             context = activity;
         }
 
-        /** application context. */
+        /**
+         * application context.
+         */
         private Context context;
 
         protected void onPreExecute() {
@@ -751,7 +786,7 @@ public class ListActivity extends ActionBarActivity {
 
         @Override
         protected void onPostExecute(final Boolean success) {
-            if (success){
+            if (success) {
                 Log.d("Rss Size FEEDACTIVITY: ", String.valueOf(rssItems.size()));
                 Fragment fragment = new CanliSkorFragment();
 
@@ -794,14 +829,19 @@ public class ListActivity extends ActionBarActivity {
         private Activity activity;
 
         private Thread thread;
-        /** progress dialog to show user that the backup is processing. */
+
+        /**
+         * progress dialog to show user that the backup is processing.
+         */
 
         public FiksturAsyncTask(Activity activity) {
             this.activity = activity;
             context = activity;
         }
 
-        /** application context. */
+        /**
+         * application context.
+         */
         private Context context;
 
         protected void onPreExecute() {
@@ -815,7 +855,7 @@ public class ListActivity extends ActionBarActivity {
 
         @Override
         protected void onPostExecute(final Boolean success) {
-            if (success){
+            if (success) {
                 Log.d("Rss Size FEEDACTIVITY: ", String.valueOf(rssItems.size()));
                 Fragment fragment = new FiksturFragment();
 
@@ -858,14 +898,19 @@ public class ListActivity extends ActionBarActivity {
         private Activity activity;
 
         private Thread thread;
-        /** progress dialog to show user that the backup is processing. */
+
+        /**
+         * progress dialog to show user that the backup is processing.
+         */
 
         public SabahAsyncTask(Activity activity) {
             this.activity = activity;
             context = activity;
         }
 
-        /** application context. */
+        /**
+         * application context.
+         */
         private Context context;
 
         protected void onPreExecute() {
@@ -879,7 +924,7 @@ public class ListActivity extends ActionBarActivity {
 
         @Override
         protected void onPostExecute(final Boolean success) {
-            if (success){
+            if (success) {
                 Log.d("Rss Size FEEDACTIVITY: ", String.valueOf(rssItems.size()));
                 Fragment fragment = new SabahFragment();
 
@@ -907,7 +952,7 @@ public class ListActivity extends ActionBarActivity {
 
             try {
                 // Create RSS reader
-                rssItems= RssReader.getLatestRssFeed(params[0]);
+                rssItems = RssReader.getLatestRssFeed(params[0]);
             } catch (Exception e) {
                 Log.e("ITCRssReader", e.getMessage());
             }
@@ -922,14 +967,19 @@ public class ListActivity extends ActionBarActivity {
         private Activity activity;
 
         private Thread thread;
-        /** progress dialog to show user that the backup is processing. */
+
+        /**
+         * progress dialog to show user that the backup is processing.
+         */
 
         public TrtsporAsyncTask(Activity activity) {
             this.activity = activity;
             context = activity;
         }
 
-        /** application context. */
+        /**
+         * application context.
+         */
         private Context context;
 
         protected void onPreExecute() {
@@ -943,7 +993,7 @@ public class ListActivity extends ActionBarActivity {
 
         @Override
         protected void onPostExecute(final Boolean success) {
-            if (success){
+            if (success) {
                 Log.d("Rss Size FEEDACTIVITY: ", String.valueOf(rssItems.size()));
                 Fragment fragment = new TrtsporFragment();
 
@@ -971,7 +1021,7 @@ public class ListActivity extends ActionBarActivity {
 
             try {
                 // Create RSS reader
-                rssItems= RssReader.getLatestRssFeed(params[0]);
+                rssItems = RssReader.getLatestRssFeed(params[0]);
             } catch (Exception e) {
                 Log.e("ITCRssReader", e.getMessage());
             }
@@ -980,13 +1030,23 @@ public class ListActivity extends ActionBarActivity {
 
     }
 
-
     @Override
+    @SuppressWarnings("ResourceType")
     public void onBackPressed() {
-        if (!mDrawerLayout.isDrawerOpen(mDrawerList)){
-            mDrawerLayout.openDrawer(mDrawerList);
-        }
-        else{
+        if (!mDrawerLayout.isDrawerOpen(mDrawerList)) {
+            new android.support.v7.app.AlertDialog.Builder(this)
+                    .setIcon(android.R.drawable.ic_dialog_info)
+                    .setTitle(getString(R.string.exit_talk))
+                    .setMessage(getString(R.string.are_you_sure))
+                    .setPositiveButton(getString(R.string.yes), new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            finish();
+                        }
+                    })
+                    .setNegativeButton(getString(R.string.no), null)
+                    .show();
+        } else {
             mDrawerLayout.closeDrawer(mDrawerList);
         }
     }

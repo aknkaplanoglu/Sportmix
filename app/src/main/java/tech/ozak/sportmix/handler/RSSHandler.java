@@ -48,7 +48,7 @@ public class RSSHandler extends DefaultHandler {
     private int articlesAdded = 0;
 
     // Number of articles to download
-    private static final int ARTICLES_LIMIT = 15;
+    private static final int ARTICLES_LIMIT = 25;
 
     //Current characters being accumulated
     StringBuffer chars = new StringBuffer();

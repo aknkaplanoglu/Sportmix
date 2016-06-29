@@ -1,6 +1,5 @@
 package tech.ozak.sportmix.fragment;
 
-import android.app.AlertDialog;
 import android.app.Fragment;
 import android.content.res.Resources;
 import android.os.Bundle;
@@ -8,14 +7,12 @@ import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.Window;
-import android.view.WindowManager;
 import android.widget.ListView;
 
+import com.avocarrot.androidsdk.AvocarrotInstream;
 import com.nhaarman.listviewanimations.appearance.simple.SwingBottomInAnimationAdapter;
 
 import java.util.List;
@@ -43,7 +40,6 @@ public class SporxFragment extends Fragment implements SwipeRefreshLayout.OnRefr
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         v = inflater.inflate(R.layout.layout_sporx_fragment, container, false);
         swipeRefreshLayout = (SwipeRefreshLayout) v.findViewById(R.id.swipe_refresh_layout);
-
         swipeRefreshLayout.setOnRefreshListener(this);
         // Configure the refreshing colors
         swipeRefreshLayout.setColorSchemeResources(android.R.color.holo_blue_bright,
@@ -96,7 +92,21 @@ public class SporxFragment extends Fragment implements SwipeRefreshLayout.OnRefr
             itemAdapter = new PostItemAdapter(getActivity(),
                     R.layout.postitem, listData);
 
-            SwingBottomInAnimationAdapter swingBottomInAnimationAdapter = new SwingBottomInAnimationAdapter(itemAdapter);
+            // Create the AvocarrotAdapter that encapsulates your adapter
+            AvocarrotInstream avocarrotInstream = new AvocarrotInstream(
+                    itemAdapter,      /* pass your listAdapter */
+                    getActivity(),                   /* reference to your Activity */
+                    getResources().getString(R.string.avarracot_api_key), /* this is your Avocarrot API Key */
+                    getResources().getString(R.string.avarracot_feed_id)  /* this is your Avocarrot Placement Key */
+            );
+            avocarrotInstream.setLogger(true, "ALL");
+            avocarrotInstream.setSandbox(true);
+            // Show ads every 15 cells starting from the 2nd cell.
+            avocarrotInstream.setFrequency(2,4);
+            // Bind the created avocarrotInstream adapter to your list instead of your listAdapter
+
+            SwingBottomInAnimationAdapter swingBottomInAnimationAdapter = new SwingBottomInAnimationAdapter(avocarrotInstream);
+
             swingBottomInAnimationAdapter.setAbsListView(listView);
 
             listView.setAdapter(swingBottomInAnimationAdapter);
@@ -136,7 +146,20 @@ public class SporxFragment extends Fragment implements SwipeRefreshLayout.OnRefr
             itemAdapter = new PostItemAdapter(getActivity(),
                     R.layout.postitem, listData);
 
-            SwingBottomInAnimationAdapter swingBottomInAnimationAdapter = new SwingBottomInAnimationAdapter(itemAdapter);
+            AvocarrotInstream avocarrotInstream = new AvocarrotInstream(
+                    itemAdapter,      /* pass your listAdapter */
+                    getActivity(),                   /* reference to your Activity */
+                    getResources().getString(R.string.avarracot_api_key), /* this is your Avocarrot API Key */
+                    getResources().getString(R.string.avarracot_feed_id)  /* this is your Avocarrot Placement Key */
+            );
+            avocarrotInstream.setLogger(true, "ALL");
+            avocarrotInstream.setSandbox(true);
+            // Show ads every 15 cells starting from the 2nd cell.
+            avocarrotInstream.setFrequency(2,4);
+            // Bind the created avocarrotInstream adapter to your list instead of your listAdapter
+
+            SwingBottomInAnimationAdapter swingBottomInAnimationAdapter = new SwingBottomInAnimationAdapter(avocarrotInstream);
+
             swingBottomInAnimationAdapter.setAbsListView(listView);
 
             listView.setAdapter(swingBottomInAnimationAdapter);

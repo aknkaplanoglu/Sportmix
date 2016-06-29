@@ -178,7 +178,7 @@ public class FotomacContentActivity extends AppCompatActivity {
                 newPage = story.html();
 
 
-            } catch (IOException e) {
+            } catch (Exception e) {
                 Log.d("Jsoup :", "Error in jsoup");
                 e.printStackTrace();
             }
@@ -201,27 +201,6 @@ public class FotomacContentActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-/*    @Override
-    public void onBackPressed() {
-        if (getFragmentManager().getBackStackEntryCount() == 0) {
-            this.finish();
-        } else {
-            getFragmentManager().popBackStack();
-        }
-    }*/
-
-/*    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-
-        switch (item.getItemId()) {
-            case android.R.id.home:
-                NavUtils.navigateUpFromSameTask(this);
-                return true;
-            default:
-                super.onOptionsItemSelected(item);
-                return true;
-        }
-    }*/
 
 }
 

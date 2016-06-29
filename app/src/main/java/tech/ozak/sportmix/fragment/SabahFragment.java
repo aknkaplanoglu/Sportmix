@@ -42,7 +42,6 @@ public class SabahFragment extends Fragment implements SwipeRefreshLayout.OnRefr
       /*  alertDialog=new SpotsDialog(getActivity(),R.style.Custom_Progress_Dialog);
         setCustomAlertDialog();*/
         // fillTheData();
-
         swipeRefreshLayout.setOnRefreshListener(this);
 
         // Configure the refreshing colors
@@ -96,6 +95,7 @@ public class SabahFragment extends Fragment implements SwipeRefreshLayout.OnRefr
                     R.layout.postitem, listData);
 
             SwingBottomInAnimationAdapter swingBottomInAnimationAdapter = new SwingBottomInAnimationAdapter(itemAdapter);
+
             swingBottomInAnimationAdapter.setAbsListView(listView);
 
             listView.setAdapter(swingBottomInAnimationAdapter);
@@ -135,7 +135,9 @@ public class SabahFragment extends Fragment implements SwipeRefreshLayout.OnRefr
             itemAdapter = new PostItemAdapter(getActivity(),
                     R.layout.postitem, listData);
 
+
             SwingBottomInAnimationAdapter swingBottomInAnimationAdapter = new SwingBottomInAnimationAdapter(itemAdapter);
+
             swingBottomInAnimationAdapter.setAbsListView(listView);
 
             listView.setAdapter(swingBottomInAnimationAdapter);

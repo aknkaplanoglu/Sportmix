@@ -42,7 +42,6 @@ public class HaberTurkFragment extends Fragment implements SwipeRefreshLayout.On
       /*  alertDialog=new SpotsDialog(getActivity(),R.style.Custom_Progress_Dialog);
         setCustomAlertDialog();*/
         // fillTheData();
-
         swipeRefreshLayout.setOnRefreshListener(this);
 
         // Configure the refreshing colors
@@ -94,7 +93,6 @@ public class HaberTurkFragment extends Fragment implements SwipeRefreshLayout.On
 
             itemAdapter = new PostItemAdapter(getActivity(),
                     R.layout.postitem, listData);
-
             SwingBottomInAnimationAdapter swingBottomInAnimationAdapter = new SwingBottomInAnimationAdapter(itemAdapter);
             swingBottomInAnimationAdapter.setAbsListView(listView);
 
@@ -136,6 +134,7 @@ public class HaberTurkFragment extends Fragment implements SwipeRefreshLayout.On
                     R.layout.postitem, listData);
 
             SwingBottomInAnimationAdapter swingBottomInAnimationAdapter = new SwingBottomInAnimationAdapter(itemAdapter);
+
             swingBottomInAnimationAdapter.setAbsListView(listView);
 
             listView.setAdapter(swingBottomInAnimationAdapter);
