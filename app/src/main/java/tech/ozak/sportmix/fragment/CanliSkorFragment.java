@@ -79,7 +79,6 @@ public class CanliSkorFragment extends Fragment {
 
     private class ProgressTask extends AsyncTask<String, Void, String> {
 
-        private ProgressBar progressBar;
         Context c;
 
         public ProgressTask(Context context) {

@@ -472,30 +472,6 @@ public class ListActivity extends ActionBarActivity {
         }
     }
 
-    private void setHomePage() {
-        FragmentManager fragmentManager = getFragmentManager();
-        FragmentTransaction ft = fragmentManager.beginTransaction();
-
-        NtvSporFragment fragmentHome = new NtvSporFragment();
-        ft.add(R.id.frame_container, fragmentHome);
-        ft.commit();
-    }
-
-    private void fillTheData() {
-        SplashActivity splashActivity = SplashActivity.getInstance();
-        rssItems = splashActivity.getRssItems();
-        listData = new RssItem[rssItems.size()];
-        for (int i = 0; i < rssItems.size(); i++) {
-            listData[i] = rssItems.get(i);
-        }
-
-        ListView listView = (ListView) this.findViewById(R.id.postListView);
-
-        PostItemAdapter itemAdapter = new PostItemAdapter(this,
-                R.layout.postitem, listData);
-        listView.setAdapter(itemAdapter);
-    }
-
     private void initActionBar() {
         Resources res = getResources();
         Drawable drawable = res.getDrawable(R.drawable.real_action_bar);
@@ -621,9 +597,6 @@ public class ListActivity extends ActionBarActivity {
     private class FotomacAsyncTask extends AsyncTask<String, Void, Boolean> {
 
         private Activity activity;
-
-        private Thread thread;
-
         /**
          * progress dialog to show user that the backup is processing.
          */
@@ -691,8 +664,6 @@ public class ListActivity extends ActionBarActivity {
 
         private Activity activity;
 
-        private Thread thread;
-
         /**
          * progress dialog to show user that the backup is processing.
          */
@@ -758,9 +729,6 @@ public class ListActivity extends ActionBarActivity {
     private class CanliSkorAsyncTask extends AsyncTask<String, Void, Boolean> {
 
         private Activity activity;
-
-        private Thread thread;
-
         /**
          * progress dialog to show user that the backup is processing.
          */

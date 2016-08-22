@@ -18,6 +18,7 @@
     <string name="canli_skor_url">http://m.ntvspor.net/f/Live.aspx</string>
     <string name="spor_haber3_feed">http://spor.haber3.com/rss/</string>
 
+    <string name="test_facebook_unit_id">615900055231174_615901328564380</string>
 
     <string name="test_admob_unit_id">ca-app-pub-3940256099942544/3986624511</string>
   <!--  <string name="test_admob_unit_id">ca-app-pub-5024459224391382/7640716957</string>-->
@@ -29,6 +30,8 @@
 
 
     <string name="test_device_id">1A5E79B575AD9E78DDDA6F374C386462</string>
+
+    <string name="test_ad_mode">T</string>
 
     <!-- Nav Drawer Menu Items -->
     <string-array name="nav_drawer_items">

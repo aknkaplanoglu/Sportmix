@@ -27,60 +27,18 @@
             android:label="@string/app_name"
             android:theme="@style/SplashActivityTheme"></activity>
 
-        <activity
-            android:name="tech.ozak.sportmix.DisplayContentActivity"
-            android:launchMode="standard"
-            android:hardwareAccelerated="true"
-             />
-
-        <activity
-            android:name="tech.ozak.sportmix.NtvSporContentActivity"
-            android:label="@string/app_name"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar"
-            android:parentActivityName="tech.ozak.sportmix.ListActivity"></activity>
-
-        <activity
-            android:name=".TrtsporContentActivity"
-            android:label="@string/app_name"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar"
-            android:parentActivityName="tech.ozak.sportmix.ListActivity"></activity>
-
-        <activity
-            android:name="tech.ozak.sportmix.SabahContentActivity"
-            android:label="@string/app_name"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar"
-            android:parentActivityName="tech.ozak.sportmix.ListActivity"></activity>
-
-        <activity
-            android:name="tech.ozak.sportmix.HaberTurkContentActivity"
-            android:label="@string/app_name"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar"
-            android:parentActivityName="tech.ozak.sportmix.ListActivity"></activity>
-
-        <activity
-            android:name="tech.ozak.sportmix.LigTvContentActivity"
-            android:label="@string/app_name"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar"
-            android:parentActivityName="tech.ozak.sportmix.ListActivity"></activity>
-
-        <activity
-            android:name="tech.ozak.sportmix.FotomacContentActivity"
-            android:label="@string/app_name"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar"
-            android:parentActivityName="tech.ozak.sportmix.ListActivity"></activity>
-
-        <activity
-            android:name="tech.ozak.sportmix.SporxContentActivity"
-            android:label="@string/app_name"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar"
-            android:parentActivityName="tech.ozak.sportmix.ListActivity"></activity>
-
 
         <meta-data android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />
 
         <meta-data android:name="tech.ozak.sportmix.glideModule.GlideConfiguration"
             android:value="GlideModule"/>
+
+        <activity
+            android:name="com.thefinestartist.finestwebview.FinestWebViewActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:screenOrientation="sensor"
+            android:theme="@style/FinestWebViewTheme.Light" />
 
     </application>
 

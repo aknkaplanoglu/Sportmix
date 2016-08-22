@@ -5,48 +5,53 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.support.annotation.NonNull;
+import android.util.DisplayMetrics;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.BaseAdapter;
+import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.facebook.ads.AdSettings;
+import com.facebook.ads.MediaView;
+import com.facebook.ads.NativeAd;
+import com.thefinestartist.finestwebview.FinestWebView;
 
 import org.apache.commons.lang3.StringUtils;
 
-import tech.ozak.sportmix.FotomacContentActivity;
-import tech.ozak.sportmix.HaberTurkContentActivity;
-import tech.ozak.sportmix.LigTvContentActivity;
-import tech.ozak.sportmix.NtvSporContentActivity;
+import java.util.Arrays;
+import java.util.List;
+
 import tech.ozak.sportmix.R;
-import tech.ozak.sportmix.SabahContentActivity;
-import tech.ozak.sportmix.SporxContentActivity;
-import tech.ozak.sportmix.TrtsporContentActivity;
 import tech.ozak.sportmix.dto.RssItem;
 
 /**
  * Created by ako on 10/11/2015.
  */
-public class PostItemAdapter extends ArrayAdapter<RssItem> implements View.OnClickListener {
+public class PostItemAdapter extends BaseAdapter implements View.OnClickListener {
 
-    public tech.ozak.sportmix.lazyutil.ImageLoader imageLoader;
     private LayoutInflater inflater;
     private Activity myContext;
-    private RssItem[] datas;
+    private List<Object> datas;
+
+    private NativeAd ad;
+    private static final int AD_INDEX = 2;
 
     public PostItemAdapter(Context context, int textViewResourceId,
-                           RssItem[] objects) {
-        super(context, textViewResourceId, objects);
+                           List<Object> objects) {
         // TODO Auto-generated constructor stub
         myContext = (Activity) context;
         //  alertDialog=new SpotsDialog(myContext,R.style.Custom_Progress_Dialog);
-        datas = objects;
+        this.datas = objects;
         inflater = (LayoutInflater) myContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        imageLoader = new tech.ozak.sportmix.lazyutil.ImageLoader(myContext.getApplicationContext());
         // imageLoader.clearCache();
 
     }
@@ -63,52 +68,81 @@ public class PostItemAdapter extends ArrayAdapter<RssItem> implements View.OnCli
     }
 
     @Override
+    public int getCount() {
+        return datas.size();
+    }
+
+    @Override
+    public Object getItem(int position) {
+        return datas.get(position);
+    }
+
+    @Override
+    public long getItemId(int position) {
+        return position;
+    }
+
+    @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         View vi = convertView;
         final ViewHolder holder;
 
-        if (convertView == null) {
+        if (position == AD_INDEX && ad != null){
+            //return ad view
+            return (View) datas.get(position);
+        }
+        else {
 
-            /****** Inflate tabitem.xml file for each row ( Defined below ) *******/
-            vi = inflater.inflate(R.layout.postitem, null);
+            if (convertView == null) {
 
-            /****** View Holder Object to contain tabitem.xml file elements ******/
+                /****** Inflate tabitem.xml file for each row ( Defined below ) *******/
+                vi = inflater.inflate(R.layout.postitem, null);
 
-            holder = new ViewHolder();
-            holder.postThumbView = (ImageView) vi.findViewById(R.id.postThumb);
-            holder.postTitleView = (TextView) vi.findViewById(R.id.postTitleLabel);
-            holder.postDateView = (TextView) vi.findViewById(R.id.postDateLabel);
+                /****** View Holder Object to contain tabitem.xml file elements ******/
 
-            /************  Set holder with LayoutInflater ************/
-            vi.setTag(holder);
-        } else
-            holder = (ViewHolder) vi.getTag();
+                holder = new ViewHolder();
+                holder.postThumbView = (ImageView) vi.findViewById(R.id.postThumb);
+                holder.postTitleView = (TextView) vi.findViewById(R.id.postTitleLabel);
+                holder.postDateView = (TextView) vi.findViewById(R.id.postDateLabel);
 
+                /************  Set holder with LayoutInflater ************/
+                vi.setTag(holder);
+            } else{
 
-
-            RssItem post = datas[position];
-            holder.postTitleView.setText(post.getTitle());
-            holder.postDateView.setText(post.getPubDate());
-            ImageView image = holder.postThumbView;
-
-            int height = myContext.getResources().getDisplayMetrics().heightPixels * 1 / 4;
-            RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams) image.getLayoutParams();
-            layoutParams.height = height;
-            image.setLayoutParams(layoutParams);
-
-            int width = myContext.getResources().getDisplayMetrics().widthPixels;
-
-            String imgLink = post.getImgLink();
-            String feedLink = post.getFeedLink();
-            decideWhichImageOnListItem(holder, height, width, imgLink, feedLink);
+                holder = (ViewHolder) vi.getTag();
+            }
 
 
-            /******** Set Item Click Listner for LayoutInflater for each row ***********/
-            vi.setOnClickListener(new OnItemClickListener(position));
+            RssItem post = (RssItem) datas.get(position);
+            if (holder!=null){
+
+                holder.postTitleView.setText(post.getTitle());
+                holder.postDateView.setText(post.getPubDate());
+                ImageView image = holder.postThumbView;
+
+                int height = myContext.getResources().getDisplayMetrics().heightPixels * 1 / 4;
+                RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams) image.getLayoutParams();
+                layoutParams.height = height;
+                image.setLayoutParams(layoutParams);
+
+                int width = myContext.getResources().getDisplayMetrics().widthPixels;
+
+                String imgLink = post.getImgLink();
+                String feedLink = post.getFeedLink();
+                decideWhichImageOnListItem(holder, height, width, imgLink, feedLink);
 
 
-        return vi;
+                /******** Set Item Click Listner for LayoutInflater for each row ***********/
+                vi.setOnClickListener(new OnItemClickListener(position));
+            }
+
+
+            return vi;
+        }
     }
+
+
+
 
     private void decideWhichImageOnListItem(ViewHolder holder, int height, int width, String imgLink, String feedLink) {
         if (StringUtils.isBlank(imgLink)) {
@@ -205,6 +239,10 @@ public class PostItemAdapter extends ArrayAdapter<RssItem> implements View.OnCli
     }
 
 
+
+
+
+
     /*********
      * Called when Item click in ListView
      ************/
@@ -218,48 +256,112 @@ public class PostItemAdapter extends ArrayAdapter<RssItem> implements View.OnCli
         @Override
         public void onClick(View arg0) {
 
-            Intent intent = null;
+        //    Intent intent = null;
 
-            RssItem rssItem = datas[mPosition];
+            RssItem rssItem = (RssItem) datas.get(mPosition);
             String feedLink = rssItem.getFeedLink();
-            String imgLink = rssItem.getImgLink();
+         //   String imgLink = rssItem.getImgLink();
             String header = rssItem.getTitle();
-            intent = decideWhichIntent(feedLink);
 
 
-            intent.putExtra("feed_link", feedLink);
-            intent.putExtra("img_link", imgLink);
-            intent.putExtra("header", header);
-            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-            myContext.startActivity(intent);
-            //       myContext.overridePendingTransition(R.anim.abc_fade_in,R.anim.abc_fade_out);
+
+
+            new FinestWebView.Builder(myContext)
+                    .theme(R.style.FinestWebViewTheme)
+                    .titleDefault(header)
+                    .showUrl(false)
+                    .statusBarColorRes(R.color.bluePrimaryDark)
+                    .toolbarColorRes(R.color.bluePrimary)
+                    .titleColorRes(R.color.finestWhite)
+                    .urlColorRes(R.color.bluePrimaryLight)
+                    .iconDefaultColorRes(R.color.finestWhite)
+                    .progressBarColorRes(R.color.finestWhite)
+                    .stringResCopiedToClipboard(R.string.copied_to_clipboard)
+                    .stringResCopiedToClipboard(R.string.copied_to_clipboard)
+                    .stringResCopiedToClipboard(R.string.copied_to_clipboard)
+                    .showSwipeRefreshLayout(true)
+                    .swipeRefreshColorRes(R.color.bluePrimaryDark)
+                    .menuSelector(R.drawable.selector_light_theme)
+                    .menuTextGravity(Gravity.CENTER)
+                    .menuTextPaddingRightRes(R.dimen.defaultMenuTextPaddingLeft)
+                    .dividerHeight(0)
+                    .gradientDivider(false)
+                    .setCustomAnimations(R.anim.slide_up, R.anim.hold, R.anim.hold, R.anim.slide_down)
+                    .show(feedLink);
+
+
+
+
         }
     }
 
-    @NonNull
-    private Intent decideWhichIntent(String feedLink) {
-        Intent intent;
-        if (StringUtils.containsIgnoreCase(feedLink, "ntv")) {
 
-            intent = new Intent(myContext, NtvSporContentActivity.class);
 
-        } else if (StringUtils.containsIgnoreCase(feedLink, "sabah")) {
-            intent = new Intent(myContext, SabahContentActivity.class);
-        } else if (StringUtils.containsIgnoreCase(feedLink, "trt")) {
-            intent = new Intent(myContext, TrtsporContentActivity.class);
-        } else if (StringUtils.containsIgnoreCase(feedLink, "haberturk")) {
-            intent = new Intent(myContext, HaberTurkContentActivity.class);
-        } else if (StringUtils.containsIgnoreCase(feedLink, "ligtv")) {
-            intent = new Intent(myContext, LigTvContentActivity.class);
-        } else if (StringUtils.containsIgnoreCase(feedLink, "fotomac")) {
-            intent = new Intent(myContext, FotomacContentActivity.class);
-        } else if (StringUtils.containsIgnoreCase(feedLink, "sporx")) {
-            intent = new Intent(myContext, SporxContentActivity.class);
-        } else {
-            intent = new Intent(myContext, TrtsporContentActivity.class);
+    public synchronized void addNativeAd(NativeAd ad) {
+        if (ad == null) {
+            return;
         }
-        return intent;
+        if (this.ad != null) {
+            // Clean up the old ad before inserting the new one
+            this.ad.unregisterView();
+            this.datas.remove(AD_INDEX);
+            this.ad = null;
+            this.notifyDataSetChanged();
+        }
+        this.ad = ad;
+        View adView = inflater.inflate(R.layout.ad_list, null);
+        inflateAd(ad, adView);
+        datas.add(AD_INDEX, adView);
+        this.notifyDataSetChanged();
     }
+
+
+    //Method to inflate ads
+    private void inflateAd(NativeAd nativeAd, View adView) {
+        // Create native UI using the ad metadata.
+        ImageView nativeAdIcon = (ImageView) adView.findViewById(R.id.native_ad_icon);
+        TextView nativeAdTitle = (TextView) adView.findViewById(R.id.native_ad_title);
+        TextView nativeAdBody = (TextView) adView.findViewById(R.id.native_ad_body);
+        MediaView nativeAdMedia = (MediaView) adView.findViewById(R.id.native_ad_media);
+        nativeAdMedia.setAutoplay(AdSettings.isVideoAutoplay());
+        TextView nativeAdSocialContext =
+                (TextView) adView.findViewById(R.id.native_ad_social_context);
+        Button nativeAdCallToAction = (Button) adView.findViewById(R.id.native_ad_call_to_action);
+
+        // Setting the Text
+        nativeAdSocialContext.setText(nativeAd.getAdSocialContext());
+        nativeAdCallToAction.setText(nativeAd.getAdCallToAction());
+        nativeAdCallToAction.setVisibility(View.VISIBLE);
+        nativeAdTitle.setText(nativeAd.getAdTitle());
+        nativeAdBody.setText(nativeAd.getAdBody());
+
+        // Downloading and setting the ad icon.
+        NativeAd.Image adIcon = nativeAd.getAdIcon();
+        NativeAd.downloadAndDisplayImage(adIcon, nativeAdIcon);
+
+        // Downloading and setting the cover image.
+        NativeAd.Image adCoverImage = nativeAd.getAdCoverImage();
+        int bannerWidth = adCoverImage.getWidth();
+        int bannerHeight = adCoverImage.getHeight();
+        DisplayMetrics metrics = myContext.getResources().getDisplayMetrics();
+        int mediaWidth = adView.getWidth() > 0 ? adView.getWidth() : metrics.widthPixels;
+        nativeAdMedia.setLayoutParams(new LinearLayout.LayoutParams(
+                mediaWidth,
+                Math.min(
+                        (int) (((double) mediaWidth / (double) bannerWidth) * bannerHeight),
+                        metrics.heightPixels / 3)));
+        nativeAdMedia.setNativeAd(nativeAd);
+
+        // Wire up the View with the native ad, the whole nativeAdContainer will be clickable.
+        nativeAd.registerViewForInteraction(adView);
+    }
+
+
+
+
+
+
+
 
 
 }
