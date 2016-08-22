@@ -300,6 +300,7 @@ public class PostItemAdapter extends BaseAdapter implements View.OnClickListener
     public synchronized void addNativeAd(NativeAd ad) {
         if (ad == null) {
             return;
+
         }
         if (this.ad != null) {
             // Clean up the old ad before inserting the new one
