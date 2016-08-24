@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Fragment;
 import android.app.FragmentManager;
-import android.app.FragmentTransaction;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.res.Configuration;
@@ -27,21 +26,20 @@ import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
+import com.thefinestartist.finestwebview.FinestWebView;
+
 import java.util.ArrayList;
 import java.util.List;
 
 import dmax.dialog.SpotsDialog;
 import tech.ozak.sportmix.adapter.NavDrawerListAdapter;
-import tech.ozak.sportmix.adapter.PostItemAdapter;
 import tech.ozak.sportmix.dto.NavDrawerItem;
 import tech.ozak.sportmix.dto.RssItem;
-import tech.ozak.sportmix.fragment.CanliSkorFragment;
-import tech.ozak.sportmix.fragment.FiksturFragment;
+import tech.ozak.sportmix.fragment.EuroSportFragment;
 import tech.ozak.sportmix.fragment.FotomacFragment;
 import tech.ozak.sportmix.fragment.HaberTurkFragment;
 import tech.ozak.sportmix.fragment.LigTvFragment;
-import tech.ozak.sportmix.fragment.NtvSporFragment;
-import tech.ozak.sportmix.fragment.PuanDurumuFragment;
+import tech.ozak.sportmix.fragment.GoalComFragment;
 import tech.ozak.sportmix.fragment.SabahFragment;
 import tech.ozak.sportmix.fragment.SporxFragment;
 import tech.ozak.sportmix.fragment.TrtsporFragment;
@@ -145,6 +143,9 @@ public class ListActivity extends ActionBarActivity {
         // sporx
         navDrawerItems.add(new NavDrawerItem(navMenuTitles[9], navMenuIcons.getResourceId(9, -1)));
 
+        // sporx
+        navDrawerItems.add(new NavDrawerItem(navMenuTitles[9], navMenuIcons.getResourceId(10, -1)));
+
         // Recycle the typed array
         navMenuIcons.recycle();
 
@@ -233,11 +234,6 @@ public class ListActivity extends ActionBarActivity {
                     fragmentManager.beginTransaction()
                             .replace(R.id.frame_container, fragment).addToBackStack(null).commit();
 
-                    // update selected item and title, then close the drawer
-                    mDrawerList.setItemChecked(5, true);
-                    mDrawerList.setSelection(5);
-                    setTitle(navMenuTitles[5]);
-                    mDrawerLayout.closeDrawer(mDrawerList);
                 } else {
                     // error in creating fragment
                     Log.e("MainActivity", "Error in creating fragment");
@@ -294,7 +290,6 @@ public class ListActivity extends ActionBarActivity {
         @Override
         protected void onPostExecute(final Boolean success) {
             if (success) {
-                Log.d("Rss Size FEEDACTIVITY: ", String.valueOf(rssItems.size()));
                 Fragment fragment = new SporxFragment();
 
                 if (fragment != null) {
@@ -302,11 +297,6 @@ public class ListActivity extends ActionBarActivity {
                     fragmentManager.beginTransaction()
                             .replace(R.id.frame_container, fragment).addToBackStack(null).commit();
 
-                    // update selected item and title, then close the drawer
-                    mDrawerList.setItemChecked(1, true);
-                    mDrawerList.setSelection(1);
-                    setTitle(navMenuTitles[1]);
-                    mDrawerLayout.closeDrawer(mDrawerList);
                 } else {
                     // error in creating fragment
                     Log.e("MainActivity", "Error in creating fragment");
@@ -337,20 +327,22 @@ public class ListActivity extends ActionBarActivity {
     private void displayView(int position) {
         // update the main content by replacing fragments
         Fragment fragment = null;
+
+        mDrawerList.setItemChecked(position, true);
+        mDrawerList.setSelection(position);
+        setTitle(navMenuTitles[position]);
+        mDrawerLayout.closeDrawer(mDrawerList);
         switch (position) {
             case 0:
-                fragment = new NtvSporFragment();
-                getSupportActionBar().setTitle(Html.fromHtml("<font color='#786a6a'>" + "NTV SPOR"));
+                fragment = new GoalComFragment();
+                getSupportActionBar().setTitle(Html.fromHtml("<font color='#786a6a'>" + "GOAL.COM"));
                 if (fragment != null) {
                     FragmentManager fragmentManager = getFragmentManager();
                     fragmentManager.beginTransaction()
                             .replace(R.id.frame_container, fragment).addToBackStack(null).commit();
 
                     // update selected item and title, then close the drawer
-                    mDrawerList.setItemChecked(position, true);
-                    mDrawerList.setSelection(position);
-                    setTitle(navMenuTitles[position]);
-                    mDrawerLayout.closeDrawer(mDrawerList);
+                    getSupportActionBar().setTitle(Html.fromHtml("<font color='#786a6a'>" + "GOAL.COM"));
                 } else {
                     // error in creating fragment
                     Log.e("MainActivity", "Error in creating fragment");
@@ -360,11 +352,17 @@ public class ListActivity extends ActionBarActivity {
                 alertDialog = new SpotsDialog(this, R.style.Custom_Progress_Dialog);
                 setCustomAlertDialog();
                 new SporxAsyncTask(this).execute(getResources().getString(R.string.sporx_feed));
-
                 getSupportActionBar().setTitle(Html.fromHtml("<font color='#786a6a'>" + "SPORX"));
                 break;
 
             case 2:
+                alertDialog = new SpotsDialog(this, R.style.Custom_Progress_Dialog);
+                setCustomAlertDialog();
+                new EuroSportAsyncTask(this).execute(getResources().getString(R.string.eurosport_feed_url));
+                getSupportActionBar().setTitle(Html.fromHtml("<font color='#786a6a'>" + "EUROSPORT"));
+                break;
+
+            case 3:
                 alertDialog = new SpotsDialog(this, R.style.Custom_Progress_Dialog);
                 setCustomAlertDialog();
                 new TrtsporAsyncTask(this).execute(getResources().getString(R.string.trtspor_feed));
@@ -372,7 +370,7 @@ public class ListActivity extends ActionBarActivity {
                 getSupportActionBar().setTitle(Html.fromHtml("<font color='#786a6a'>" + "TRT SPOR"));
                 break;
 
-            case 3:
+            case 4:
                 alertDialog = new SpotsDialog(this, R.style.Custom_Progress_Dialog);
                 setCustomAlertDialog();
                 new SabahAsyncTask(this).execute(getResources().getString(R.string.sabah_feed));
@@ -380,7 +378,7 @@ public class ListActivity extends ActionBarActivity {
                 getSupportActionBar().setTitle(Html.fromHtml("<font color='#786a6a'>" + "SABAH"));
                 break;
 
-            case 4:
+            case 5:
                 alertDialog = new SpotsDialog(this, R.style.Custom_Progress_Dialog);
                 setCustomAlertDialog();
                 new LigTvAsyncTask(this).execute(getResources().getString(R.string.ligtv_feed));
@@ -388,7 +386,7 @@ public class ListActivity extends ActionBarActivity {
                 getSupportActionBar().setTitle(Html.fromHtml("<font color='#786a6a'>" + "LİG TV"));
                 break;
 
-            case 5:
+            case 6:
                 alertDialog = new SpotsDialog(this, R.style.Custom_Progress_Dialog);
                 setCustomAlertDialog();
                 new HaberTurkAsynTask(this).execute(getResources().getString(R.string.haberturk_feed));
@@ -396,24 +394,22 @@ public class ListActivity extends ActionBarActivity {
                 getSupportActionBar().setTitle(Html.fromHtml("<font color='#786a6a'>" + "HABERTÜRK"));
                 break;
             // puan durumu
-            case 6:
+            case 7:
                 alertDialog = new SpotsDialog(this, R.style.Custom_Progress_Dialog);
                 setCustomAlertDialog();
                 new FotomacAsyncTask(this).execute(getResources().getString(R.string.fotomac_feed));
-
                 getSupportActionBar().setTitle(Html.fromHtml("<font color='#786a6a'>" + "FOTOMAÇ"));
                 break;
 
             // fikstur
-            case 7:
+            case 8:
                 alertDialog = new SpotsDialog(this, R.style.Custom_Progress_Dialog);
                 setCustomAlertDialog();
                 new PuanDurumuAsyncTask(this).execute("");
-
                 getSupportActionBar().setTitle(Html.fromHtml("<font color='#786a6a'>" + "PUAN DURUMU"));
                 break;
 
-            case 8:
+            case 9:
                 alertDialog = new SpotsDialog(this, R.style.Custom_Progress_Dialog);
                 setCustomAlertDialog();
                 new FiksturAsyncTask(this).execute("");
@@ -421,7 +417,7 @@ public class ListActivity extends ActionBarActivity {
                 getSupportActionBar().setTitle(Html.fromHtml("<font color='#786a6a'>" + "FİKSTÜR"));
                 break;
 
-            case 9:
+            case 10:
                 alertDialog = new SpotsDialog(this, R.style.Custom_Progress_Dialog);
                 setCustomAlertDialog();
                 new CanliSkorAsyncTask(this).execute("");
@@ -565,11 +561,6 @@ public class ListActivity extends ActionBarActivity {
                     fragmentManager.beginTransaction()
                             .replace(R.id.frame_container, fragment).addToBackStack(null).commit();
 
-                    // update selected item and title, then close the drawer
-                    mDrawerList.setItemChecked(4, true);
-                    mDrawerList.setSelection(4);
-                    setTitle(navMenuTitles[4]);
-                    mDrawerLayout.closeDrawer(mDrawerList);
                 } else {
                     // error in creating fragment
                     Log.e("MainActivity", "Error in creating fragment");
@@ -631,11 +622,6 @@ public class ListActivity extends ActionBarActivity {
                     fragmentManager.beginTransaction()
                             .replace(R.id.frame_container, fragment).addToBackStack(null).commit();
 
-                    // update selected item and title, then close the drawer
-                    mDrawerList.setItemChecked(6, true);
-                    mDrawerList.setSelection(6);
-                    setTitle(navMenuTitles[6]);
-                    mDrawerLayout.closeDrawer(mDrawerList);
                 } else {
                     // error in creating fragment
                     Log.e("MainActivity", "Error in creating fragment");
@@ -680,47 +666,41 @@ public class ListActivity extends ActionBarActivity {
 
         protected void onPreExecute() {
 
-            alertDialog.show();
-           /* if (rssItems!=null && !rssItems.isEmpty()){
-                rssItems.clear();
-            }*/
         }
 
 
         @Override
         protected void onPostExecute(final Boolean success) {
-            if (success) {
-                Log.d("Rss Size FEEDACTIVITY: ", String.valueOf(rssItems.size()));
-                Fragment fragment = new PuanDurumuFragment();
 
-                if (fragment != null) {
-                    FragmentManager fragmentManager = getFragmentManager();
-                    fragmentManager.beginTransaction()
-                            .replace(R.id.frame_container, fragment).addToBackStack(null).commit();
 
-                    // update selected item and title, then close the drawer
-                    mDrawerList.setItemChecked(7, true);
-                    mDrawerList.setSelection(7);
-                    setTitle(navMenuTitles[7]);
-                    mDrawerLayout.closeDrawer(mDrawerList);
-                } else {
-                    // error in creating fragment
-                    Log.e("MainActivity", "Error in creating fragment");
-                }
+            new FinestWebView.Builder(context)
+                    .theme(R.style.FinestWebViewTheme)
+                    .titleDefault("Puan Durumu")
+                    .showUrl(false)
+                    .statusBarColorRes(R.color.bluePrimaryDark)
+                    .toolbarColorRes(R.color.bluePrimary)
+                    .titleColorRes(R.color.finestWhite)
+                    .urlColorRes(R.color.bluePrimaryLight)
+                    .iconDefaultColorRes(R.color.finestWhite)
+                    .progressBarColorRes(R.color.finestWhite)
+                    .stringResCopiedToClipboard(R.string.copied_to_clipboard)
+                    .stringResCopiedToClipboard(R.string.copied_to_clipboard)
+                    .stringResCopiedToClipboard(R.string.copied_to_clipboard)
+                    .showSwipeRefreshLayout(true)
+                    .swipeRefreshColorRes(R.color.bluePrimaryDark)
+                    .menuSelector(R.drawable.selector_light_theme)
+                    .menuTextGravity(Gravity.CENTER)
+                    .menuTextPaddingRightRes(R.dimen.defaultMenuTextPaddingLeft)
+                    .dividerHeight(0)
+                    .gradientDivider(false)
+                    .setCustomAnimations(R.anim.slide_up, R.anim.hold, R.anim.hold, R.anim.slide_down)
+                    .show(getResources().getString(R.string.puan_durumu_url));
 
-            }
-            alertDialog.dismiss();
         }
 
         @Override
         protected Boolean doInBackground(String... params) {
 
-            try {
-                // Create RSS reader
-                // rssItems= RssReader.getLatestRssFeed(params[0]);
-            } catch (Exception e) {
-                Log.e("ITCRssReader", e.getMessage());
-            }
             return true;
         }
 
@@ -745,47 +725,40 @@ public class ListActivity extends ActionBarActivity {
 
         protected void onPreExecute() {
 
-            alertDialog.show();
-           /* if (rssItems!=null && !rssItems.isEmpty()){
-                rssItems.clear();
-            }*/
         }
 
 
         @Override
         protected void onPostExecute(final Boolean success) {
-            if (success) {
-                Log.d("Rss Size FEEDACTIVITY: ", String.valueOf(rssItems.size()));
-                Fragment fragment = new CanliSkorFragment();
 
-                if (fragment != null) {
-                    FragmentManager fragmentManager = getFragmentManager();
-                    fragmentManager.beginTransaction()
-                            .replace(R.id.frame_container, fragment).addToBackStack(null).commit();
 
-                    // update selected item and title, then close the drawer
-                    mDrawerList.setItemChecked(9, true);
-                    mDrawerList.setSelection(9);
-                    setTitle(navMenuTitles[9]);
-                    mDrawerLayout.closeDrawer(mDrawerList);
-                } else {
-                    // error in creating fragment
-                    Log.e("MainActivity", "Error in creating fragment");
-                }
-
-            }
-            alertDialog.dismiss();
+            new FinestWebView.Builder(context)
+                    .theme(R.style.FinestWebViewTheme)
+                    .titleDefault("Basketbol")
+                    .showUrl(false)
+                    .statusBarColorRes(R.color.bluePrimaryDark)
+                    .toolbarColorRes(R.color.bluePrimary)
+                    .titleColorRes(R.color.finestWhite)
+                    .urlColorRes(R.color.bluePrimaryLight)
+                    .iconDefaultColorRes(R.color.finestWhite)
+                    .progressBarColorRes(R.color.finestWhite)
+                    .stringResCopiedToClipboard(R.string.copied_to_clipboard)
+                    .stringResCopiedToClipboard(R.string.copied_to_clipboard)
+                    .stringResCopiedToClipboard(R.string.copied_to_clipboard)
+                    .showSwipeRefreshLayout(true)
+                    .swipeRefreshColorRes(R.color.bluePrimaryDark)
+                    .menuSelector(R.drawable.selector_light_theme)
+                    .menuTextGravity(Gravity.CENTER)
+                    .menuTextPaddingRightRes(R.dimen.defaultMenuTextPaddingLeft)
+                    .dividerHeight(0)
+                    .gradientDivider(false)
+                    .setCustomAnimations(R.anim.slide_up, R.anim.hold, R.anim.hold, R.anim.slide_down)
+                    .show(getResources().getString(R.string.canli_skor_url));
         }
 
         @Override
         protected Boolean doInBackground(String... params) {
 
-            try {
-                // Create RSS reader
-                // rssItems= RssReader.getLatestRssFeed(params[0]);
-            } catch (Exception e) {
-                Log.e("ITCRssReader", e.getMessage());
-            }
             return true;
         }
 
@@ -814,47 +787,41 @@ public class ListActivity extends ActionBarActivity {
 
         protected void onPreExecute() {
 
-            alertDialog.show();
-           /* if (rssItems!=null && !rssItems.isEmpty()){
-                rssItems.clear();
-            }*/
         }
 
 
         @Override
         protected void onPostExecute(final Boolean success) {
-            if (success) {
-                Log.d("Rss Size FEEDACTIVITY: ", String.valueOf(rssItems.size()));
-                Fragment fragment = new FiksturFragment();
 
-                if (fragment != null) {
-                    FragmentManager fragmentManager = getFragmentManager();
-                    fragmentManager.beginTransaction()
-                            .replace(R.id.frame_container, fragment).addToBackStack(null).commit();
 
-                    // update selected item and title, then close the drawer
-                    mDrawerList.setItemChecked(8, true);
-                    mDrawerList.setSelection(8);
-                    setTitle(navMenuTitles[8]);
-                    mDrawerLayout.closeDrawer(mDrawerList);
-                } else {
-                    // error in creating fragment
-                    Log.e("MainActivity", "Error in creating fragment");
-                }
+            new FinestWebView.Builder(context)
+                    .theme(R.style.FinestWebViewTheme)
+                    .titleDefault("Fikstür")
+                    .showUrl(false)
+                    .statusBarColorRes(R.color.bluePrimaryDark)
+                    .toolbarColorRes(R.color.bluePrimary)
+                    .titleColorRes(R.color.finestWhite)
+                    .urlColorRes(R.color.bluePrimaryLight)
+                    .iconDefaultColorRes(R.color.finestWhite)
+                    .progressBarColorRes(R.color.finestWhite)
+                    .stringResCopiedToClipboard(R.string.copied_to_clipboard)
+                    .stringResCopiedToClipboard(R.string.copied_to_clipboard)
+                    .stringResCopiedToClipboard(R.string.copied_to_clipboard)
+                    .showSwipeRefreshLayout(true)
+                    .swipeRefreshColorRes(R.color.bluePrimaryDark)
+                    .menuSelector(R.drawable.selector_light_theme)
+                    .menuTextGravity(Gravity.CENTER)
+                    .menuTextPaddingRightRes(R.dimen.defaultMenuTextPaddingLeft)
+                    .dividerHeight(0)
+                    .gradientDivider(false)
+                    .setCustomAnimations(R.anim.slide_up, R.anim.hold, R.anim.hold, R.anim.slide_down)
+                    .show(getResources().getString(R.string.fikstur_url));
 
-            }
-            alertDialog.dismiss();
         }
 
         @Override
         protected Boolean doInBackground(String... params) {
 
-            try {
-                // Create RSS reader
-                // rssItems= RssReader.getLatestRssFeed(params[0]);
-            } catch (Exception e) {
-                Log.e("ITCRssReader", e.getMessage());
-            }
             return true;
         }
 
@@ -901,11 +868,6 @@ public class ListActivity extends ActionBarActivity {
                     fragmentManager.beginTransaction()
                             .replace(R.id.frame_container, fragment).addToBackStack(null).commit();
 
-                    // update selected item and title, then close the drawer
-                    mDrawerList.setItemChecked(3, true);
-                    mDrawerList.setSelection(3);
-                    setTitle(navMenuTitles[3]);
-                    mDrawerLayout.closeDrawer(mDrawerList);
                 } else {
                     // error in creating fragment
                     Log.e("MainActivity", "Error in creating fragment");
@@ -928,6 +890,73 @@ public class ListActivity extends ActionBarActivity {
         }
 
     }
+
+
+
+    private class EuroSportAsyncTask extends AsyncTask<String, Void, Boolean> {
+
+        private Activity activity;
+
+        private Thread thread;
+
+        /**
+         * progress dialog to show user that the backup is processing.
+         */
+
+        public EuroSportAsyncTask(Activity activity) {
+            this.activity = activity;
+            context = activity;
+        }
+
+        /**
+         * application context.
+         */
+        private Context context;
+
+        protected void onPreExecute() {
+
+            alertDialog.show();
+           /* if (rssItems!=null && !rssItems.isEmpty()){
+                rssItems.clear();
+            }*/
+        }
+
+
+        @Override
+        protected void onPostExecute(final Boolean success) {
+            if (success) {
+                Fragment fragment = new EuroSportFragment();
+
+                if (fragment != null) {
+                    FragmentManager fragmentManager = getFragmentManager();
+                    fragmentManager.beginTransaction()
+                            .replace(R.id.frame_container, fragment).addToBackStack(null).commit();
+
+                    // update selected item and title, then close the drawer
+
+                } else {
+                    // error in creating fragment
+                    Log.e("MainActivity", "Error in creating fragment");
+                }
+
+            }
+            alertDialog.dismiss();
+        }
+
+        @Override
+        protected Boolean doInBackground(String... params) {
+
+            try {
+                // Create RSS reader
+                rssItems = RssReader.getLatestRssFeed(params[0]);
+            } catch (Exception e) {
+                Log.e("ITCRssReader", e.getMessage());
+            }
+            return true;
+        }
+
+    }
+
 
 
     private class TrtsporAsyncTask extends AsyncTask<String, Void, Boolean> {
@@ -971,10 +1000,7 @@ public class ListActivity extends ActionBarActivity {
                             .replace(R.id.frame_container, fragment).addToBackStack(null).commit();
 
                     // update selected item and title, then close the drawer
-                    mDrawerList.setItemChecked(2, true);
-                    mDrawerList.setSelection(2);
-                    setTitle(navMenuTitles[2]);
-                    mDrawerLayout.closeDrawer(mDrawerList);
+
                 } else {
                     // error in creating fragment
                     Log.e("MainActivity", "Error in creating fragment");

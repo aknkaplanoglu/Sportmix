@@ -45,5 +45,6 @@ dependencies {
     compile 'com.antonionicolaspina:revealtextview:2.0'
     compile 'com.thefinestartist:finestwebview:1.2.7'
     compile 'com.facebook.android:audience-network-sdk:4.+'
+    compile group: 'com.rometools', name: 'rome', version: '1.7.0'
     
 }

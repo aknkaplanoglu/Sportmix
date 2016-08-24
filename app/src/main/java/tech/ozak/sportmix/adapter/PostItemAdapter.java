@@ -43,7 +43,7 @@ public class PostItemAdapter extends BaseAdapter implements View.OnClickListener
     private List<Object> datas;
 
     private NativeAd ad;
-    private static final int AD_INDEX = 2;
+    private static final int AD_INDEX = 3;
 
     public PostItemAdapter(Context context, int textViewResourceId,
                            List<Object> objects) {
@@ -350,7 +350,7 @@ public class PostItemAdapter extends BaseAdapter implements View.OnClickListener
                 mediaWidth,
                 Math.min(
                         (int) (((double) mediaWidth / (double) bannerWidth) * bannerHeight),
-                        metrics.heightPixels / 3)));
+                        metrics.heightPixels / 7))); // eskiden 3
         nativeAdMedia.setNativeAd(nativeAd);
 
         // Wire up the View with the native ad, the whole nativeAdContainer will be clickable.

@@ -6,6 +6,7 @@ package tech.ozak.sportmix.handler;
 import android.text.Html;
 import android.util.Log;
 
+import org.apache.commons.lang3.StringUtils;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -13,6 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import tech.ozak.sportmix.dto.RssItem;
+import tech.ozak.sportmix.romerss.RomeRssHandler;
 
 /**
  * @author rob
@@ -38,12 +40,18 @@ public class RssReader {
 		// feed = "http://www.ntvspor.net/Rss/anasayfa";
 		
 		
-		RSSHandler rh = new RSSHandler();
+		RomeRssHandler rss=new RomeRssHandler();
 
 		List<RssItem> articles = null;
 		try {
-			articles = rh.getLatestArticles(feed);
-			Log.e("RSS ERROR", "Number of articles " + articles.size());
+			if (StringUtils.containsIgnoreCase(feed,"trtspor")){
+				RSSHandler rssHandler=new RSSHandler();
+				articles=rssHandler.getLatestArticles(feed);
+			}
+			else{
+				articles = rss.getAllNews(feed);
+			}
+
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

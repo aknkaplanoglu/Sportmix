@@ -62,7 +62,7 @@ public class RssItem {
     public void setDescription(String description) {
         this.description = description;
 
-        //parse description for any image or video links
+       /* //parse description for any image or video links
         if (description.contains("<img ")){
             String img  = description.substring(description.indexOf("<img "));
             String cleanUp = img.substring(0, img.indexOf(">") + 1);
@@ -85,7 +85,7 @@ public class RssItem {
             setImgLink(a);
             Log.d("LOGGING RSS XML", "Setting image link: " + img);
             this.description = this.description.replace(cleanUp, "");
-        }
+        }*/
     }
 
     public String getImgLink() {

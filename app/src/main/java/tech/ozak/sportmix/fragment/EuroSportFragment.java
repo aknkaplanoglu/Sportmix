@@ -26,16 +26,15 @@ import java.util.List;
 
 import tech.ozak.sportmix.ListActivity;
 import tech.ozak.sportmix.R;
-import tech.ozak.sportmix.SplashActivity;
 import tech.ozak.sportmix.adapter.PostItemAdapter;
 import tech.ozak.sportmix.asynTask.DownloadAsyncTask;
 import tech.ozak.sportmix.asynTask.DownloadAsyncTaskResponse;
 import tech.ozak.sportmix.dto.RssItem;
 
 /**
- * Created by ako on 10/31/2015.
+ * Created by aknka on 8/24/2016.
  */
-public class NtvSporFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener,
+public class EuroSportFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener,
         DownloadAsyncTaskResponse, NativeAdsManager.Listener, AdListener {
 
     private List<Object> rssItems=new ArrayList<>();
@@ -48,7 +47,7 @@ public class NtvSporFragment extends Fragment implements SwipeRefreshLayout.OnRe
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        v = inflater.inflate(R.layout.layout_ntvspor_fragment, container, false);
+        v = inflater.inflate(R.layout.layout_aspor_fragment, container, false);
 
         swipeRefreshLayout = (SwipeRefreshLayout) v.findViewById(R.id.swipe_refresh_layout);
       /*  alertDialog=new SpotsDialog(getActivity(),R.style.Custom_Progress_Dialog);
@@ -76,7 +75,9 @@ public class NtvSporFragment extends Fragment implements SwipeRefreshLayout.OnRe
         );
 
         //init native ads manager
-        listNativeAdsManager = new NativeAdsManager(getActivity(), getString(R.string.test_facebook_unit_id), 2);
+        listNativeAdsManager = new NativeAdsManager(getActivity(),
+                getString(R.string.test_facebook_unit_id),
+                getResources().getInteger(R.integer.max_pull_ad_number));
         if (getString(R.string.test_ad_mode).equals("T")){
             AdSettings.addTestDevice(getString(R.string.test_device_id));
         }
@@ -98,7 +99,7 @@ public class NtvSporFragment extends Fragment implements SwipeRefreshLayout.OnRe
 
     private void fillTheData() {
         ListActivity splashActivity = ListActivity.getInstance();
-        if (!splashActivity.getRssItems().equals(Collections.EMPTY_LIST)) {
+        if (splashActivity.getRssItems()!=null && splashActivity.getRssItems().size()>0) {
             rssItems.addAll(splashActivity.getRssItems());
 
             ListView listView = (ListView) v.findViewById(R.id.postListView);
@@ -115,6 +116,9 @@ public class NtvSporFragment extends Fragment implements SwipeRefreshLayout.OnRe
             listView.setAdapter(swingBottomInAnimationAdapter);
             swipeRefreshLayout.setRefreshing(false);
         }
+        else{
+            Toast.makeText(getActivity(),"Lütfen Diğer haber kaynaklarını inceleyiniz...",Toast.LENGTH_LONG);
+        }
     }
 
     @Override
@@ -129,9 +133,10 @@ public class NtvSporFragment extends Fragment implements SwipeRefreshLayout.OnRe
         new DownloadAsyncTask(new DownloadAsyncTaskResponse() {
             @Override
             public void processFinish(List<RssItem> output) {
+                if (output!=null)
                 newRssItems.addAll(output);
             }
-        }, swipeRefreshLayout).execute(resources.getString(R.string.ntvspor_feed));
+        }, swipeRefreshLayout).execute(resources.getString(R.string.eurosport_feed_url));
 
         setNewListAdapter();
     }
@@ -158,6 +163,7 @@ public class NtvSporFragment extends Fragment implements SwipeRefreshLayout.OnRe
 
     @Override
     public void processFinish(List<RssItem> output) {
+        if (output!=null)
         newRssItems.addAll(output);
     }
 

@@ -35,7 +35,7 @@ import tech.ozak.sportmix.dto.RssItem;
 /**
  * Created by ako on 10/31/2015.
  */
-public class LigTvFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener,
+public class GoalComFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener,
         DownloadAsyncTaskResponse, NativeAdsManager.Listener, AdListener {
 
     private List<Object> rssItems=new ArrayList<>();
@@ -48,7 +48,7 @@ public class LigTvFragment extends Fragment implements SwipeRefreshLayout.OnRefr
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        v = inflater.inflate(R.layout.layout_ligtv_fragment, container, false);
+        v = inflater.inflate(R.layout.layout_ntvspor_fragment, container, false);
 
         swipeRefreshLayout = (SwipeRefreshLayout) v.findViewById(R.id.swipe_refresh_layout);
       /*  alertDialog=new SpotsDialog(getActivity(),R.style.Custom_Progress_Dialog);
@@ -99,7 +99,7 @@ public class LigTvFragment extends Fragment implements SwipeRefreshLayout.OnRefr
     }
 
     private void fillTheData() {
-        ListActivity splashActivity = ListActivity.getInstance();
+        SplashActivity splashActivity = SplashActivity.getInstance();
         if (splashActivity.getRssItems()!=null && splashActivity.getRssItems().size()>0) {
             rssItems.addAll(splashActivity.getRssItems());
 
@@ -137,7 +137,7 @@ public class LigTvFragment extends Fragment implements SwipeRefreshLayout.OnRefr
                 if (output!=null)
                 newRssItems.addAll(output);
             }
-        }, swipeRefreshLayout).execute(resources.getString(R.string.ligtv_feed));
+        }, swipeRefreshLayout).execute(resources.getString(R.string.ntvspor_feed));
 
         setNewListAdapter();
     }

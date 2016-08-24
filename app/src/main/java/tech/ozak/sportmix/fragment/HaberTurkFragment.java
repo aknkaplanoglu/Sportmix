@@ -76,7 +76,9 @@ public class HaberTurkFragment extends Fragment implements SwipeRefreshLayout.On
         );
 
         //init native ads manager
-        listNativeAdsManager = new NativeAdsManager(getActivity(), getString(R.string.test_facebook_unit_id), 2);
+        listNativeAdsManager = new NativeAdsManager(getActivity(),
+                getString(R.string.test_facebook_unit_id),
+                getResources().getInteger(R.integer.max_pull_ad_number));
         if (getString(R.string.test_ad_mode).equals("T")){
             AdSettings.addTestDevice(getString(R.string.test_device_id));
         }
@@ -98,7 +100,7 @@ public class HaberTurkFragment extends Fragment implements SwipeRefreshLayout.On
 
     private void fillTheData() {
         ListActivity splashActivity = ListActivity.getInstance();
-        if (!splashActivity.getRssItems().equals(Collections.EMPTY_LIST)) {
+        if (splashActivity.getRssItems()!=null && splashActivity.getRssItems().size()>0) {
             rssItems.addAll(splashActivity.getRssItems());
 
             ListView listView = (ListView) v.findViewById(R.id.postListView);
@@ -115,6 +117,9 @@ public class HaberTurkFragment extends Fragment implements SwipeRefreshLayout.On
             listView.setAdapter(swingBottomInAnimationAdapter);
             swipeRefreshLayout.setRefreshing(false);
         }
+        else{
+            Toast.makeText(getActivity(),"Lütfen Diğer haber kaynaklarını inceleyiniz...",Toast.LENGTH_LONG);
+        }
     }
 
     @Override
@@ -129,6 +134,7 @@ public class HaberTurkFragment extends Fragment implements SwipeRefreshLayout.On
         new DownloadAsyncTask(new DownloadAsyncTaskResponse() {
             @Override
             public void processFinish(List<RssItem> output) {
+                if (output!=null)
                 newRssItems.addAll(output);
             }
         }, swipeRefreshLayout).execute(resources.getString(R.string.haberturk_feed));

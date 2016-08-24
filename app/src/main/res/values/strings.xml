@@ -5,7 +5,8 @@
     <string name="action_settings">Settings</string>
     <string name="drawer_open">Open navigation drawer</string>
     <string name="drawer_close">Close navigation drawer</string>
-    <string name="ntvspor_feed">http://www.ntvspor.net/Rss/anasayfa</string>
+    <!--<string name="ntvspor_feed">http://www.ntvspor.net/Rss/anasayfa</string>-->
+    <string name="ntvspor_feed">http://www.goal.com/tr/feeds/news?fmt=rss</string>
     <string name="sporx_feed">http://www.sporx.com/_xml/rss.php</string>
     <string name="ligtv_feed">http://www.ligtv.com.tr/rss/ana-sayfa</string>
     <string name="fotomac_feed">http://www.fotomac.com.tr/rss/Anasayfa.xml</string>
@@ -13,10 +14,11 @@
     <string name="sabah_feed">http://www.sabah.com.tr/rss/spor.xml</string>
     <string name="aspor_feed">http://www.aspor.com.tr/rss/WebTV.xml</string>
     <string name="trtspor_feed">http://www.trtspor.com/sondakika.rss</string>
-    <string name="puan_durumu_url">http://m.ntvspor.net/f/Puan.aspx</string>
-    <string name="fikstur_url">http://m.ntvspor.net/f/Fikstur.aspx</string>
-    <string name="canli_skor_url">http://m.ntvspor.net/f/Live.aspx</string>
+    <string name="puan_durumu_url">http://m.spor3.com/standings.php</string>
+    <string name="fikstur_url">http://m.spor3.com/standings.php/fikstur</string>
+    <string name="canli_skor_url">http://www.ntvspor.net/canli-skorlar</string>
     <string name="spor_haber3_feed">http://spor.haber3.com/rss/</string>
+    <string name="eurosport_feed_url">http://tr.eurosport.com/rss.xml</string>
 
     <string name="test_facebook_unit_id">615900055231174_615901328564380</string>
 
@@ -35,8 +37,9 @@
 
     <!-- Nav Drawer Menu Items -->
     <string-array name="nav_drawer_items">
-        <item >Ntv Spor</item>
+        <item >Goal.com</item>
         <item >Sporx</item>
+        <item >EuroSport</item>
         <item >Trt Spor</item>
         <item >Sabah-Spor</item>
         <item >Lig TV</item>
@@ -50,8 +53,9 @@
     <!-- Nav Drawer List Item Icons -->
     <!-- Keep them in order as the titles are in -->
     <array name="nav_drawer_icons">
-        <item>@mipmap/ntvspor</item>
+        <item>@mipmap/goalcom</item>
         <item>@mipmap/sporx</item>
+        <item>@mipmap/eurosport</item>
         <item>@mipmap/trtspor</item>
         <item>@mipmap/sabah</item>
         <item>@mipmap/ligtv</item>
