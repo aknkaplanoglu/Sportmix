@@ -13,10 +13,11 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
 
-import com.antonionicolaspina.revealtextview.RevealTextView;
+import com.hanks.htextview.HTextView;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import tech.ozak.sportmix.dto.RssItem;
 import tech.ozak.sportmix.handler.RssReader;
@@ -28,12 +29,9 @@ public class SplashActivity extends Activity {
 
     public static SplashActivity mInstance;
     static final int DIALOG_ERROR_CONNECTION = 1;
-    List<String> headlines;
-    List<String> links;
     List<RssItem> rssItems;
-    private final int SPLASH_DISPLAY_LENGTH = 3500;
-    AlertDialog alertDialog;
-    RevealTextView revealTextView;
+
+    private static String splash_text="Spormix";
 
  //   private ProgressWheel pwOne;
    // private CircleProgress mProgressView;
@@ -57,22 +55,45 @@ public class SplashActivity extends Activity {
         }
         else{
             setContentView(R.layout.splash_screen);
-            revealTextView= (RevealTextView) findViewById(R.id.reveal);
-            revealTextView.replayAnimation();
-            headlines=new ArrayList<String>();
-            links=new ArrayList<String>();
-            new Handler().postDelayed(new Runnable() {
+            bindLogo();
+            TimerTask task = new TimerTask() {
                 @Override
                 public void run() {
-                /* Create an Intent that will start the Menu-Activity. */
-                    new ProgressTask(SplashActivity.this).execute();
+                    // go to the main activity
+                    new ProgressTask(SplashActivity.this).execute(getString(R.string.ntvspor_feed));
+
                 }
-            }, SPLASH_DISPLAY_LENGTH);
+            };
+            // Show splash screen for 3 seconds
+            new Timer().schedule(task, getResources().getInteger(R.integer.splash_display_length));
 
 
         }
 
     }
+
+
+    private void bindLogo(){
+        // Start animating the image
+        final HTextView text2 = (HTextView)findViewById(R.id.htextView1);
+        // //
+        final Handler h = new Handler();
+        h.post(new Runnable() {
+            @Override
+            public void run() {
+                text2.animateText(splash_text);
+                if (!splash_text.equals(getString(R.string.splash_one))){
+                    splash_text=getString(R.string.splash_one);
+                }
+                else{
+                    splash_text=getString(R.string.splash_two);
+                }
+
+                h.postDelayed(this, 1800);
+            }
+        });
+    }
+
 
 
     public boolean isOnline(Context c) {
@@ -150,17 +171,11 @@ public class SplashActivity extends Activity {
 
         @Override
         protected void onPostExecute(final Boolean success) {
-
-
-
-             /* Create an Intent that will start the Menu-Activity. */
             Intent i = new Intent(SplashActivity.this, ListActivity.class);
             startActivity(i);
-            // Dont return back to the splash screen
+            // kill current activity
+            splash_text="Spormix";
             finish();
-
-
-
         }
 
         @Override

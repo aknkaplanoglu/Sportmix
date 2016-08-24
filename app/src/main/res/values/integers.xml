@@ -2,6 +2,7 @@
 <resources>
 
     <integer name="max_pull_ad_number">5</integer>
+    <integer name="splash_display_length">3700</integer>
 
 
 </resources>

@@ -73,4 +73,8 @@
     <string name="yes">Evet</string>
     <string name="no">Hayır</string>
 
+    <string name="splash_one">Tüm Haber Kaynakları...</string>
+    <string name="splash_two">Bu Uygulamada...</string>
+    <string name="no_feed_warning">Lütfen Diğer haber kaynaklarını inceleyiniz...</string>
+
 </resources>

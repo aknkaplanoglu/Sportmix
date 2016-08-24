@@ -8,6 +8,7 @@ import com.rometools.rome.io.SyndFeedInput;
 import com.rometools.rome.io.XmlReader;
 import com.rometools.utils.Strings;
 
+import org.apache.commons.lang3.StringUtils;
 import org.jdom2.Attribute;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -17,9 +18,12 @@ import org.xml.sax.InputSource;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.Reader;
 import java.net.HttpURLConnection;
 import java.net.URISyntaxException;
 import java.net.URL;
+import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -38,17 +42,23 @@ public class RomeRssHandler {
         List<RssItem> result = new ArrayList<>();
 
         SyndFeedInput input = new SyndFeedInput();
-        String userAgent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/52.0.2743.116 Safari/537.36";
-        System.setProperty("http.agent", userAgent);
         try {
             URL url = new URL(rssLink);
             HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-            connection.setRequestProperty("User-Agent", userAgent);
-
+            connection.addRequestProperty("User-Agent", "firefox");
+            // for java.net exception
+            System.setProperty("http.keepAlive", "false");
             InputStream inputStream = connection.getInputStream();
-            InputSource source = new InputSource(inputStream);
+            InputSource source;
 
-            System.out.println(inputStream.toString());
+            if (StringUtils.containsIgnoreCase(rssLink, "sporx")){
+                Reader reader = new InputStreamReader(inputStream, Charset.forName("ISO-8859-9"));
+                 source = new InputSource(reader);
+            }
+            else{
+                 source = new InputSource(inputStream);
+            }
+
             SyndFeed feed = input.build(source);
 
             for (SyndEntry syndEntry : feed.getEntries()) {

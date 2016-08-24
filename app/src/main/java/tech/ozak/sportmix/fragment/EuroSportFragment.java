@@ -117,7 +117,7 @@ public class EuroSportFragment extends Fragment implements SwipeRefreshLayout.On
             swipeRefreshLayout.setRefreshing(false);
         }
         else{
-            Toast.makeText(getActivity(),"Lütfen Diğer haber kaynaklarını inceleyiniz...",Toast.LENGTH_LONG);
+            Toast.makeText(getActivity(),getString(R.string.no_feed_warning),Toast.LENGTH_LONG).show();
         }
     }
 

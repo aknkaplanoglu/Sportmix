@@ -118,7 +118,7 @@ public class HaberTurkFragment extends Fragment implements SwipeRefreshLayout.On
             swipeRefreshLayout.setRefreshing(false);
         }
         else{
-            Toast.makeText(getActivity(),"Lütfen Diğer haber kaynaklarını inceleyiniz...",Toast.LENGTH_LONG);
+            Toast.makeText(getActivity(),getString(R.string.no_feed_warning),Toast.LENGTH_LONG).show();
         }
     }
 
@@ -164,6 +164,7 @@ public class HaberTurkFragment extends Fragment implements SwipeRefreshLayout.On
 
     @Override
     public void processFinish(List<RssItem> output) {
+        if (output!=null)
         newRssItems.addAll(output);
     }
 

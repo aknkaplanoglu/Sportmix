@@ -118,7 +118,7 @@ public class GoalComFragment extends Fragment implements SwipeRefreshLayout.OnRe
             swipeRefreshLayout.setRefreshing(false);
         }
         else{
-            Toast.makeText(getActivity(),"Lütfen Diğer haber kaynaklarını inceleyiniz...",Toast.LENGTH_LONG);
+            Toast.makeText(getActivity(),getString(R.string.no_feed_warning),Toast.LENGTH_LONG).show();
         }
     }
 
@@ -164,6 +164,7 @@ public class GoalComFragment extends Fragment implements SwipeRefreshLayout.OnRe
 
     @Override
     public void processFinish(List<RssItem> output) {
+        if (output!=null)
         newRssItems.addAll(output);
     }
 
