@@ -1,16 +1,19 @@
 package tech.ozak.sportmix.adapter;
 
 import android.app.Activity;
+import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
-import android.support.annotation.NonNull;
+import android.net.Uri;
+import android.support.customtabs.CustomTabsIntent;
+import android.support.v4.content.ContextCompat;
 import android.util.DisplayMetrics;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -23,14 +26,13 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.facebook.ads.AdSettings;
 import com.facebook.ads.MediaView;
 import com.facebook.ads.NativeAd;
-import com.thefinestartist.finestwebview.FinestWebView;
 
 import org.apache.commons.lang3.StringUtils;
 
-import java.util.Arrays;
 import java.util.List;
 
 import tech.ozak.sportmix.R;
+import tech.ozak.sportmix.customtab.CustomTabActivityHelper;
 import tech.ozak.sportmix.dto.RssItem;
 
 /**
@@ -278,7 +280,7 @@ public class PostItemAdapter extends BaseAdapter implements View.OnClickListener
 
 
 
-            new FinestWebView.Builder(myContext)
+           /* new FinestWebView.Builder(myContext)
                     .theme(R.style.FinestWebViewTheme)
                     .titleDefault(header)
                     .showUrl(false)
@@ -300,14 +302,65 @@ public class PostItemAdapter extends BaseAdapter implements View.OnClickListener
                     .dividerHeight(0)
                     .gradientDivider(false)
                     .setCustomAnimations(R.anim.slide_up, R.anim.hold, R.anim.hold, R.anim.slide_down)
-                    .show(feedLink);
+                    .show(feedLink);*/
 
-
+            showCustomTabs(feedLink);
 
 
         }
     }
 
+    private void showCustomTabs(String feedLink) {
+        Uri uri = Uri.parse(feedLink);
+
+        // create an intent builder
+        CustomTabsIntent.Builder intentBuilder = new CustomTabsIntent.Builder();
+
+        // Begin customizing
+        // set toolbar colors
+        intentBuilder.setToolbarColor(ContextCompat.getColor(myContext, R.color.bluePrimaryDark));
+        intentBuilder.setSecondaryToolbarColor(ContextCompat.getColor(myContext,R.color.bluePrimaryDark));
+
+        // set start and exit animations
+        intentBuilder.setStartAnimations(myContext, R.anim.slide_in_right, R.anim.slide_out_left);
+        intentBuilder.setExitAnimations(myContext, android.R.anim.slide_in_left,
+                android.R.anim.slide_out_right);
+
+        // add share action to menu list
+        intentBuilder.addDefaultShareMenuItem();
+
+        setShareActionIconInCustomTab(intentBuilder,feedLink);
+
+        // build custom tabs intent
+        CustomTabsIntent customTabsIntent = intentBuilder.build();
+
+        CustomTabActivityHelper.openCustomTab(myContext, customTabsIntent, uri,
+                new CustomTabActivityHelper.CustomTabFallback() {
+                    @Override
+                    public void openUri(Activity activity, Uri uri) {
+                        Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+                        activity.startActivity(intent);
+                    }
+                });
+    }
+
+    private void setShareActionIconInCustomTab(CustomTabsIntent.Builder intentBuilder,String feedLink) {
+        Bitmap bitmap = BitmapFactory.decodeResource(myContext.getResources(), R.drawable.ic_share);
+        Intent intent = new Intent(Intent.ACTION_SEND);
+        intent.setType("text/plain");
+        intent.putExtra(Intent.EXTRA_TEXT, feedLink);
+
+        int requestCode = 100;
+
+        PendingIntent pendingIntent = PendingIntent.getActivity(myContext,
+                requestCode,
+                intent,
+                PendingIntent.FLAG_UPDATE_CURRENT);
+
+        // Map the bitmap, text, and pending intent to this icon
+        // Set tint to be true so it matches the toolbar color
+        intentBuilder.setActionButton(bitmap, "Share Link", pendingIntent, true);
+    }
 
 
     public synchronized void addNativeAd(NativeAd ad) {

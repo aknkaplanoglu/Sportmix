@@ -4,15 +4,22 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Fragment;
 import android.app.FragmentManager;
+import android.app.PendingIntent;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.content.res.TypedArray;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.customtabs.CustomTabsIntent;
 import android.support.v4.app.ActionBarDrawerToggle;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarActivity;
 import android.text.Html;
@@ -26,20 +33,20 @@ import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
-import com.thefinestartist.finestwebview.FinestWebView;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import dmax.dialog.SpotsDialog;
 import tech.ozak.sportmix.adapter.NavDrawerListAdapter;
+import tech.ozak.sportmix.customtab.CustomTabActivityHelper;
 import tech.ozak.sportmix.dto.NavDrawerItem;
 import tech.ozak.sportmix.dto.RssItem;
 import tech.ozak.sportmix.fragment.EuroSportFragment;
 import tech.ozak.sportmix.fragment.FotomacFragment;
+import tech.ozak.sportmix.fragment.GoalComFragment;
 import tech.ozak.sportmix.fragment.HaberTurkFragment;
 import tech.ozak.sportmix.fragment.LigTvFragment;
-import tech.ozak.sportmix.fragment.GoalComFragment;
 import tech.ozak.sportmix.fragment.SabahFragment;
 import tech.ozak.sportmix.fragment.SporxFragment;
 import tech.ozak.sportmix.fragment.TrtsporFragment;
@@ -673,28 +680,7 @@ public class ListActivity extends ActionBarActivity {
         protected void onPostExecute(final Boolean success) {
 
 
-            new FinestWebView.Builder(context)
-                    .theme(R.style.FinestWebViewTheme)
-                    .titleDefault("Puan Durumu")
-                    .showUrl(false)
-                    .statusBarColorRes(R.color.bluePrimaryDark)
-                    .toolbarColorRes(R.color.bluePrimary)
-                    .titleColorRes(R.color.finestWhite)
-                    .urlColorRes(R.color.bluePrimaryLight)
-                    .iconDefaultColorRes(R.color.finestWhite)
-                    .progressBarColorRes(R.color.finestWhite)
-                    .stringResCopiedToClipboard(R.string.copied_to_clipboard)
-                    .stringResCopiedToClipboard(R.string.copied_to_clipboard)
-                    .stringResCopiedToClipboard(R.string.copied_to_clipboard)
-                    .showSwipeRefreshLayout(true)
-                    .swipeRefreshColorRes(R.color.bluePrimaryDark)
-                    .menuSelector(R.drawable.selector_light_theme)
-                    .menuTextGravity(Gravity.CENTER)
-                    .menuTextPaddingRightRes(R.dimen.defaultMenuTextPaddingLeft)
-                    .dividerHeight(0)
-                    .gradientDivider(false)
-                    .setCustomAnimations(R.anim.slide_up, R.anim.hold, R.anim.hold, R.anim.slide_down)
-                    .show(getResources().getString(R.string.puan_durumu_url));
+           showCustomTabs(getResources().getString(R.string.puan_durumu_url));
 
         }
 
@@ -704,6 +690,58 @@ public class ListActivity extends ActionBarActivity {
             return true;
         }
 
+    }
+
+    private void showCustomTabs(String feedLink) {
+        Uri uri = Uri.parse(feedLink);
+
+        // create an intent builder
+        CustomTabsIntent.Builder intentBuilder = new CustomTabsIntent.Builder();
+
+        // Begin customizing
+        // set toolbar colors
+        intentBuilder.setToolbarColor(ContextCompat.getColor(this, R.color.bluePrimaryDark));
+        intentBuilder.setSecondaryToolbarColor(ContextCompat.getColor(this,R.color.bluePrimaryDark));
+
+        // set start and exit animations
+        intentBuilder.setStartAnimations(this, R.anim.slide_in_right, R.anim.slide_out_left);
+        intentBuilder.setExitAnimations(this, android.R.anim.slide_in_left,
+                android.R.anim.slide_out_right);
+
+        // add share action to menu list
+        intentBuilder.addDefaultShareMenuItem();
+
+        setShareActionIconInCustomTab(intentBuilder,feedLink);
+
+        // build custom tabs intent
+        CustomTabsIntent customTabsIntent = intentBuilder.build();
+
+        CustomTabActivityHelper.openCustomTab(this, customTabsIntent, uri,
+                new CustomTabActivityHelper.CustomTabFallback() {
+                    @Override
+                    public void openUri(Activity activity, Uri uri) {
+                        Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+                        activity.startActivity(intent);
+                    }
+                });
+    }
+
+    private void setShareActionIconInCustomTab(CustomTabsIntent.Builder intentBuilder,String feedLink) {
+        Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.ic_share);
+        Intent intent = new Intent(Intent.ACTION_SEND);
+        intent.setType("text/plain");
+        intent.putExtra(Intent.EXTRA_TEXT, feedLink);
+
+        int requestCode = 100;
+
+        PendingIntent pendingIntent = PendingIntent.getActivity(this,
+                requestCode,
+                intent,
+                PendingIntent.FLAG_UPDATE_CURRENT);
+
+        // Map the bitmap, text, and pending intent to this icon
+        // Set tint to be true so it matches the toolbar color
+        intentBuilder.setActionButton(bitmap, "Share Link", pendingIntent, true);
     }
 
     private class CanliSkorAsyncTask extends AsyncTask<String, Void, Boolean> {
@@ -732,28 +770,7 @@ public class ListActivity extends ActionBarActivity {
         protected void onPostExecute(final Boolean success) {
 
 
-            new FinestWebView.Builder(context)
-                    .theme(R.style.FinestWebViewTheme)
-                    .titleDefault("Canlı Skor")
-                    .showUrl(false)
-                    .statusBarColorRes(R.color.bluePrimaryDark)
-                    .toolbarColorRes(R.color.bluePrimary)
-                    .titleColorRes(R.color.finestWhite)
-                    .urlColorRes(R.color.bluePrimaryLight)
-                    .iconDefaultColorRes(R.color.finestWhite)
-                    .progressBarColorRes(R.color.finestWhite)
-                    .stringResCopiedToClipboard(R.string.copied_to_clipboard)
-                    .stringResCopiedToClipboard(R.string.copied_to_clipboard)
-                    .stringResCopiedToClipboard(R.string.copied_to_clipboard)
-                    .showSwipeRefreshLayout(true)
-                    .swipeRefreshColorRes(R.color.bluePrimaryDark)
-                    .menuSelector(R.drawable.selector_light_theme)
-                    .menuTextGravity(Gravity.CENTER)
-                    .menuTextPaddingRightRes(R.dimen.defaultMenuTextPaddingLeft)
-                    .dividerHeight(0)
-                    .gradientDivider(false)
-                    .setCustomAnimations(R.anim.slide_up, R.anim.hold, R.anim.hold, R.anim.slide_down)
-                    .show(getResources().getString(R.string.canli_skor_url));
+          showCustomTabs(getResources().getString(R.string.canli_skor_url));
         }
 
         @Override
@@ -794,28 +811,7 @@ public class ListActivity extends ActionBarActivity {
         protected void onPostExecute(final Boolean success) {
 
 
-            new FinestWebView.Builder(context)
-                    .theme(R.style.FinestWebViewTheme)
-                    .titleDefault("Fikstür")
-                    .showUrl(false)
-                    .statusBarColorRes(R.color.bluePrimaryDark)
-                    .toolbarColorRes(R.color.bluePrimary)
-                    .titleColorRes(R.color.finestWhite)
-                    .urlColorRes(R.color.bluePrimaryLight)
-                    .iconDefaultColorRes(R.color.finestWhite)
-                    .progressBarColorRes(R.color.finestWhite)
-                    .stringResCopiedToClipboard(R.string.copied_to_clipboard)
-                    .stringResCopiedToClipboard(R.string.copied_to_clipboard)
-                    .stringResCopiedToClipboard(R.string.copied_to_clipboard)
-                    .showSwipeRefreshLayout(true)
-                    .swipeRefreshColorRes(R.color.bluePrimaryDark)
-                    .menuSelector(R.drawable.selector_light_theme)
-                    .menuTextGravity(Gravity.CENTER)
-                    .menuTextPaddingRightRes(R.dimen.defaultMenuTextPaddingLeft)
-                    .dividerHeight(0)
-                    .gradientDivider(false)
-                    .setCustomAnimations(R.anim.slide_up, R.anim.hold, R.anim.hold, R.anim.slide_down)
-                    .show(getResources().getString(R.string.fikstur_url));
+         showCustomTabs(getResources().getString(R.string.fikstur_url));
 
         }
 

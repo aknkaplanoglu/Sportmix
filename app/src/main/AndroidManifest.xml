@@ -34,11 +34,6 @@
         <meta-data android:name="tech.ozak.sportmix.glideModule.GlideConfiguration"
             android:value="GlideModule"/>
 
-        <activity
-            android:name="com.thefinestartist.finestwebview.FinestWebViewActivity"
-            android:configChanges="keyboardHidden|orientation|screenSize"
-            android:screenOrientation="sensor"
-            android:theme="@style/FinestWebViewTheme.Light" />
 
     </application>
 

@@ -1,13 +1,13 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 23
-    buildToolsVersion "23.0.3"
+    compileSdkVersion 25
+    buildToolsVersion "24.0.0"
     useLibrary  'org.apache.http.legacy'
     defaultConfig {
         applicationId 'tech.ozak.spormix'
         minSdkVersion 15
-        targetSdkVersion 23
+        targetSdkVersion 25
         versionCode 8
         versionName "1.1.42"
     }
@@ -32,15 +32,17 @@ repositories {
 
 dependencies {
    /* compile fileTree(dir: 'libs', include: ['*.jar'])*/
-    compile 'com.android.support:appcompat-v7:23.4.0'
+    compile 'com.android.support:appcompat-v7:25.1.0'
     compile 'com.github.d-max:spots-dialog:0.4@aar'
     compile 'org.apache.commons:commons-lang3:3.4'
     compile 'com.github.bumptech.glide:glide:3.6.1'
     compile 'com.nhaarman.listviewanimations:lib-core:3.1.0@aar'
     compile 'com.nhaarman.listviewanimations:lib-manipulation:3.1.0@aar'
     compile 'com.nhaarman.listviewanimations:lib-core-slh:3.1.0@aar'
+    compile 'com.nineoldandroids:library:2.4.0'
     compile 'org.jsoup:jsoup:1.8.3'
-    compile 'com.thefinestartist:finestwebview:1.2.7'
+    compile 'com.android.support:customtabs:25.1.0'
+   // compile 'com.thefinestartist:finestwebview:1.2.7'
     compile 'com.facebook.android:audience-network-sdk:4.+'
     compile group: 'com.rometools', name: 'rome', version: '1.7.0'
     compile 'hanks.xyz:htextview-library:0.1.5'
