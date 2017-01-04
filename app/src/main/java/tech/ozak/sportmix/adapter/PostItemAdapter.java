@@ -146,15 +146,15 @@ public class PostItemAdapter extends BaseAdapter implements View.OnClickListener
 
     private void decideWhichImageOnListItem(ViewHolder holder, int height, int width, String imgLink, String feedLink) {
         if (StringUtils.isBlank(imgLink)) {
-            if (StringUtils.containsIgnoreCase(feedLink, "ntv")) {
+            if (StringUtils.containsIgnoreCase(feedLink, "goal")) {
 
                 Glide.with(myContext)
                         .load(imgLink)
                         .override(width, height)
                         .fitCenter()
                         .diskCacheStrategy(DiskCacheStrategy.ALL)
-                        .placeholder(R.mipmap.ntvspor)
-                        .error(R.mipmap.ntvspor)
+                        .placeholder(R.mipmap.goalcom)
+                        .error(R.mipmap.goalcom)
                         .into(holder.postThumbView);
 
             } else if (StringUtils.containsIgnoreCase(feedLink, "sabah")) {
@@ -166,6 +166,17 @@ public class PostItemAdapter extends BaseAdapter implements View.OnClickListener
                         .diskCacheStrategy(DiskCacheStrategy.ALL)
                         .placeholder(R.mipmap.sabah)
                         .error(R.mipmap.sabah)
+                        .into(holder.postThumbView);
+
+            }else if (StringUtils.containsIgnoreCase(feedLink, "eurosport")) {
+
+                Glide.with(myContext)
+                        .load(imgLink)
+                        .override(width, height)
+                        .centerCrop()
+                        .diskCacheStrategy(DiskCacheStrategy.ALL)
+                        .placeholder(R.mipmap.eurosport)
+                        .error(R.mipmap.eurosport)
                         .into(holder.postThumbView);
 
             } else if (StringUtils.containsIgnoreCase(feedLink, "trt")) {

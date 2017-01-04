@@ -144,7 +144,7 @@ public class ListActivity extends ActionBarActivity {
         navDrawerItems.add(new NavDrawerItem(navMenuTitles[9], navMenuIcons.getResourceId(9, -1)));
 
         // sporx
-        navDrawerItems.add(new NavDrawerItem(navMenuTitles[9], navMenuIcons.getResourceId(10, -1)));
+        navDrawerItems.add(new NavDrawerItem(navMenuTitles[10], navMenuIcons.getResourceId(10, -1)));
 
         // Recycle the typed array
         navMenuIcons.recycle();
@@ -734,7 +734,7 @@ public class ListActivity extends ActionBarActivity {
 
             new FinestWebView.Builder(context)
                     .theme(R.style.FinestWebViewTheme)
-                    .titleDefault("Basketbol")
+                    .titleDefault("Canlı Skor")
                     .showUrl(false)
                     .statusBarColorRes(R.color.bluePrimaryDark)
                     .toolbarColorRes(R.color.bluePrimary)

@@ -33,7 +33,7 @@
 
     <string name="test_device_id">1A5E79B575AD9E78DDDA6F374C386462</string>
 
-    <string name="test_ad_mode">T</string>
+    <string name="test_ad_mode">F</string>
 
     <!-- Nav Drawer Menu Items -->
     <string-array name="nav_drawer_items">
