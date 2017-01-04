@@ -42,6 +42,7 @@ public class PostItemAdapter extends BaseAdapter implements View.OnClickListener
     private Activity myContext;
     private List<Object> datas;
 
+
     private NativeAd ad;
     private static final int AD_INDEX = 3;
 
