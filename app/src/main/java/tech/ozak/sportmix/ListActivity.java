@@ -5,6 +5,7 @@ import android.app.AlertDialog;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.PendingIntent;
+import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -16,6 +17,7 @@ import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.customtabs.CustomTabsIntent;
 import android.support.v4.app.ActionBarDrawerToggle;
@@ -32,6 +34,7 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.Toast;
 
 
 import java.util.ArrayList;
@@ -51,6 +54,7 @@ import tech.ozak.sportmix.fragment.SabahFragment;
 import tech.ozak.sportmix.fragment.SporxFragment;
 import tech.ozak.sportmix.fragment.TrtsporFragment;
 import tech.ozak.sportmix.handler.RssReader;
+import tech.ozak.sportmix.webView.Preferences;
 
 /**
  * Created by ako on 10/9/2015.
@@ -87,6 +91,8 @@ public class ListActivity extends ActionBarActivity {
     private ArrayList<NavDrawerItem> navDrawerItems;
     private NavDrawerListAdapter adapter;
 
+    private int howMany;
+
 
 // Drawer end
 
@@ -99,11 +105,69 @@ public class ListActivity extends ActionBarActivity {
         setContentView(R.layout.activity_news_feed);
         // setting home page when activity first load.
         //setHomePage();
+
+        howMany = Preferences.getHowMany(this);
+        System.out.println("-------------How Many ---> "+howMany);
+        if (howMany %6==0 && !Preferences.getUsername(this).equalsIgnoreCase("Y")){
+            android.support.v7.app.AlertDialog.Builder builder = new android.support.v7.app.AlertDialog.Builder(this, R.style.MyAlertDialogMaterialStyle);
+
+            builder.setTitle("Yeni Uygulama !");
+            builder.setMessage("Türkiye ve Dünyadaki haber kaynaklarından" +
+                    " istediklerinizi seçerek kendi haber portalınızı oluşturabileceğiniz " +
+                    "yeni uygulamamızı denemek ister misiniz ? " +
+                    "Üstelik sadece spor haberleri değil tüm kategorilerde haberlere ulaşabilirsiniz.");
+
+            builder.setNegativeButton("Hayır",
+                    new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog,
+                                            int which) {
+                            Toast.makeText(getApplicationContext(),"Canınız sağolsun :)",Toast.LENGTH_LONG).show();
+                        }
+                    });
+
+            builder.setPositiveButton("Evet",
+                    new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog,
+                                            int which) {
+                            //Toast.makeText(getApplicationContext(),"Adamsın :)",Toast.LENGTH_LONG).show();
+                            Preferences.setUsername(ListActivity.this,"Y");
+                            openPlayStore(ListActivity.this);
+                        }
+                    });
+
+            builder.show();
+        }
+        howMany++;
+        Preferences.setHowMany(this,howMany);
+
+
+
         setUpDrawerProcess(savedInstanceState);
 
 
         initActionBar();
 
+    }
+
+
+    public static final String APPLICATION_ID = "tech.ozak.newsworld";
+
+    private static final String PLAY_STORE_URL = "market://details?id=" + APPLICATION_ID;
+
+    public static void openPlayStore(Context context) {
+        Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(PLAY_STORE_URL));
+        intent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY |
+                Intent.FLAG_ACTIVITY_MULTIPLE_TASK);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_DOCUMENT);
+        } else {
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);
+        }
+        try {
+            context.startActivity(intent);
+        } catch (ActivityNotFoundException e) {
+            Toast.makeText(context,"Uygulama mevcut değil", Toast.LENGTH_SHORT).show();
+        }
     }
 
     public static ListActivity getInstance() {

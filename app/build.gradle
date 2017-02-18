@@ -8,8 +8,8 @@ android {
         applicationId 'tech.ozak.spormix'
         minSdkVersion 15
         targetSdkVersion 25
-        versionCode 8
-        versionName "1.1.42"
+        versionCode 9
+        versionName "1.1.5"
     }
     buildTypes {
         release {
